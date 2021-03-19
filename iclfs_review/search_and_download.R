@@ -64,8 +64,8 @@ iclfs_results <-
   iclfs_search$results %>%
   as_tibble() %>%
   select(
-    link, scopus_id = `dc:identifier`, title = `dc:title`,
-    doi = `prism:doi`, openaccess
+    title = `dc:title`, doi = `prism:doi`,
+    `affiliation`, date = `prism:coverDate`
   )
 
 ## Download documents ----
