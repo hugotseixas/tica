@@ -1,0 +1,757 @@
+word,n_doc,n_word,group
+livestock,117,350,0
+crop,111,323,0
+crop livestock,110,271,0
+systems,102,398,0
+integrated,85,257,0
+forest,85,210,0
+system,84,240,0
+livestock forest,77,140,0
+crop livestock forest,73,130,0
+integrated crop,70,145,0
+integrated crop livestock,70,143,0
+production,66,175,0
+study,59,78,0
+eucalyptus,57,193,0
+trees,55,156,0
+evaluate,55,58,0
+m,54,133,0
+soil,53,302,0
+integration,48,89,0
+brazil,48,72,0
+different,48,65,0
+area,47,77,0
+objective,47,50,0
+use,45,73,0
+forestry,44,94,0
+iclf,43,168,0
+evaluated,43,64,0
+livestock forestry,42,71,0
+pasture,41,117,0
+crop livestock forestry,41,64,0
+two,41,59,0
+three,41,57,0
+tree,40,88,0
+higher,36,60,0
+grass,35,99,0
+management,35,74,0
+agricultural,35,60,0
+forage,34,105,0
+rows,34,57,0
+brazilian,33,56,0
+ha,32,80,0
+brizantha,32,57,0
+four,32,39,0
+design,32,37,0
+however,32,34,0
+reserved,32,32,0
+rights,32,32,0
+rights reserved,32,32,0
+forest integration,31,48,0
+results,31,42,0
+work,31,32,0
+livestock forest integration,30,43,0
+randomized,30,30,0
+agroforestry,29,59,0
+compared,29,43,0
+total,29,42,0
+used,29,33,0
+production systems,28,39,0
+experimental,28,33,0
+density,27,44,0
+quality,26,72,0
+cattle,26,59,0
+integrated systems,26,44,0
+one,26,32,0
+lower,26,31,0
+region,26,30,0
+land,25,54,0
+years,25,44,0
+species,25,43,0
+year,25,38,0
+greater,25,31,0
+well,25,31,0
+can,25,28,0
+crops,24,51,0
+per,24,47,0
+areas,24,44,0
+treatments,24,38,0
+sustainable,24,30,0
+carried,24,27,0
+effect,24,27,0
+experiment,24,26,0
+native,23,43,0
+urochloa,23,38,0
+showed,23,30,0
+observed,23,29,0
+carbon,22,58,0
+plant,22,48,0
+planted,22,25,0
+brachiaria,21,42,0
+biomass,21,41,0
+pastures,21,37,0
+grazing,21,36,0
+control,21,34,0
+forest system,21,29,0
+increase,21,25,0
+increased,21,23,0
+block,21,21,0
+physical,20,53,0
+yield,20,49,0
+water,20,43,0
+animal,20,38,0
+land use,20,37,0
+analysis,20,26,0
+livestock forest system,20,26,0
+state,20,24,0
+using,20,23,0
+collected,20,22,0
+five,20,22,0
+chemical,19,51,0
+matter,19,44,0
+index,19,41,0
+agrosilvopastoral,19,34,0
+low,19,30,0
+shading,19,30,0
+value,19,30,0
+iclf system,19,30,0
+respectively,19,29,0
+cv,19,24,0
+due,19,20,0
+height,18,54,0
+organic,18,52,0
+dry,18,43,0
+plants,18,43,0
+cerrado,18,39,0
+effects,18,25,0
+based,18,24,0
+development,18,24,0
+influence,18,23,0
+conditions,18,22,0
+also,18,20,0
+better,18,20,0
+universidade,18,18,0
+c,17,72,0
+growth,17,42,0
+agriculture,17,37,0
+row,17,37,0
+change,17,30,0
+potential,17,30,0
+characteristics,17,28,0
+productivity,17,28,0
+time,17,28,0
+brachiaria brizantha,17,26,0
+changes,17,25,0
+content,17,25,0
+iclf systems,17,25,0
+samples,17,24,0
+component,17,23,0
+average,17,21,0
+found,17,21,0
+period,17,21,0
+may,17,20,0
+aim,17,17,0
+aimed,17,17,0
+corn,16,59,0
+piatã,16,36,0
+season,16,26,0
+variables,16,19,0
+sustainability,16,18,0
+federal,16,16,0
+brizantha cv,16,16,0
+experimental design,16,16,0
+icl,15,57,0
+attributes,15,41,0
+kg,15,38,0
+farming,15,34,0
+monoculture,15,34,0
+agroforestry systems,15,31,0
+food,15,28,0
+highest,15,28,0
+natural,15,25,0
+plots,15,22,0
+urochloa brizantha,15,21,0
+practices,15,20,0
+components,15,19,0
+presented,15,19,0
+thus,15,19,0
+values,15,19,0
+animals,14,34,0
+beef,14,31,0
+p,14,30,0
+soils,14,30,0
+spacing,14,29,0
+eucalyptus trees,14,28,0
+environmental,14,25,0
+performance,14,25,0
+high,14,22,0
+forest systems,14,21,0
+livestock forest systems,14,21,0
+data,14,20,0
+depth,14,19,0
+parameters,14,19,0
+rate,14,19,0
+obtained,14,18,0
+forestry systems,14,17,0
+conducted,14,16,0
+implementation,14,16,0
+livestock forestry systems,14,16,0
+without,14,15,0
+elsevier,14,14,0
+study aimed,14,14,0
+universidade federal,14,14,0
+organic matter,13,32,0
+climate,13,31,0
+arrangements,13,26,0
+full,13,25,0
+amazon,13,24,0
+planting,13,21,0
+intercropped,13,18,0
+urograndis,13,18,0
+main,13,17,0
+reduced,13,17,0
+reduction,13,17,0
+eucalyptus urograndis,13,17,0
+single,13,16,0
+present,13,14,0
+forest iclf,13,14,0
+livestock forest iclf,13,14,0
+randomized block,13,13,0
+n,12,35,0
+degraded,12,30,0
+leaf,12,27,0
+marandu,12,25,0
+grain,12,24,0
+contents,12,22,0
+integrated production,12,18,0
+grosso,12,17,0
+mato,12,17,0
+research,12,17,0
+seasons,12,17,0
+treatment,12,17,0
+mato grosso,12,17,0
+tropical,12,16,0
+associated,12,15,0
+best,12,15,0
+presence,12,15,0
+among,12,14,0
+paper,12,14,0
+provided,12,14,0
+similar,12,14,0
+grandis,12,13,0
+mainly,12,13,0
+livestock icl,12,13,0
+crop livestock icl,12,13,0
+shade,11,35,0
+mass,11,33,0
+light,11,31,0
+relative,11,21,0
+global,11,20,0
+levels,11,19,0
+radiation,11,19,0
+integration systems,11,19,0
+beef cattle,11,18,0
+composition,11,17,0
+capacity,11,16,0
+lines,11,16,0
+affected,11,15,0
+depths,11,15,0
+impact,11,15,0
+layers,11,15,0
+forestry system,11,15,0
+integrated production systems,11,15,0
+cultivated,11,14,0
+diameter,11,14,0
+alternative,11,13,0
+arrangement,11,13,0
+protein,11,13,0
+therefore,11,13,0
+following,11,12,0
+less,11,12,0
+significant,11,12,0
+springer,11,12,0
+urophylla,11,12,0
+embrapa,11,11,0
+especially,11,11,0
+improve,11,11,0
+replicates,11,11,0
+replications,11,11,0
+block design,11,11,0
+forestry iclf,11,11,0
+grass urochloa,11,11,0
+brachiaria brizantha cv,11,11,0
+livestock forestry iclf,11,11,0
+sun,10,27,0
+soil quality,10,23,0
+economic,10,19,0
+indicators,10,19,0
+palisade,10,19,0
+palisade grass,10,19,0
+adoption,10,18,0
+decumbens,10,18,0
+intercropping,10,18,0
+annual,10,17,0
+number,10,17,0
+brazilian cerrado,10,16,0
+grains,10,14,0
+growing,10,14,0
+studied,10,14,0
+livestock forestry system,10,14,0
+analyzed,10,13,0
+assessed,10,13,0
+caused,10,13,0
+differences,10,13,0
+greenhouse,10,13,0
+yields,10,13,0
+lowest,10,12,0
+weight,10,12,0
+established,10,11,0
+including,10,11,0
+plot,10,11,0
+productive,10,11,0
+eucalyptus grandis,10,11,0
+complete,10,10,0
+important,10,10,0
+soil samples,10,10,0
+wood,9,31,0
+south,9,21,0
+silvopastoral,9,20,0
+trees ha,9,20,0
+cm,9,19,0
+x,9,19,0
+full sun,9,19,0
+age,9,18,0
+hectare,9,18,0
+intensification,9,17,0
+climate change,9,17,0
+canopy,9,14,0
+farmers,9,14,0
+fertility,9,14,0
+gas,9,14,0
+availability,9,13,0
+farm,9,13,0
+related,9,13,0
+sampling,9,13,0
+stress,9,13,0
+available,9,12,0
+first,9,12,0
+oxisol,9,12,0
+spaced,9,12,0
+livestock systems,9,12,0
+center,9,11,0
+crude,9,11,0
+measured,9,11,0
+crude protein,9,11,0
+activities,9,10,0
+evaluation,9,10,0
+improvement,9,10,0
+relation,9,10,0
+brs,9,9,0
+indicated,9,9,0
+maximum,9,9,0
+whereas,9,9,0
+agricultural production,9,9,0
+randomized complete,9,9,0
+soybean,8,31,0
+maize,8,27,0
+microbial,8,26,0
+properties,8,25,0
+emissions,8,24,0
+comfort,8,23,0
+temperature,8,23,0
+iclfs,8,20,0
+split,8,20,0
+soil physical,8,19,0
+conventional,8,18,0
+vegetation,8,18,0
+piatã grass,8,18,0
+per hectare,8,17,0
+accumulation,8,16,0
+volume,8,16,0
+farming systems,8,16,0
+line,8,15,0
+agrosilvopastoral systems,8,15,0
+grown,8,14,0
+estimated,8,13,0
+conservation,8,12,0
+difference,8,12,0
+models,8,12,0
+assessment,8,11,0
+stocking,8,11,0
+agrosilvopastoral system,8,11,0
+integrated system,8,11,0
+livestock production,8,11,0
+adopted,8,10,0
+conversion,8,10,0
+days,8,10,0
+establishment,8,10,0
+followed,8,10,0
+increasing,8,10,0
+mean,8,10,0
+promoted,8,10,0
+strategy,8,10,0
+within,8,10,0
+considering,8,9,0
+cover,8,9,0
+estimate,8,9,0
+resources,8,9,0
+strategies,8,9,0
+t,8,9,0
+compare,8,8,0
+determine,8,8,0
+efficient,8,8,0
+evaluations,8,8,0
+gerais,8,8,0
+good,8,8,0
+identified,8,8,0
+ltd,8,8,0
+provide,8,8,0
+result,8,8,0
+simultaneously,8,8,0
+brs piatã,8,8,0
+complete block,8,8,0
+cv brs,8,8,0
+icl system,8,8,0
+brizantha cv brs,8,8,0
+randomized complete block,8,8,0
+b,7,20,0
+biological,7,17,0
+meat,7,17,0
+soil organic,7,16,0
+resistance,7,15,0
+activity,7,14,0
+gain,7,14,0
+stem,7,14,0
+structural,7,14,0
+native forest,7,14,0
+field,7,13,0
+l,7,13,0
+microclimate,7,13,0
+continuous,7,12,0
+harvest,7,12,0
+north,7,12,0
+active,7,11,0
+competition,7,11,0
+distance,7,11,0
+intensity,7,11,0
+photosynthetically,7,11,0
+rainy,7,11,0
+technical,7,11,0
+photosynthetically active,7,11,0
+benefits,7,10,0
+decreased,7,10,0
+diversity,7,10,0
+greatest,7,10,0
+individual,7,10,0
+rural,7,10,0
+uses,7,10,0
+dry season,7,10,0
+eucalyptus rows,7,10,0
+greenhouse gas,7,10,0
+clone,7,9,0
+degradation,7,9,0
+demand,7,9,0
+factors,7,9,0
+information,7,9,0
+method,7,9,0
+response,7,9,0
+show,7,9,0
+since,7,9,0
+integration system,7,9,0
+ecosystem,7,8,0
+fiber,7,8,0
+identify,7,8,0
+influenced,7,8,0
+non,7,8,0
+science,7,8,0
+viable,7,8,0
+zea,7,8,0
+soil management,7,8,0
+although,7,7,0
+assess,7,7,0
+comparison,7,7,0
+consisted,7,7,0
+densities,7,7,0
+government,7,7,0
+linear,7,7,0
+mays,7,7,0
+minas,7,7,0
+nature,7,7,0
+performed,7,7,0
+positive,7,7,0
+recommended,7,7,0
+reference,7,7,0
+resulting,7,7,0
+s,7,7,0
+set,7,7,0
+eucalyptus urophylla,7,7,0
+four replicates,7,7,0
+minas gerais,7,7,0
+soil fertility,7,7,0
+trees eucalyptus,7,7,0
+zea mays,7,7,0
+cv brs piatã,7,7,0
+clf,6,27,0
+thermal,6,24,0
+degraded pasture,6,20,0
+thermal comfort,6,18,0
+energy,6,14,0
+penetration,6,14,0
+distances,6,13,0
+h,6,13,0
+model,6,13,0
+nellore,6,13,0
+spatial,6,13,0
+summer,6,13,0
+physical attributes,6,13,0
+efficiency,6,12,0
+implantation,6,12,0
+mg,6,12,0
+silage,6,12,0
+tillage,6,12,0
+crops livestock,6,12,0
+dry matter,6,12,0
+behavior,6,11,0
+cropping,6,11,0
+damage,6,11,0
+livestock integration,6,11,0
+crop livestock integration,6,11,0
+moisture,6,10,0
+produced,6,10,0
+social,6,10,0
+southern,6,10,0
+kg ha,6,10,0
+environment,6,9,0
+ilpf,6,9,0
+loss,6,9,0
+rotation,6,9,0
+simple,6,9,0
+stability,6,9,0
+taken,6,9,0
+forest integration systems,6,9,0
+application,6,8,0
+central,6,8,0
+lead,6,8,0
+recorded,6,8,0
+reduce,6,8,0
+scenario,6,8,0
+world,6,8,0
+biomass carbon,6,8,0
+native trees,6,8,0
+production system,6,8,0
+two years,6,8,0
+addition,6,7,0
+cultivation,6,7,0
+differ,6,7,0
+hybrid,6,7,0
+incidence,6,7,0
+largest,6,7,0
+located,6,7,0
+months,6,7,0
+october,6,7,0
+porosity,6,7,0
+providing,6,7,0
+recovery,6,7,0
+risks,6,7,0
+significantly,6,7,0
+agricultural systems,6,7,0
+forestry integration,6,7,0
+grosso brazil,6,7,0
+forest integration system,6,7,0
+livestock forestry integration,6,7,0
+mato grosso brazil,6,7,0
+adequate,6,6,0
+arranged,6,6,0
+aspects,6,6,0
+besides,6,6,0
+blocks,6,6,0
+changed,6,6,0
+combined,6,6,0
+completely,6,6,0
+digestibility,6,6,0
+forages,6,6,0
+general,6,6,0
+indicating,6,6,0
+media,6,6,0
+order,6,6,0
+possible,6,6,0
+regarding,6,6,0
+relationship,6,6,0
+scheme,6,6,0
+sociedade,6,6,0
+society,6,6,0
+terms,6,6,0
+test,6,6,0
+completely randomized,6,6,0
+four replications,6,6,0
+m soil,6,6,0
+single rows,6,6,0
+split plot,6,6,0
+springer nature,6,6,0
+systems can,6,6,0
+tree species,6,6,0
+eucalyptus trees eucalyptus,6,6,0
+grass urochloa brizantha,6,6,0
+randomized block design,6,6,0
+clones,5,23,0
+adaptation,5,17,0
+clfi,5,13,0
+humidity,5,13,0
+signal,5,13,0
+management systems,5,13,0
+signal grass,5,13,0
+cl,5,12,0
+organic carbon,5,12,0
+compaction,5,11,0
+interception,5,11,0
+modeling,5,11,0
+yr,5,11,0
+animal performance,5,11,0
+chemical attributes,5,11,0
+dry mass,5,11,0
+humidity index,5,11,0
+trees per,5,11,0
+nitrogen,5,10,0
+nutritive,5,10,0
+surface,5,10,0
+chemical composition,5,10,0
+microbial biomass,5,10,0
+nutritive value,5,10,0
+trees per hectare,5,10,0
+consortium,5,9,0
+impacts,5,9,0
+managed,5,9,0
+mineral,5,9,0
+active radiation,5,9,0
+brazilian amazon,5,9,0
+integrated farming,5,9,0
+integrated farming systems,5,9,0
+photosynthetically active radiation,5,9,0
+aboveground,5,8,0
+biome,5,8,0
+coverage,5,8,0
+dynamics,5,8,0
+layer,5,8,0
+nutritional,5,8,0
+second,5,8,0
+timber,5,8,0
+vitro,5,8,0
+forage yield,5,8,0
+grain yield,5,8,0
+silvopastoral system,5,8,0
+use change,5,8,0
+crop livestock systems,5,8,0
+land use change,5,8,0
+apart,5,7,0
+april,5,7,0
+basal,5,7,0
+current,5,7,0
+extensive,5,7,0
+ilp,5,7,0
+initial,5,7,0
+long,5,7,0
+mitigation,5,7,0
+moderate,5,7,0
+old,5,7,0
+policies,5,7,0
+tested,5,7,0
+m apart,5,7,0
+results showed,5,7,0
+soil compaction,5,7,0
+tree rows,5,7,0
+affect,5,6,0
+aims,5,6,0
+alleys,5,6,0
+analyze,5,6,0
+considered,5,6,0
+countries,5,6,0
+d,5,6,0
+directly,5,6,0
+distribution,5,6,0
+increases,5,6,0
+interference,5,6,0
+july,5,6,0
+knowledge,5,6,0
+level,5,6,0
+major,5,6,0
+measurements,5,6,0
+new,5,6,0
+phosphorus,5,6,0
+programs,5,6,0
+rates,5,6,0
+ratio,5,6,0
+succession,5,6,0
+forest integrated,5,6,0
+state brazil,5,6,0
+total porosity,5,6,0
+alternatives,5,5,0
+brasileira,5,5,0
+business,5,5,0
+conclude,5,5,0
+consisting,5,5,0
+contributing,5,5,0
+daily,5,5,0
+deeper,5,5,0
+despite,5,5,0
+developed,5,5,0
+divided,5,5,0
+florestais,5,5,0
+glycine,5,5,0
+heights,5,5,0
+june,5,5,0
+limited,5,5,0
+little,5,5,0
+local,5,5,0
+near,5,5,0
+negatively,5,5,0
+overall,5,5,0
+presents,5,5,0
+profile,5,5,0
+r,5,5,0
+reducing,5,5,0
+represented,5,5,0
+several,5,5,0
+sinop,5,5,0
+six,5,5,0
+still,5,5,0
+suitable,5,5,0
+support,5,5,0
+technology,5,5,0
+understanding,5,5,0
+university,5,5,0
+variable,5,5,0
+verified,5,5,0
+welfare,5,5,0
+average daily,5,5,0
+business media,5,5,0
+cv piatã,5,5,0
+daily gain,5,5,0
+different distances,5,5,0
+elsevier ltd,5,5,0
+eucalyptus eucalyptus,5,5,0
+experimental area,5,5,0
+forest component,5,5,0
+gain per,5,5,0
+grain yields,5,5,0
+management practices,5,5,0
+natural resources,5,5,0
+pasture management,5,5,0
+per area,5,5,0
+rainy season,5,5,0
+science business,5,5,0
+soil density,5,5,0
+soil depth,5,5,0
+springer science,5,5,0
+system iclf,5,5,0
+systems iclf,5,5,0
+tree density,5,5,0
+agricultural production systems,5,5,0
+average daily gain,5,5,0
+brizantha cv piatã,5,5,0
+complete block design,5,5,0
+forest iclf systems,5,5,0
+forestry iclf systems,5,5,0
+palisade grass urochloa,5,5,0
+science business media,5,5,0
+springer science business,5,5,0
+trees eucalyptus urograndis,5,5,0
