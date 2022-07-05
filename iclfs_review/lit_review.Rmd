@@ -1,0 +1,77 @@
+---
+title: The aspects of integrated crop-livestock-forest system in Brazil
+
+author: Hugo Tameirão Seixas
+
+output:
+  html_document:
+    theme: readable
+    number_sections: true
+
+---
+
+# Title and Abstract
+
+# Aims and questions
+
+# Review registration
+
+# Eligibility criteria
+
+# Finding studies
+
+## Define the type of search (e.g.comprehensive search, representative sample)
+
+## State what sources of information were sought (e.g. published and unpublished studies, personal communications)
+
+## Include, for each database searched, the exact search strings used, with keyword combinations and Boolean operators
+
+Scopus: TITLE-ABS-KEY(iclf OR iclfs OR crop-livestock-forestry OR crop-livestock-forest OR agrosilvipastoral OR ilpf OR lavoura-pecuária-floresta OR agrosilvipastoril)
+
+Embrapa: (ICLF) OR (iclfs) OR (crop-livestock-forestry) OR (crop-livestock-forest) OR (agrosilvipastoral) OR (ilpf) OR (lavoura-pecuária-floresta) OR (agrosilvipastoril)
+
+## Provide enough information to repeat the equivalent search (if possible), including the timespan covered (start and end dates)
+
+# Study selection
+
+# Data collection process
+
+# Data items
+
+# Assessment of individual study quality
+
+# Effect size measures
+
+# Missing data
+
+# Meta-analytic model description
+
+# Software
+
+# Non independence
+
+# Meta-regression and model selection
+
+# Publication bias and sesitivity analysis
+
+# Clarification of post hoc analysis
+
+# Metadata data and code
+
+# Results of study selection process
+
+# Sample sizes and study characteristics
+
+# Meta-analysis
+
+# Heterogeneity
+
+# Meta-regression
+
+# Outcomes of publication bias and sensitivity analyses
+
+# Discussion
+
+# Contributions and funding
+
+# References
