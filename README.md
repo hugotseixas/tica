@@ -1,7 +1,7 @@
 
 # Integrated farming and global warming mitigation in Brazil
 
-##U sing land-use change projections of integrated crop-livestock-forestry systems expansion in Brazil within the context of the Paris Agreement
+## Using land-use change projections of integrated crop-livestock-forestry systems expansion in Brazil within the context of the Paris Agreement
 
 One of the targets in Brazil’s Nationally Determined Contribution (NDC) to the
 Paris Agreement is the expansion of 5 million hectares of integrated crop-livestock-
