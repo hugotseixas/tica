@@ -44,44 +44,50 @@ ui <-
     theme = shinytheme("flatly"), # Set theme
 
     ## Title ----
-    titlePanel("Perspectives for ICLFS Advances"),
+    titlePanel("Perspectivas para o avanço do ILPF"),
 
     navlistPanel(
       widths = c(3, 9),
 
       ## Introduction ----
       tabPanel(
-        "Introduction",
-        h3("Introduction"),
+        "Introdução",
+        h3("Introdução"),
         p(
-          "This is the model of a form that will be used in this project"
+          "Esse é o modelo do questionário que será utilizado nesse projeto."
         ),
         br(),
         p(
-          "The introduction section will be responsible to introduce
-          the project objective, the context of the questions that are
-          going to be made, and the guide of what the user need to do"
+          "A seção de introdução vai ser responsável por esclarecer o objetivo
+          do projeto, o contexto em que as perguntas serão feitas,
+          e o guia de preenchimento do questionário."
         )
       ),
 
       ## Question 01: ICFLS area projection ----
       tabPanel(
-        "Question 01",
+        "Questão 01",
         sidebarLayout(
+          fluid = TRUE,
           sidebarPanel( # Inputs panel
+            width = 10,
+            titlePanel(
+              title = "Segundo suas expectativas, qual a área total ocupada
+              por ILPF em 2030 e 2050, em milhões de hectares?"
+            ),
             sliderInput( # Ask projected area for 2030
               "area2030",
-              "Future area in 2030",
-              value = 5000,
-              min = 5000,
-              max = 15000
+              "Área total em 2030 (em milhões de hectares)",
+              value = 1,
+              min = 1,
+              max = 80
             ),
             sliderInput( # Ask projected area for 2050
               "area2050",
-              "Future area in 2050",
-              value = 5000,
-              min = 5000,
-              max = 15000
+              "Área total em 2050 (em milhões de hectares)",
+              value = 1,
+              min = 1,
+              max = 80
             )
           ),
           mainPanel( # Outputs panel
@@ -95,7 +101,12 @@ ui <-
         "Question 02",
         sidebarLayout(
           sidebarPanel( # Inputs panel
-            h4("Potential states for ICLFS establishment"),
+            width = 10,
+            titlePanel(
+              title = "Segundo suas expectativas, quais estados tem o maior
+              potencial de expansão de ILPF?"
+            ),
+            h4("Estados com potencial para expansão do ILPF no Brasil"),
             fluidRow(
               column(
                 3,
@@ -131,22 +142,112 @@ ui <-
 
       ## Question 03: ----
       tabPanel(
-        "Question 03"
-      ),
+        "Question 03",
+        sidebarLayout(
+          fluid = TRUE,
+          sidebarPanel( # Inputs panel
+            width = 10,
+            titlePanel(
+              title = "Segundo sua experiência com ILPF, qual é o ciclo médio,
+              em anos, da produção de espécies lenhosas (silvicultura) no
+              ILPF?"
+            ),
+            sliderInput( # Ask projected area for 2030
+              "area2030",
+              "Tempo até o corte das árvores",
+              value = 1,
+              min = 1,
+              max = 30
+            )
+          ),
+          mainPanel( # Outputs panel
 
-      ## Question 03: ----
-      tabPanel(
-        "Question 03"
+          )
+        )
       ),
 
       ## Question 04: ----
       tabPanel(
-        "Question 04"
+        "Question 04",
+        sidebarLayout(
+          sidebarPanel( # Inputs panel
+            width = 10,
+            titlePanel(
+              title = "Segundo sua experiência, quais espécies são utilizadas
+              com maior frequência no ILPF no Brasil?"
+            ),
+            h4("Principais espécies utilizadas no ILPF"),
+            fluidRow(
+              column(2, h4("Lavoura"), textInput("specie01", NULL)),
+              column(2, h4("Pastagem"), textInput("specie01", NULL)),
+              column(2, h4("Animal"), textInput("specie01", NULL)),
+              column(2, h4("Floresta"), textInput("specie01", NULL)),
+              column(2, h4("Outras"), textInput("specie01", NULL))
+            ),
+            fluidRow(
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL))
+            ),
+            fluidRow(
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL))
+            ),
+            fluidRow(
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL))
+            ),
+            fluidRow(
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL)),
+              column(2, textInput("specie01", NULL))
+            )
+          ),
+          mainPanel( # Outputs panel
+
+          )
+        )
       ),
 
       ## Question 05: ----
       tabPanel(
-        "Question 05"
+        "Question 05",
+        sidebarLayout(
+          sidebarPanel( # Inputs panel
+            width = 10,
+            titlePanel(
+              title = "Segundo sua experiência, há algum tipo de preparo
+              convencional do solo (revolvimento do solo) após a implementação
+              do ILPF? Se sim, quanto tempo leva, anos em média, desde a implementação
+              do ILPF até o revolvimento do solo?"
+            ),
+            checkboxGroupInput(
+              "soilmanagement",
+              NULL,
+              choices = c("Sim", "Não")
+            ),
+            sliderInput( # Ask projected area for 2030
+              "soilmanagementperiod",
+              "Tempo até o revolvimento do solo após implementação do ILPF",
+              value = 1,
+              min = 1,
+              max = 50
+            )
+          ),
+          mainPanel( # Outputs panel
+
+          )
+        )
       ),
 
       ## Question 06: ----
@@ -191,13 +292,13 @@ server <- function(input, output, session) {
         # Set data frame
         df <- data.frame(
           year = c(2020, 2030, 2050),
-          area = c(5000, input$area2030, input$area2050)
+          area = c(1, input$area2030, input$area2050)
         )
 
         # Create reactive plot
         ggplot(df, aes(x = year, y = area)) +
           geom_hline(
-            yintercept = c(7500, 5000, 15000),
+            yintercept = c(1, 10, 80),
             linetype = 2,
             color = "#6b6b6b"
           ) +
@@ -207,14 +308,14 @@ server <- function(input, output, session) {
           annotate(
             geom = "text",
             x = c(2017, 2017, 2017),
-            y = c(5000, 7500, 15000),
+            y = c(1, 10, 80),
             label = c(
               "Current \n area",
               "NDC \n pledge area",
               "Potential \n area"
             )
           ) +
-          coord_cartesian(ylim = c(4500, 15500), xlim = c(2016, 2050)) +
+          coord_cartesian(ylim = c(0, 81), xlim = c(2016, 2050)) +
           theme_bw()
 
       },
