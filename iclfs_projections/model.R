@@ -1,13 +1,36 @@
-
+# HEADER ----------------------------------------------------------------------
+#
+# Title:
+# Description:
+#
+#
+#
+# Authors:      Hugo Tameirao Seixas
+# Contact:      tameirao.hugo@gmail.com
+# Date:         2022-07-07
+#
+# Notes:
+#
+#
+#
+#
+#
+# LIBRARIES -------------------------------------------------------------------
+#
 library(terra)
 library(tidyverse)
+#
+# OPTIONS ---------------------------------------------------------------------
+#
+#
+# LOAD BASE GRID --------------------------------------------------------------
 
+## Load raster file
 r <- rast("iclfs_projections/base_grid_pasture.tif")
 
-# Calculate a linear expansion rate
-annual_increase <- floor(pull(global(r, sum, na.rm = TRUE) / 30))
+# GENERATE RANDOM DATA AS DUMMIES ---------------------------------------------
 
-# Generate random system types to be sampled
+## Generate random system types to be sampled
 systems <-
   reduce(
     map2(
@@ -17,7 +40,7 @@ systems <-
     c
   )
 
-# Generate random cycle lengths to be sampled
+## Generate random cycle lengths to be sampled
 cycle <-
   reduce(
     map2(
@@ -27,7 +50,7 @@ cycle <-
     c
   )
 
-# Generate random transition system type to be sampled
+## Generate random transition system type to be sampled
 transition_systems <-
   reduce(
     map2(
@@ -37,7 +60,7 @@ transition_systems <-
     c
   )
 
-# Generate random transition lengths to be sampled
+## Generate random transition lengths to be sampled
 transition_length <-
   reduce(
     map2(
@@ -47,8 +70,39 @@ transition_length <-
     c
   )
 
+## Generate random trees population/ha to be sampled
+tree_pop <-
+  reduce(
+    map2(
+      .x = c(333, 476, 370, 690, 715),
+      .y = sample(1:40, 5, replace = TRUE),
+      .f = ~ { rep(.x, .y) }),
+    c
+  )
 
-# Get degraded pasture from raster file and transform into a data frame
+## Generate ICLFS management to be sampled
+system_management <-
+  reduce(
+    map2(
+      .x = c(1, 2, 3, 4, 5),
+      .y = sample(1:40, 5, replace = TRUE),
+      .f = ~ { rep(.x, .y) }),
+    c
+  )
+
+## Generate transition management to be sampled
+transition_management <-
+  reduce(
+    map2(
+      .x = c(1, 2, 3, 4, 5),
+      .y = sample(1:40, 5, replace = TRUE),
+      .f = ~ { rep(.x, .y) }),
+    c
+  )
+
+# PREPARE DATA TO START THE LAND COVER PROJECTIONS ----------------------------
+
+## Get degraded pasture from raster file and transform into a data frame
 lulc <- as_tibble(as.data.frame(r, na.rm = FALSE, cells = TRUE)) %>%
   drop_na() %>%
   rename(area = pasture_quality_2020) %>%
@@ -58,11 +112,19 @@ lulc <- as_tibble(as.data.frame(r, na.rm = FALSE, cells = TRUE)) %>%
     cycle_lenght = NA_real_,
     cycle_end = NA_real_,
     transition = NA_real_,
-    transition_length = NA_real_
+    transition_length = NA_real_,
+    tree_pop = NA_real_,
+    system_management = NA_real_,
+    transition_management = NA_real_
   )
 
-# Get number of rows that each year of simulation will have
+## Get number of rows that each year of simulation will have
 number_of_rows <- nrow(lulc)
+
+## Calculate a linear expansion rate
+annual_increase <- floor(pull(global(r, sum, na.rm = TRUE) / 30))
+
+# START LAND COVER PROJECTIONS ------------------------------------------------
 
 for (y in 2021:2050) {
 
@@ -87,6 +149,12 @@ for (y in 2021:2050) {
 
   new_transition_length <- sample(transition_length, size = number_of_rows, replace = TRUE)
 
+  new_tree_pop <- sample(tree_pop, size = number_of_rows, replace = TRUE)
+
+  new_system_management <- sample(system_management, size = number_of_rows, replace = TRUE)
+
+  new_transition_management <- sample(transition_management, size = number_of_rows, replace = TRUE)
+
   new_year <- lulc %>%
     filter(year == y - 1) %>%
     mutate(
@@ -95,11 +163,17 @@ for (y in 2021:2050) {
       new_cycle = new_cycle,
       new_transition = new_transition,
       mew_transition_length = new_transition_length,
+      new_tree_pop = new_tree_pop,
+      new_system_management = new_system_management,
+      new_transition_management = new_transition_management,
       transition = if_else(cell %in% sample_sub$cell, new_transition, transition),
       transition_length = if_else(cell %in% sample_sub$cell, new_transition_length, transition_length),
       cover = if_else(cell %in% sample_sub$cell, new_system, cover),
       cycle_lenght = if_else(cell %in% sample_sub$cell, new_cycle, cycle_lenght),
-      cycle_end = if_else(cell %in% sample_sub$cell, year + cycle_lenght + transition_length, cycle_end)
+      cycle_end = if_else(cell %in% sample_sub$cell, year + cycle_lenght + transition_length, cycle_end),
+      tree_pop = if_else(cell %in% sample_sub$cell, new_tree_pop, tree_pop),
+      system_management = if_else(cell %in% sample_sub$cell, new_system_management, system_management),
+      transition_management = if_else(cell %in% sample_sub$cell, new_transition_management, transition_management)
     )
 
   new_year <- new_year %>%
@@ -115,18 +189,3 @@ for (y in 2021:2050) {
   lulc <- bind_rows(lulc, new_year)
 
 }
-
-lulc %>%
-  group_by(year, cover) %>%
-  summarise(area = sum(area)) %>%
-  ggplot() +
-  geom_line(aes(x = year, y = area, color = factor(cover)))
-
-r_new <- r
-
-bla <- as_tibble(as.data.frame(r, na.rm = FALSE, cells = TRUE)) %>%
-  left_join(lulc %>% filter(year == 2035) %>% select(cell, cover), by = "cell")
-
-values(r_new) <- as.integer(bla$cover)
-
-plot(r_new, type = "classes", col = c("gray", "green", "blue", "red", "purple", "orange"))
