@@ -252,12 +252,85 @@ ui <-
 
       ## Question 06: ----
       tabPanel(
-        "Question 06"
+        "Question 06",
+        sidebarLayout(
+          sidebarPanel( # Inputs panel
+            width = 10,
+            titlePanel(
+              title = "Perfil do especialista: anos de experiencia, local de
+              experiencia"
+            )
+          ),
+          mainPanel( # Outputs panel
+
+          )
+        )
       ),
 
       ## Question 07: ----
       tabPanel(
-        "Question 07"
+        "Question 07",
+        sidebarLayout(
+          sidebarPanel( # Inputs panel
+            width = 10,
+            titlePanel(
+              title = "Quanto tempo dura a transição para o ILPF?
+              Como ela é feita?"
+            )
+          ),
+          mainPanel( # Outputs panel
+
+          )
+        )
+      ),
+
+      ## Question 08: ----
+      tabPanel(
+        "Question 08",
+        sidebarLayout(
+          sidebarPanel( # Inputs panel
+            width = 10,
+            titlePanel(
+              title = "Quais são os insumos utilizados? Quanto?"
+            )
+          ),
+          mainPanel( # Outputs panel
+
+          )
+        )
+      ),
+
+      ## Question 09: ----
+      tabPanel(
+        "Question 09",
+        sidebarLayout(
+          sidebarPanel( # Inputs panel
+            width = 10,
+            titlePanel(
+              title = "Qual a área média de um ilpf?"
+            )
+          ),
+          mainPanel( # Outputs panel
+
+          )
+        )
+      ),
+
+      ## Question 10: ----
+      tabPanel(
+        "Question 10",
+        sidebarLayout(
+          sidebarPanel( # Inputs panel
+            width = 10,
+            titlePanel(
+              title = "Quais serviços ecossistêmicos
+              estão relacionados ao ILPF?"
+            )
+          ),
+          mainPanel( # Outputs panel
+
+          )
+        )
       ),
 
       ## Submission ----
