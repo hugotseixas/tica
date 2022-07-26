@@ -787,6 +787,141 @@ crop_component_meta <-
   )
 
 ## Pasture component ----
+crop_component_meta <-
+  bind_rows(
+    list(
+      name = "id",
+      description = "This is a unique identificator for each downloaded
+      document, the first letter indicates the base which the documents
+      was downloaded from (E for embrapa and S for Scopus).",
+      unit = "index"
+    ),
+    list(
+      name = "production_system",
+      description = "Abbreviation of the production system in the experiment:
+      ICLF = Integrated Crop-Livestock-Forestry;
+      ICL = Integrated Crop-Livestock;
+      ILF = Integrated Livestock-Forestry;
+      C = Crop;
+      L = Livestock;
+      F = Forestry;
+      EG = Extensive Grazing;
+      SF = Seasonal Forest.",
+      unit = "nominal category"
+    ),
+    list(
+      name = "plot_id",
+      description = "Unique experiment plot indentificator within the same
+      publication (not unique across publications).",
+      unit = "index"
+    ),
+    list(
+      name = "specie",
+      description = "What is the specie being observed.",
+      unit = ""
+    ),
+    list(
+      name = "spacing",
+      description = "The spacing in relation to the crop component.",
+      unit = "meters (m)"
+    ),
+    list(
+      name = "sowing_rate",
+      description = "The amount of seeds used in one hectare.",
+      unit = "kilograms per hectare (kg/ha)"
+    ),
+    list(
+      name = "position",
+      description = "The position of the observations in relation
+      to the tree component (how far the observations were performed
+      in relation to the trees lines).",
+      unit = "meters"
+    ),
+    list(
+      name = "yield",
+      description = "The total dry matter yield of the pasture.",
+      unit = "kilograms per hectare (kg/ha)"
+    ),
+    list(
+      name = "leaf_yield",
+      description = "The leaf dry matter yield of the pasture.",
+      unit = "kilograms per hectare (kg/ha)"
+    ),
+    list(
+      name = "dry_matter_accumulation",
+      description = "The total dry matter accumulation of the pasture.",
+      unit = "kilograms per hectare per day (kg/ha day)"
+    ),
+    list(
+      name = "digestability",
+      description = "The in vitro digestability of the pasture.",
+      unit = "percentage (%)"
+    ),
+    list(
+      name = "crude_protein",
+      description = "The protein concentration of the pasture.",
+      unit = "percentage (%)"
+    ),
+    list(
+      name = "lai",
+      description = "The leaf area index of the pasture",
+      unit = "squared meters per squared meters (m²/m²)"
+    ),
+    list(
+      name = "sla",
+      description = "The specific leaf area of the pasture",
+      unit = "squared centimeters per gram (cm²/g)"
+    ),
+    list(
+      name = "total_biomass",
+      description = "The biomass of the trees.",
+      unit = "tons per hectare (t/ha)"
+    ),
+    list(
+      name = "total_carbon",
+      description = "The carbon of the trees.",
+      unit = "tons per hectare (t/ha)"
+    ),
+    list(
+      name = "height",
+      description = "The height of the crops.",
+      unit = "meters (m)"
+    ),
+    list(
+      name = "month_after_planting",
+      description = "The months after tree planting where the observations were
+      registered.",
+      unit = ""
+    ),
+    list(
+      name = "number_of_observations",
+      description = "The amount of observations that were used to
+      generate the record.",
+      unit = ""
+    ),
+    list(
+      name = "estimator",
+      description = "What estimator was used to represent the obervations.",
+      unit = ""
+    ),
+    list(
+      name = "measured",
+      description = "If the observations were measured or estimated.
+      1 = measured, 0 = estimated",
+      unit = "integer"
+    ),
+    list(
+      name = "year",
+      description = "What is the year that the observation was recorded.",
+      unit = "integer"
+    ),
+    list(
+      name = "establishment",
+      description = "What was the year of the adoption of the
+      production system analysed in the experiment.",
+      unit = "year according to the gregorian calendar"
+    )
+  )
 
 ## Livestock component ----
 
