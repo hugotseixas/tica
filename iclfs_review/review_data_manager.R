@@ -1243,71 +1243,129 @@ headers_list <-
         mutate(publication_year = as.integer())
 
     }
-  )
+  ) %>%
+  purrr::set_names(review_dataset$name)
 
 # CHECK CONSISTENCE -----------------------------------------------------------
 
-# Check if review table already exists
-if (file_exists("iclfs_review/tables/documents_registration.csv")) {
+walk2(
+  .x = headers_list,
+  .y = names(headers_list),
+  function(header_table, file) {
 
-  documents_registration <- read_delim(
-    "iclfs_review/tables/documents_registration.csv",
-    delim = ";",
-    col_types = list(col_character())
-  )
+    # Check if review table already exists
+    if (file_exists(glue("iclfs_review/tables/{file}"))) {
 
-} else { # If table does not exists, create one from the metadata
+      table <- read_delim(
+        glue("iclfs_review/tables/{file}"),
+        delim = ";",
+        col_types = list(col_character())
+      )
 
-  write_delim(
-    documents_registration_header,
-    "iclfs_review/tables/documents_registration.csv",
-    delim = ";"
-  )
+    } else { # If table does not exists, create one from the metadata
 
-  documents_registration <- read_delim(
-    "iclfs_review/tables/documents_registration.csv",
-    delim = ";",
-    col_types = list(col_character())
-  )
+      write_delim(
+        header_table,
+        glue("iclfs_review/tables/{file}"),
+        delim = ";"
+      )
 
-}
+      table <- read_delim(
+        glue("iclfs_review/tables/{file}"),
+        delim = ";",
+        col_types = list(col_character())
+      )
 
-# Check if all columns in the review table are in the metadata
-col_check <-
-  all(
-    names(documents_registration) %in% names(documents_registration_header)
-  )
+    }
 
-if (col_check & nrow(documents_registration) > 0) {
+    # Check if all columns in the review table are in the metadata
+    col_check <-
+      all(
+        names(table) %in% names(header_table)
+      )
 
-  # If review table is consistent with metadata, merge them
-  bind_rows(documents_registration_header, documents_registration)
+    if (col_check & nrow(table) > 0) {
 
-} else if (nrow(documents_registration) == 0) {
+      # If review table is consistent with metadata, merge and save them
 
-  stop(
-    "There aren't any records in the review table, please add at least one
-    record to update the table."
-  )
+      write_delim(
+        bind_rows(header_table, table),
+        glue("iclfs_review/tables/{file}"),
+        delim = ";"
+      )
 
-} else {
+      cat(sep = "\n",
+          crayon::green("Tables are rady to be merged in repository")
+      )
 
-  stop(
-    "There are columns in the review table not listed in the metadata.
-    Correct the metadata or the table before continuing."
-  )
+    } else if (nrow(table) == 0) {
 
-}
+      cat(sep = "\n",
+        crayon::red(
+          glue(
+            "There aren't any records in {file}, please add at least one ",
+            "record to update the table."
+          )
+        )
+      )
 
-# TODO check consistence for all the tables
+
+    } else {
+
+      cat(sep = "\n",
+        crayon::red(
+          glue(
+            "There are columns in {file} not listed in the metadata. ",
+            "Correct the metadata or the table before continuing."
+          )
+        )
+      )
+
+
+    }
+
+  }
+)
 
 # SAVE METADATA TABLES --------------------------------------------------------
 
 # Dataset metadata
 review_dataset %>%
+  mutate(
+    size = file_size(dir_ls("iclfs_review/tables/", glob = "*.csv")),
+    number_of_columns = map_int(
+      dir_ls("iclfs_review/tables/", glob = "*.csv"),
+      ~ {
+        read_delim(
+          .x,
+          progress = FALSE,
+          col_types = cols(),
+          delim = ";"
+        ) %>%
+          ncol()
+      }
+    ),
+    number_of_rows = map_int(
+      dir_ls("iclfs_review/tables/", glob = "*.csv"),
+      ~ {
+        read_delim(
+          .x,
+          progress = FALSE,
+          col_types = cols(),
+          delim = ";"
+        ) %>%
+          nrow()
+      }
+    )
+  ) %>%
+  rename_with( ~ str_replace_all(., "_", " ")) %>%
   gt() %>%
-  tab_header(
-    title = "TABLES COLLECTION"
+  tab_header(title = "TABLES COLLECTION") %>%
+  fmt_bytes(columns = size,standard = "binary") %>%
+  cols_width(
+    size ~ px(120),
+    description ~ px(1100),
+    name ~ px(400)
   ) %>%
   tab_options(
     heading.background.color = "#d2d2d2",
@@ -1332,7 +1390,7 @@ walk2(
     table %>%
       gt() %>%
       tab_header(
-        title = str_to_upper(str_replace(file_name, "_", " "), ".csv")
+        title = str_to_upper(str_replace(file_name, "_", " "))
       ) %>%
       tab_options(
         heading.background.color = "#d2d2d2",
@@ -1347,3 +1405,21 @@ walk2(
 
   }
 )
+
+# Create table with all variables to be recorded
+bind_rows(table_metadata) %>%
+  distinct(name, .keep_all = TRUE) %>%
+  gt() %>%
+  tab_header(
+    title = "VARIABLES"
+  ) %>%
+  tab_options(
+    heading.background.color = "#d2d2d2",
+    table.border.top.width = 3,
+    table.border.top.color = "#666663",
+    heading.border.bottom.width = 3,
+    heading.border.bottom.color = "#666663",
+    table.border.bottom.width = 3,
+    table.border.bottom.color = "#666663"
+  ) %>%
+  gtsave("iclfs_review/tables/all_variables.html")
