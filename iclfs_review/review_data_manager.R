@@ -1,4 +1,4 @@
-# HEADER -----------------------------------------------------------------------
+# HEADER ----------------------------------------------------------------------
 #
 # Title: Review Data Manager
 # Description:
@@ -15,61 +15,106 @@
 #
 #
 #
-# LIBRARIES --------------------------------------------------------------------
+# LIBRARIES -------------------------------------------------------------------
 #
 library(fs)
-library(tidyverse)
 library(magrittr)
+library(gt)
+library(glue)
+library(tidyverse)
 #
-# OPTIONS ----------------------------------------------------------------------
+# OPTIONS ---------------------------------------------------------------------
 #
 #
-# CREATE DATASET METADATA ------------------------------------------------------
+# CREATE DATASET METADATA -----------------------------------------------------
 
+# Create a table describing the files that composes the dataset
 review_dataset <-
   bind_rows(
     list(
-      name = "documents_registration.csv",
-      description = ""
+      name = "01_documents_registration.csv",
+      description = "This table stores general information about the document.
+      There are no data from experiments stored here. This table will provide
+      information to identify the documents, its authors, year of publication.
+      Will also store observations and quotes from the documents."
     ),
     list(
-      name = "experiments_characteristics.csv",
-      description = ""
+      name = "02_experiments_characteristics.csv",
+      description = "This table is composed of specific information of the
+      experiment as a whole. What are the farming systems analysed,
+      the location, what are the species and some more information. It is
+      linked to the {documents_registration} table by the unique identifier
+      of the document."
     ),
     list(
-      name = "system_management.csv",
-      description = ""
+      name = "03_system_management.csv",
+      description = "Stores data about how is the management of each
+      experimental plot of the experiment. You can find data regarding
+      fertilization and supplementary diet in this table. It is linked to the
+      {experiments_characteristics} table by the unique identifiers of
+      the document and the experimental plot."
     ),
     list(
-      name = "soil_properties.csv",
-      description = ""
+      name = "04_soil_properties.csv",
+      description = "Stores data about properties of the soil in the
+      experimental plot, along the soil profile and position.
+      Examples of stored variables are the bulk density, soil texture,
+      amount of carbon. It is linked to the
+      {experiments_characteristics} table by the unique identifiers of
+      the document and the experimental plot."
     ),
     list(
-      name = "tree_component.csv",
-      description = ""
+      name = "05_tree_component.csv",
+      description = "Stores data about productivity of the tree component
+      in the integrated production system. Examples of the stored variables are
+      height, total carbon, diameter and basal area. It is linked to the
+      {experiments_characteristics} table by the unique identifiers of
+      the document and the experimental plot."
     ),
     list(
-      name = "crop_component.csv",
-      description = ""
+      name = "06_crop_component.csv",
+      description = "Stores data about productivity of the crop component
+      in the integrated production system. Examples of the stored variables are
+      height, yield and population. It is linked to the
+      {experiments_characteristics} table by the unique identifiers of
+      the document and the experimental plot."
     ),
     list(
-      name = "pasture_component.csv",
-      description = ""
+      name = "08_pasture_component.csv",
+      description = "Stores data about productivity of the pasture component
+      in the integrated production system. Examples of the stored variables are
+      sowing rate, yield and digestability. It is linked to the
+      {experiments_characteristics} table by the unique identifiers of
+      the document and the experimental plot."
     ),
     list(
-      name = "livestock_component.csv",
-      description = ""
+      name = "09_livestock_component.csv",
+      description = "Stores data about productivity of the livestock component
+      in the integrated production system. Examples of the stored variables are
+      grazing method, stocking rate and live mean weight. It is linked to the
+      {experiments_characteristics} table by the unique identifiers of
+      the document and the experimental plot."
     ),
     list(
-      name = "emissions.csv",
-      description = ""
+      name = "10_emissions.csv",
+      description = "Stores data about greenhouse gas emissions in
+      integrated production systems from diverse sources. Examples of the
+      stored variables are gas, emission source, accumulated emissions.
+      It is linked to the {experiments_characteristics} table by the unique
+      identifiers of the document and the experimental plot."
     ),
     list(
-      name = "radiation.csv",
-      description = ""
+      name = "11_radiation.csv",
+      description = "Stores data about reduction of PAR transmittance in
+      integrated production systems caused by canopy from tree component.
+      Examples of the stored variables are PAR transmittance and position in
+      relation to the tree lines.
+      It is linked to the {experiments_characteristics} table by the unique
+      identifiers of the document and the experimental plot."
     )
   )
 
+# Add information about the tables
 review_dataset %<>%
   mutate(
     number_of_columns = NA_integer_,
@@ -77,9 +122,7 @@ review_dataset %<>%
     size = NA_real_
   )
 
-# TODO create metadata to describe the dataset
-
-# CREATE TABLES METADATA -------------------------------------------------------
+# CREATE TABLES METADATA ------------------------------------------------------
 
 ## Documents registration ----
 documents_registration_meta <-
@@ -784,7 +827,7 @@ crop_component_meta <-
   )
 
 ## Pasture component ----
-crop_component_meta <-
+pasture_component_meta <-
   bind_rows(
     list(
       name = "id",
@@ -921,7 +964,7 @@ crop_component_meta <-
   )
 
 ## Livestock component ----
-crop_component_meta <-
+livestock_component_meta <-
   bind_rows(
     list(
       name = "id",
@@ -957,6 +1000,11 @@ crop_component_meta <-
     list(
       name = "grazing_method",
       description = "What was the grazing method used in the plot.",
+      unit = ""
+    ),
+    list(
+      name = "stocking_rate",
+      description = "What was the stocking rate of the plot.",
       unit = ""
     ),
     list(
@@ -1015,7 +1063,7 @@ crop_component_meta <-
   )
 
 ## Emissions ----
-emissions <-
+emissions_meta <-
   bind_rows(
     list(
       name = "id",
@@ -1089,7 +1137,7 @@ emissions <-
   )
 
 ## Radiation ----
-radiation <-
+radiation_meta <-
   bind_rows(
     list(
       name = "id",
@@ -1166,16 +1214,38 @@ radiation <-
     )
   )
 
-# CREATE TABLES HEADERS --------------------------------------------------------
+## Create a list of the metadata tables ----
+table_metadata <-
+  list(
+    documents_registration_meta,
+    experiments_characteristics_meta,
+    system_management_meta,
+    soil_properties_meta,
+    tree_component_meta,
+    crop_component_meta,
+    pasture_component_meta,
+    livestock_component_meta,
+    emissions_meta,
+    radiation_meta
+  )
 
-documents_registration_header <-
-  documents_registration_meta$name %>%
-  map_dfc(~tibble(!!.x := character())) %>%
-  mutate(publication_year = as.integer())
+# CREATE TABLES HEADERS -------------------------------------------------------
 
-# TODO create list of tibbles using map
+# Create list of headers
+headers_list <-
+  map(
+    .x = table_metadata,
+    function(table) {
 
-# CHECK CONSISTENCE ------------------------------------------------------------
+      header <-
+        table$name %>%
+        map_dfc(~tibble(!!.x := character())) %>%
+        mutate(publication_year = as.integer())
+
+    }
+  )
+
+# CHECK CONSISTENCE -----------------------------------------------------------
 
 # Check if review table already exists
 if (file_exists("iclfs_review/tables/documents_registration.csv")) {
@@ -1231,3 +1301,49 @@ if (col_check & nrow(documents_registration) > 0) {
 
 # TODO check consistence for all the tables
 
+# SAVE METADATA TABLES --------------------------------------------------------
+
+# Dataset metadata
+review_dataset %>%
+  gt() %>%
+  tab_header(
+    title = "TABLES COLLECTION"
+  ) %>%
+  tab_options(
+    heading.background.color = "#d2d2d2",
+    table.border.top.width = 3,
+    table.border.top.color = "#666663",
+    heading.border.bottom.width = 3,
+    heading.border.bottom.color = "#666663",
+    table.border.bottom.width = 3,
+    table.border.bottom.color = "#666663"
+  ) %>%
+  gtsave("iclfs_review/tables/00_tables_collection.html")
+
+# Tables metadata
+walk2(
+  .x = table_metadata,
+  .y = review_dataset$name,
+  function(table, file) {
+
+    file_name <- str_remove(file, ".csv")
+
+    # Create table and save as HTML
+    table %>%
+      gt() %>%
+      tab_header(
+        title = str_to_upper(str_replace(file_name, "_", " "), ".csv")
+      ) %>%
+      tab_options(
+        heading.background.color = "#d2d2d2",
+        table.border.top.width = 3,
+        table.border.top.color = "#666663",
+        heading.border.bottom.width = 3,
+        heading.border.bottom.color = "#666663",
+        table.border.bottom.width = 3,
+        table.border.bottom.color = "#666663"
+      ) %>%
+      gtsave(glue("iclfs_review/tables/{file_name}.html"))
+
+  }
+)
