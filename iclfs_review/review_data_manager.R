@@ -26,6 +26,58 @@ library(tidyverse)
 # OPTIONS ---------------------------------------------------------------------
 #
 #
+# CREATE LITERATURE SEARCH METADATA -------------------------------------------
+
+bind_rows(
+  list(
+    database = "Scopus",
+    database_url = "https://www.scopus.com/",
+    search_string = glue(
+      "TITLE-ABS-KEY(",
+      "iclf OR iclfs OR crop-livestock-forestry OR crop-livestock-forest",
+      "OR agrosilvipastoral OR ilpf OR lavoura-pecuária-floresta OR",
+      "agrosilvipastoril) AND PUBYEAR > 1999"
+    ),
+    oldest_publication_date = 2007,
+    newest_publication_date = 2022
+  ),
+  list(
+    database = "Embrapa",
+    database_url = "https://www.bdpa.cnptia.embrapa.br/consulta/busca",
+    search_string = glue(
+      '((ICLF) OR (iclfs) OR (crop-livestock-forestry)',
+      'OR (crop-livestock-forest) OR (agrosilvipastoral)',
+      'OR (ilpf) OR (lavoura-pecuária-floresta) OR (agrosilvipastoril))',
+      'AND (ano-publicacao:[2000 TO *])',
+      'AND (tipo-material-sigla:"PC" OR tipo-material-sigla:"AP"',
+      'OR tipo-material-sigla:"NC" OR tipo-material-sigla:"RT")',
+      'AND (idioma:"Inglês" OR idioma:"Português")'),
+    oldest_publication_date = 2000,
+    newest_publication_date = 2022
+  )
+) %>%
+  rename_with( ~ str_replace_all(., "_", " ")) %>%
+  gt() %>%
+  tab_header(title = "LITERATURE SEARCH") %>%
+  tab_options(
+    heading.background.color = "#d2d2d2",
+    table.border.top.width = 3,
+    table.border.top.color = "#666663",
+    heading.border.bottom.width = 3,
+    heading.border.bottom.color = "#666663",
+    table.border.bottom.width = 3,
+    table.border.bottom.color = "#666663"
+  ) %>%
+  tab_source_note(
+    "The search strategy was to include a wide variety of terms that are
+    commonly used to refer an integrated crop-livestock-forestry system (ICLFS).
+    This makes the search very broad, which gives us everything that have
+    been researched about ICLFS. The inclusion of the Embrapa database is
+    utmost important to create an overview of this system in Brazil, since it
+    is the main developer and disseminator of this technology in the country. "
+  ) %>%
+  gtsave("iclfs_review/search_string.html")
+
 # CREATE DATASET METADATA -----------------------------------------------------
 
 # Create a table describing the files that composes the dataset
