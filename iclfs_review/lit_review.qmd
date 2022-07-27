@@ -49,9 +49,9 @@ In this review I will analyse studies about ICLFS in Brazil. I pretend to answer
 
 ### Include, for each database searched, the exact search strings used, with keyword combinations and Boolean operators
 
-Scopus: TITLE-ABS-KEY(iclf OR iclfs OR crop-livestock-forestry OR crop-livestock-forest OR agrosilvipastoral OR ilpf OR lavoura-pecuária-floresta OR agrosilvipastoril)
+Scopus: TITLE-ABS-KEY(iclf OR iclfs OR crop-livestock-forestry OR crop-livestock-forest OR agrosilvipastoral OR ilpf OR lavoura-pecuária-floresta OR agrosilvipastoril) AND PUBYEAR > 1999
 
-Embrapa: (ICLF) OR (iclfs) OR (crop-livestock-forestry) OR (crop-livestock-forest) OR (agrosilvipastoral) OR (ilpf) OR (lavoura-pecuária-floresta) OR (agrosilvipastoril)
+Embrapa: ((ICLF) OR (iclfs) OR (crop-livestock-forestry) OR (crop-livestock-forest) OR (agrosilvipastoral) OR (ilpf) OR (lavoura-pecuária-floresta) OR (agrosilvipastoril)) AND (ano-publicacao:[2000 TO *]) AND (tipo-material-sigla:"PC" OR tipo-material-sigla:"AP" OR tipo-material-sigla:"NC" OR tipo-material-sigla:"RT") AND (idioma:"Inglês" OR idioma:"Português")
 
 ### Provide enough information to repeat the equivalent search (if possible), including the timespan covered (start and end dates)
 
