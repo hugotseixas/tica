@@ -82,7 +82,6 @@ review_dataset %<>%
 # CREATE TABLES METADATA -------------------------------------------------------
 
 ## Documents registration ----
-
 documents_registration_meta <-
   bind_rows(
     list(
@@ -136,7 +135,6 @@ documents_registration_meta <-
   )
 
 ## Experiments characteristics ----
-
 experiments_characteristics_meta <-
   bind_rows(
     list(
@@ -347,7 +345,6 @@ experiments_characteristics_meta <-
 
 
 ## System management ----
-
 system_management_meta <-
   bind_rows(
     list(
@@ -924,9 +921,100 @@ crop_component_meta <-
   )
 
 ## Livestock component ----
+crop_component_meta <-
+  bind_rows(
+    list(
+      name = "id",
+      description = "This is a unique identificator for each downloaded
+      document, the first letter indicates the base which the documents
+      was downloaded from (E for embrapa and S for Scopus).",
+      unit = "index"
+    ),
+    list(
+      name = "production_system",
+      description = "Abbreviation of the production system in the experiment:
+      ICLF = Integrated Crop-Livestock-Forestry;
+      ICL = Integrated Crop-Livestock;
+      ILF = Integrated Livestock-Forestry;
+      C = Crop;
+      L = Livestock;
+      F = Forestry;
+      EG = Extensive Grazing;
+      SF = Seasonal Forest.",
+      unit = "nominal category"
+    ),
+    list(
+      name = "plot_id",
+      description = "Unique experiment plot indentificator within the same
+      publication (not unique across publications).",
+      unit = "index"
+    ),
+    list(
+      name = "specie",
+      description = "What is the specie being observed.",
+      unit = ""
+    ),
+    list(
+      name = "grazing_method",
+      description = "What was the grazing method used in the plot.",
+      unit = ""
+    ),
+    list(
+      name = "live_mean_weigth",
+      description = "The live mean weight of the livestock.",
+      unit = "kilograms (kg)"
+    ),
+    list(
+      name = "average_daily_gain",
+      description = "The weight gain of the livestock per day",
+      unit = "grams per animal per day (g/AU day)"
+    ),
+    list(
+      name = "carcass",
+      description = "The ilograms of carcass produced per hectar.",
+      unit = "kilograms per hectare (kg/ha)"
+    ),
+    list(
+      name = "age",
+      description = "The age of the livestock in months.",
+      unit = "month"
+    ),
+    list(
+      name = "number_of_observations",
+      description = "The amount of observations that were used to
+      generate the record.",
+      unit = ""
+    ),
+    list(
+      name = "estimator",
+      description = "What estimator was used to represent the obervations.",
+      unit = ""
+    ),
+    list(
+      name = "measured",
+      description = "If the observations were measured or estimated.
+      1 = measured, 0 = estimated",
+      unit = "integer"
+    ),
+    list(
+      name = "year",
+      description = "What is the year that the observation was recorded.",
+      unit = "integer"
+    ),
+    list(
+      name = "month",
+      description = "What is the month that the observation was recorded.",
+      unit = "integer"
+    ),
+    list(
+      name = "establishment",
+      description = "What was the year of the adoption of the
+      production system analysed in the experiment.",
+      unit = "year according to the gregorian calendar"
+    )
+  )
 
 ## Emissions ----
-
 emissions <-
   bind_rows(
     list(
@@ -1001,8 +1089,82 @@ emissions <-
   )
 
 ## Radiation ----
-
-# TODO add the rest of the tables metadata
+radiation <-
+  bind_rows(
+    list(
+      name = "id",
+      description = "This is a unique identificator for each downloaded
+      document, the first letter indicates the base which the documents
+      was downloaded from (E for embrapa and S for Scopus).",
+      unit = "index"
+    ),
+    list(
+      name = "production_system",
+      description = "Abbreviation of the production system in the experiment:
+      ICLF = Integrated Crop-Livestock-Forestry;
+      ICL = Integrated Crop-Livestock;
+      ILF = Integrated Livestock-Forestry;
+      C = Crop;
+      L = Livestock;
+      F = Forestry;
+      EG = Extensive Grazing;
+      SF = Seasonal Forest.",
+      unit = "nominal category"
+    ),
+    list(
+      name = "plot_id",
+      description = "Unique experiment plot indentificator within the same
+      publication (not unique across publications).",
+      unit = "index"
+    ),
+    list(
+      name = "par_transmittance",
+      description = "The amount of photossinthetically active radiation
+      that is transmitted by the tree component canopy.",
+      unit = "percentage (%)"
+    ),
+    list(
+      name = "position",
+      description = "The position of the observations in relation
+      to the tree component (how far the observations were performed
+      in relation to the trees lines).",
+      unit = "meters"
+    ),
+    list(
+      name = "number_of_observations",
+      description = "The amount of observations that were used to
+      generate the record.",
+      unit = ""
+    ),
+    list(
+      name = "estimator",
+      description = "What estimator was used to represent the
+      obervations.",
+      unit = ""
+    ),
+    list(
+      name = "measured",
+      description = "If the observations were measured or estimated.
+      1 = measured, 0 = estimated",
+      unit = "integer"
+    ),
+    list(
+      name = "year",
+      description = "What is the year that the observation was recorded.",
+      unit = "integer"
+    ),
+    list(
+      name = "month",
+      description = "What is the month that the observation was recorded.",
+      unit = "integer"
+    ),
+    list(
+      name = "establishment",
+      description = "What was the year of the adoption of the
+      production system analysed in the experiment.",
+      unit = "year according to the gregorian calendar"
+    )
+  )
 
 # CREATE TABLES HEADERS --------------------------------------------------------
 
