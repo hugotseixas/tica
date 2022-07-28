@@ -32,7 +32,7 @@ bind_rows(
   list(
     database = "Scopus",
     database_url = "https://www.scopus.com/",
-    search_string = glue(
+    search_string = glue(.sep = " ",
       "TITLE-ABS-KEY(",
       "iclf OR iclfs OR crop-livestock-forestry OR crop-livestock-forest",
       "OR agrosilvipastoral OR ilpf OR lavoura-pecuária-floresta OR",
@@ -44,14 +44,15 @@ bind_rows(
   list(
     database = "Embrapa",
     database_url = "https://www.bdpa.cnptia.embrapa.br/consulta/busca",
-    search_string = glue(
+    search_string = glue(.sep = " ",
       '((ICLF) OR (iclfs) OR (crop-livestock-forestry)',
       'OR (crop-livestock-forest) OR (agrosilvipastoral)',
       'OR (ilpf) OR (lavoura-pecuária-floresta) OR (agrosilvipastoril))',
       'AND (ano-publicacao:[2000 TO *])',
       'AND (tipo-material-sigla:"PC" OR tipo-material-sigla:"AP"',
       'OR tipo-material-sigla:"NC" OR tipo-material-sigla:"RT")',
-      'AND (idioma:"Inglês" OR idioma:"Português")'),
+      'AND (idioma:"Inglês" OR idioma:"Português")'
+    ),
     oldest_publication_date = 2000,
     newest_publication_date = 2022
   )
