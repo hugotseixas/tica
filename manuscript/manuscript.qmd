@@ -1,0 +1,99 @@
+---
+title: Integrated farming and global warming mitigation in Brazil
+author: 
+  - name: Hugo Tameirão Seixas
+    email: seixas.hugo@protonmail.com
+    url: hugotseixas.com
+    affiliations:
+      - name: State University of Campinas
+toc: true
+toc-title: Contents
+format: 
+  html:
+    theme: lux
+page-layout: article
+editor: visual
+bibliography: references.bib
+link-citations: true
+abstract: "One of the targets in Brazil’s Nationally Determined Contribution (NDC) to the Paris Agreement is the expansion of 5 million hectares of integrated crop-livestock-forestry systems (ICLFS) until 2030. Although there is some notion of the extent where this expansion could occur, there is no systematic accounting on the role of soil carbon to bring this agricultural system to carbon neutrality, or even to be a sink of carbon. In that context, the objective of this research plan is to produce spatially-explicit projections of the expansion of ICLFS predicted in Brazil’s NDC and estimate the carbon balance, the provision of other ecosystem services and financial revenue. This will be done with the use of empirical models built upon published data. The final results of this study will provide information for decision makers, for the implementation of ICLFS across Brazil."
+---
+
+```{r}
+#| include: false
+  library(nomnoml)
+```
+
+---
+
+# Introduction
+
+ICLF are nice [@FREITAS2020]
+
+It is well known that AFOLU (Agriculture, Forestry and Land Use) and BECCS (Bioenergy with Carbon Capture and Storage) sectors are key to slow down the increase of CO 2 concentration in the atmosphere, by reducing emissions and also
+fixing carbon (IPCC 2018). As part of the Paris Agreement, Brazil pledged to stop illegal deforestation and to reforest 12 million of hectares by 2030 to help mitigating global warming, in addition, it also committed to restore 15 million hectares of pasturelands and expand the area of ICLFS to 5 million hectares.
+
+---
+
+# Objectives
+
+1. What are the management practices that lead to the best com- promise between carbon sequestration and financial revenue for agricultural land under ICLFS?
+
+2. Can indirect land-use and land-cover changes, especially land sparing under expansion of ICLFS, improve the net carbon budget of this agricultural system?
+
+3. Does the prioritization of the provision of ecosystem services other than carbon storage imply in changes of productivity of ICLFS?
+
+4. Can further expansion of ICLFS, beyond Brazil’s NDC target, replace the afforestation targets pledged in the scientific literature for the tropics in terms of carbon storage, provision of ecosystem services and economic revenue?
+
+---
+
+# Materials and Methods
+
+In order to achieve the proposed objective, the work will be divided in four major
+parts:
+
+1. ICLFS management scenario elaboration;
+
+2. Adaptation and application of the modeling framework to ICLFS;
+
+3. Estimate the carbon balance, ecosystem services, and economic evaluation
+based on outputs from modeling framework;
+
+4. Results consolidation and analysis;
+
+```{nomnoml}
+#| echo: false
+
+# direction: down
+# .box: dashed
+[Start]-[Finish!]
+[Finish!]-[<box>blablablablabla
+           lablablablablablabla]
+
+```
+
+
+### Integrated crop-livestock-forest overview
+
+#### Literature review
+
+#### Experts survey
+
+### Model projections
+
+---
+
+# Results
+
+---
+
+# Discussion
+
+---
+
+# Conclusions
+
+---
+
+# Supporting Information
+
+# References

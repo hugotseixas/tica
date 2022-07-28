@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Hugo Tameirão Seixas">
+
+<title>Integrated farming and global warming mitigation in Brazil</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="manuscript_files/libs/clipboard/clipboard.min.js"></script>
+<script src="manuscript_files/libs/quarto-html/quarto.js"></script>
+<script src="manuscript_files/libs/quarto-html/popper.min.js"></script>
+<script src="manuscript_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="manuscript_files/libs/quarto-html/anchor.min.js"></script>
+<link href="manuscript_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="manuscript_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="manuscript_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="manuscript_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="manuscript_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="manuscript_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="manuscript_files/libs/es6shim-0.35.6/es6shim.js"></script>
+<script src="manuscript_files/libs/es7shim-6.0.0/es7shim.js"></script>
+<script src="manuscript_files/libs/graphre-0.1.3/graphre.js"></script>
+<script src="manuscript_files/libs/nomnoml-1.4.0/nomnoml.js"></script>
+<script src="manuscript_files/libs/nomnoml-binding-0.2.5/nomnoml.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
+  <li><a href="#materials-and-methods" id="toc-materials-and-methods" class="nav-link" data-scroll-target="#materials-and-methods">Materials and Methods</a>
+  <ul class="collapse">
+  <li><a href="#integrated-crop-livestock-forest-overview" id="toc-integrated-crop-livestock-forest-overview" class="nav-link" data-scroll-target="#integrated-crop-livestock-forest-overview">Integrated crop-livestock-forest overview</a></li>
+  <li><a href="#model-projections" id="toc-model-projections" class="nav-link" data-scroll-target="#model-projections">Model projections</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  <li><a href="#supporting-information" id="toc-supporting-information" class="nav-link" data-scroll-target="#supporting-information">Supporting Information</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Integrated farming and global warming mitigation in Brazil</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <a href="hugotseixas.com">Hugo Tameirão Seixas</a> 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            State University of Campinas
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="abstract-title">Abstract</div>
+    One of the targets in Brazil’s Nationally Determined Contribution (NDC) to the Paris Agreement is the expansion of 5 million hectares of integrated crop-livestock-forestry systems (ICLFS) until 2030. Although there is some notion of the extent where this expansion could occur, there is no systematic accounting on the role of soil carbon to bring this agricultural system to carbon neutrality, or even to be a sink of carbon. In that context, the objective of this research plan is to produce spatially-explicit projections of the expansion of ICLFS predicted in Brazil’s NDC and estimate the carbon balance, the provision of other ecosystem services and financial revenue. This will be done with the use of empirical models built upon published data. The final results of this study will provide information for decision makers, for the implementation of ICLFS across Brazil.
+  </div>
+</div>
+
+</header>
+
+<hr>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>ICLF are nice <span class="citation" data-cites="FREITAS2020">(<a href="#ref-FREITAS2020" role="doc-biblioref">Freitas et al. 2020</a>)</span></p>
+<p>It is well known that AFOLU (Agriculture, Forestry and Land Use) and BECCS (Bioenergy with Carbon Capture and Storage) sectors are key to slow down the increase of CO 2 concentration in the atmosphere, by reducing emissions and also fixing carbon (IPCC 2018). As part of the Paris Agreement, Brazil pledged to stop illegal deforestation and to reforest 12 million of hectares by 2030 to help mitigating global warming, in addition, it also committed to restore 15 million hectares of pasturelands and expand the area of ICLFS to 5 million hectares.</p>
+<hr>
+</section>
+<section id="objectives" class="level1">
+<h1>Objectives</h1>
+<ol type="1">
+<li><p>What are the management practices that lead to the best com- promise between carbon sequestration and financial revenue for agricultural land under ICLFS?</p></li>
+<li><p>Can indirect land-use and land-cover changes, especially land sparing under expansion of ICLFS, improve the net carbon budget of this agricultural system?</p></li>
+<li><p>Does the prioritization of the provision of ecosystem services other than carbon storage imply in changes of productivity of ICLFS?</p></li>
+<li><p>Can further expansion of ICLFS, beyond Brazil’s NDC target, replace the afforestation targets pledged in the scientific literature for the tropics in terms of carbon storage, provision of ecosystem services and economic revenue?</p></li>
+</ol>
+<hr>
+</section>
+<section id="materials-and-methods" class="level1">
+<h1>Materials and Methods</h1>
+<p>In order to achieve the proposed objective, the work will be divided in four major parts:</p>
+<ol type="1">
+<li><p>ICLFS management scenario elaboration;</p></li>
+<li><p>Adaptation and application of the modeling framework to ICLFS;</p></li>
+<li><p>Estimate the carbon balance, ecosystem services, and economic evaluation based on outputs from modeling framework;</p></li>
+<li><p>Results consolidation and analysis;</p></li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-27d6fd01ca084613ef6e" style="width:100%;height:464px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-27d6fd01ca084613ef6e">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n# direction: down\n# .box: dashed\n[Start]-[Finish!]\n[Finish!]-[<box>blablablablabla\n           lablablablablablabla]\n","svg":false,"png":null},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<section id="integrated-crop-livestock-forest-overview" class="level3">
+<h3 class="anchored" data-anchor-id="integrated-crop-livestock-forest-overview">Integrated crop-livestock-forest overview</h3>
+<section id="literature-review" class="level4">
+<h4 class="anchored" data-anchor-id="literature-review">Literature review</h4>
+</section>
+<section id="experts-survey" class="level4">
+<h4 class="anchored" data-anchor-id="experts-survey">Experts survey</h4>
+</section>
+</section>
+<section id="model-projections" class="level3">
+<h3 class="anchored" data-anchor-id="model-projections">Model projections</h3>
+<hr>
+</section>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<hr>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<hr>
+</section>
+<section id="conclusions" class="level1">
+<h1>Conclusions</h1>
+<hr>
+</section>
+<section id="supporting-information" class="level1">
+<h1>Supporting Information</h1>
+</section>
+<section id="references" class="level1 unnumbered">
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-FREITAS2020" class="csl-entry" role="doc-biblioentry">
+Freitas, Igor Costa de, Juliana Martins Ribeiro, Nayara Christina Almeida Araújo, Marcia Vitória Santos, Regynaldo Arruda Sampaio, Luiz Arnaldo Fernandes, Alcinei Mistico Azevedo, Brigitte Josefine Feigl, Carlos Eduardo Pellegrino Cerri, and Leidivan Almeida Frazão. 2020. <span>“Agrosilvopastoral Systems and Well-Managed Pastures Increase Soil Carbon Stocks in the Brazilian Cerrado.”</span> <em>Rangeland Ecology &amp; Management</em> 73 (6): 776–85. https://doi.org/<a href="https://doi.org/10.1016/j.rama.2020.08.001">https://doi.org/10.1016/j.rama.2020.08.001</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
