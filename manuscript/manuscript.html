@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.36">
+<meta name="generator" content="quarto-1.0.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -49,11 +49,9 @@ div.csl-indent {
 <link href="manuscript_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="manuscript_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script src="manuscript_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="manuscript_files/libs/es6shim-0.35.6/es6shim.js"></script>
-<script src="manuscript_files/libs/es7shim-6.0.0/es7shim.js"></script>
-<script src="manuscript_files/libs/graphre-0.1.3/graphre.js"></script>
-<script src="manuscript_files/libs/nomnoml-1.4.0/nomnoml.js"></script>
-<script src="manuscript_files/libs/nomnoml-binding-0.2.5/nomnoml.js"></script>
+<script src="manuscript_files/libs/viz-1.8.2/viz.js"></script>
+<link href="manuscript_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+<script src="manuscript_files/libs/grViz-binding-1.0.9/grViz.js"></script>
 
 
 </head>
@@ -71,7 +69,7 @@ div.csl-indent {
   <li><a href="#materials-and-methods" id="toc-materials-and-methods" class="nav-link" data-scroll-target="#materials-and-methods">Materials and Methods</a>
   <ul class="collapse">
   <li><a href="#integrated-crop-livestock-forest-overview" id="toc-integrated-crop-livestock-forest-overview" class="nav-link" data-scroll-target="#integrated-crop-livestock-forest-overview">Integrated crop-livestock-forest overview</a></li>
-  <li><a href="#model-projections" id="toc-model-projections" class="nav-link" data-scroll-target="#model-projections">Model projections</a></li>
+  <li><a href="#model-framework" id="toc-model-framework" class="nav-link" data-scroll-target="#model-framework">Model framework</a></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
@@ -146,8 +144,8 @@ div.csl-indent {
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-27d6fd01ca084613ef6e" style="width:100%;height:464px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-27d6fd01ca084613ef6e">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n# direction: down\n# .box: dashed\n[Start]-[Finish!]\n[Finish!]-[<box>blablablablabla\n           lablablablablablabla]\n","svg":false,"png":null},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f81cf186f85e37c90bb4" style="width:100%;height:464px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f81cf186f85e37c90bb4">{"x":{"diagram":"digraph {\n  \n  graph [layout = dot, rankdir = TD, nodesep = 1.2, ranksep = 0.12]\n  \n  node [shape = box,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 1.2,\n        fontsize = 11]\n\n  a [label = \"Literature \n Review\"]\n  b [label = \"Experts \n Survey\"]\n  c [label = \"ICLF \n Database\"]\n  d [label = \"Modelling \n Scenarios\"]\n  e [label = \"ICLF \n Expantion \n Projections\"]\n  f [label = \"Services \n Estimations\"]\n  \n  a -> {b c} b -> c\n  c -> {d e f} d -> e \n  e -> f\n  \n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <section id="integrated-crop-livestock-forest-overview" class="level3">
@@ -158,10 +156,22 @@ div.csl-indent {
 <section id="experts-survey" class="level4">
 <h4 class="anchored" data-anchor-id="experts-survey">Experts survey</h4>
 </section>
+<section id="integrated-crop-livestock-forest-database" class="level4">
+<h4 class="anchored" data-anchor-id="integrated-crop-livestock-forest-database">Integrated crop-livestock-forest database</h4>
 </section>
-<section id="model-projections" class="level3">
-<h3 class="anchored" data-anchor-id="model-projections">Model projections</h3>
+</section>
+<section id="model-framework" class="level3">
+<h3 class="anchored" data-anchor-id="model-framework">Model framework</h3>
+<section id="modelling-scenarios" class="level4">
+<h4 class="anchored" data-anchor-id="modelling-scenarios">Modelling scenarios</h4>
+</section>
+<section id="integrated-crop-livestock-forest-expansion-projections" class="level4">
+<h4 class="anchored" data-anchor-id="integrated-crop-livestock-forest-expansion-projections">Integrated crop-livestock-forest expansion projections</h4>
+</section>
+<section id="services-estimations" class="level4">
+<h4 class="anchored" data-anchor-id="services-estimations">Services estimations</h4>
 <hr>
+</section>
 </section>
 </section>
 <section id="results" class="level1">
