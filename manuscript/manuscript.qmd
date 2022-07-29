@@ -64,7 +64,7 @@ In order to achieve the proposed objective, the work will be divided in four maj
 grViz(
   "digraph {
   
-  graph [layout = dot, rankdir = TD, nodesep = 1.2, ranksep = 0.12]
+  graph [layout = dot, rankdir = TD, nodesep = 1, ranksep = 0.13]
   
   node [shape = box,
         fontname = Helvetica,
@@ -81,15 +81,20 @@ grViz(
   e [label = 'ICLF \n Expantion \n Projections']
   f [label = 'Services \n Estimations']
   
+  g [label = 'Directed \n literature \n analysis']
+  h [label = 'Critical \n reflection']
+  
   a -> {b c} b -> c
   c -> {d e f} d -> e 
   e -> f
+  
+  g -> h
+  f -> h
   
   }"
 )
 
 ```
-
 
 ### Integrated crop-livestock-forest overview
 
@@ -106,6 +111,10 @@ grViz(
 #### Integrated crop-livestock-forest expansion projections
 
 #### Services estimations
+
+### Reflection about the role of integrated crop-livestock-forest systems in the agrarian question
+
+ICLF and the agrarian question, a directed reading towards the construction of a narrative reflection. Environmental (e.g. climate change and biodiversity) and social (e.g. social inequality, food insecurity) contexts.
 
 ------------------------------------------------------------------------
 
