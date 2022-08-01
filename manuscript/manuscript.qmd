@@ -15,7 +15,7 @@ page-layout: article
 editor: visual
 bibliography: references.bib
 link-citations: true
-abstract: "One of the targets in Brazil’s Nationally Determined Contribution (NDC) to the Paris Agreement is the expansion of 5 million hectares of integrated crop-livestock-forestry systems (ICLFS) until 2030. Although there is some notion of the extent where this expansion could occur, there is no systematic accounting on the role of soil carbon to bring this agricultural system to carbon neutrality, or even to be a sink of carbon. In that context, the objective of this research plan is to produce spatially-explicit projections of the expansion of ICLFS predicted in Brazil’s NDC and estimate the carbon balance, the provision of other ecosystem services and financial revenue. This will be done with the use of empirical models built upon published data. The final results of this study will provide information for decision makers, for the implementation of ICLFS across Brazil."
+abstract: "There is a high expectation in the reduction of liquid greenhouse gases in Brazil by the implementation of integrated crop-livestock-forestry systems. The foundation of such expectation relies in the hyphothesis that these systems are capable of storing more above and below ground carbon, in relation to conventional farming systems, due to the presence of trees. However, that are not robust estimates about the pottential of these systems to store carbon in a national scale, and usually point estimates are used to extrapolate carbon sequestration. In order to improve the representation of carbon sequestration by integrated crop-livestock-forestry systems, this project aims to use published data to develop a spatially explicit model to estimate carbon fluxes in Brazil."
 ---
 
 ```{r}
@@ -23,42 +23,37 @@ abstract: "One of the targets in Brazil’s Nationally Determined Contribution (
   library(nomnoml)
 ```
 
----
+------------------------------------------------------------------------
 
 # Introduction
 
-ICLF are nice [@FREITAS2020]
+The implementation of integrated crop-livestock-forestry (ICLF) systems in Brazil are expected to sequester enough carbon to contribute to reduce annual liquid carbon emissions. Despite the expectations, there are not clear estimates of the magnitude of reductions of liquid emissions caused by ICLF expansion. Field studies show contrasting results. @Valani2022 observed a higher organic carbon content in the soil in relation to conventional grazing and other integrated systems. @Bieluczyk2020 field measurements did not show clear differences between extensive grazing and ICLF soil organic matter, with highly temporal heterogeneity in observations. @Silva2018837 found inconsistent differences of soil total organic carbon between pasture and ILPF system due to high heterogeneity of observations along the soil layers, and observed small differences between agriculture and integrated system, in which the agriculture presented higher carbon stocks. @Oliveira2018105 found higher amounts of soil organic carbon of two ICLF systems and continuous pasture areas, there were also observed differences between the two integrated systems.
 
-It is well known that AFOLU (Agriculture, Forestry and Land Use) and BECCS (Bioenergy with Carbon Capture and Storage) sectors are key to slow down the increase of CO 2 concentration in the atmosphere, by reducing emissions and also
-fixing carbon (IPCC 2018). As part of the Paris Agreement, Brazil pledged to stop illegal deforestation and to reforest 12 million of hectares by 2030 to help mitigating global warming, in addition, it also committed to restore 15 million hectares of pasturelands and expand the area of ICLFS to 5 million hectares.
-
----
+------------------------------------------------------------------------
 
 # Objectives
 
-1. What are the management practices that lead to the best com- promise between carbon sequestration and financial revenue for agricultural land under ICLFS?
+1.  What are the management practices that lead to the best com- promise between carbon sequestration and financial revenue for agricultural land under ICLFS?
 
-2. Can indirect land-use and land-cover changes, especially land sparing under expansion of ICLFS, improve the net carbon budget of this agricultural system?
+2.  Can indirect land-use and land-cover changes, especially land sparing under expansion of ICLFS, improve the net carbon budget of this agricultural system?
 
-3. Does the prioritization of the provision of ecosystem services other than carbon storage imply in changes of productivity of ICLFS?
+3.  Does the prioritization of the provision of ecosystem services other than carbon storage imply in changes of productivity of ICLFS?
 
-4. Can further expansion of ICLFS, beyond Brazil’s NDC target, replace the afforestation targets pledged in the scientific literature for the tropics in terms of carbon storage, provision of ecosystem services and economic revenue?
+4.  Can further expansion of ICLFS, beyond Brazil's NDC target, replace the afforestation targets pledged in the scientific literature for the tropics in terms of carbon storage, provision of ecosystem services and economic revenue?
 
----
+------------------------------------------------------------------------
 
 # Materials and Methods
 
-In order to achieve the proposed objective, the work will be divided in four major
-parts:
+In order to achieve the proposed objective, the work will be divided in four major parts:
 
-1. ICLFS management scenario elaboration;
+1.  ICLFS management scenario elaboration;
 
-2. Adaptation and application of the modeling framework to ICLFS;
+2.  Adaptation and application of the modeling framework to ICLFS;
 
-3. Estimate the carbon balance, ecosystem services, and economic evaluation
-based on outputs from modeling framework;
+3.  Estimate the carbon balance, ecosystem services, and economic evaluation based on outputs from modeling framework;
 
-4. Results consolidation and analysis;
+4.  Results consolidation and analysis;
 
 ```{nomnoml}
 #| echo: false
@@ -71,7 +66,6 @@ based on outputs from modeling framework;
 
 ```
 
-
 ### Integrated crop-livestock-forest overview
 
 #### Literature review
@@ -80,19 +74,19 @@ based on outputs from modeling framework;
 
 ### Model projections
 
----
+------------------------------------------------------------------------
 
 # Results
 
----
+------------------------------------------------------------------------
 
 # Discussion
 
----
+------------------------------------------------------------------------
 
 # Conclusions
 
----
+------------------------------------------------------------------------
 
 # Supporting Information
 
