@@ -3,16 +3,12 @@
 
 ## Using land-use change projections of integrated crop-livestock-forestry systems expansion in Brazil within the context of the Paris Agreement
 
-One of the targets in Brazil’s Nationally Determined Contribution (NDC) to the
-Paris Agreement is the expansion of 5 million hectares of integrated crop-livestock-
-forestry systems (ICLFS) until 2030. Although there is some notion of the extent
-where this expansion could occur, there is no systematic accounting on the role of
-soil carbon to bring this agricultural system to carbon neutrality, or even to be a
-sink of carbon. In that context, the objective of this research plan is to produce
-spatially-explicit projections of the expansion of ICLFS predicted in Brazil’s NDC
-and estimate the carbon balance, the provision of other ecosystem services and
-financial revenue. This will be done with the use of ad-hoc scenarios applied to land-
-use modeling framework, comprised of a land-use change and a crop-productivity
-and carbon-storage model. The final results of this study will provide information
-for decision makers, for the implementation of ICLFS across Brazil.
+There is a high expectation in the reduction of liquid greenhouse gases in Brazil by the implementation of integrated crop-livestock-forestry systems. The foundation of such expectation relies in the hypothesis that these systems are capable of storing more above and below ground carbon, in relation to conventional farming systems, due to the presence of trees. However, that are not robust estimates about the potential of these systems to store carbon in a national scale, and usually point estimates are used to extrapolate carbon sequestration. In order to improve the representation of carbon sequestration by integrated crop-livestock-forestry systems, this project aims to use published data to develop a spatially explicit model to estimate carbon fluxes in Brazil.
 
+## License
+
+### Code
+The code in this repository, including all code samples in the notebooks, is released under the [GPL-3.0 license](LICENSE-CODE). Read more at the [GNU Operating System](https://www.gnu.org/licenses/gpl-3.0.html).
+
+### Text
+The text content of this repository, including .qmd and html file, is released under the [CC BY-NC-ND 4.0 license](LICENSE-TEXT). Read more at [Creative Commons](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).
