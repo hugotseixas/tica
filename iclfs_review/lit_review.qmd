@@ -4,16 +4,42 @@ author: "Hugo Tameirão Seixas"
 format: 
   html:
     page-layout: article
-editor: visual
+    toc: true
+    toc-depth: 2
+number-sections: true
 ---
 
 ## Title and Abstract
+
+### Identify the review as a systematic review, meta-analysis, or both
+
+This is a systematic review
+
+### Summarise the aims and scope of the review
+
+The main objective of this review is to synthesize data concerning ICLF in different aspects, creating an overview of the main characteristics of the ICLF being researched in Brazil. I will analyse variables such as above and below ground productivity of the tree, pasture and crop components; livestock productivity; system management characteristics; soil attributes; GHG emissions. I will evaluate national and international research conducted inside the Brazilian territory.
+
+### Describe the data set
+
+The data set will be composed by a collection of relational tables, each table will describe a characteristic of the ICLF in Brazil.
+
+### State the results of the primary outcome
+
+### State conclusions
+
+### State limitations
 
 ## Aims and questions
 
 ### Provide a rationale for the review
 
+The review will be performed over any research that analysed any aspect of the ICLF in Brazil. Therefore this is a very general approach, which is feasible due to the limited amount of research in this topic. Only documents which are not explicitly about ICLF will be removed from the review.
+
+I will extract data of a diverse number of variables, which will allow me to create an overview of the characteristics of the ICLF systems being analysed in Brazil.
+
 ### Reference any previous reviews or meta-analyses on the topic
+
+I have not yet identified any systematic review about ICLF in Brazil.
 
 ### State the aims and scope of the review (including its generality)
 
