@@ -12,3 +12,6 @@ The code in this repository, including all code samples in the notebooks, is rel
 
 ### Text
 The text content of this repository, including .qmd and html file, is released under the [CC BY-NC-ND 4.0 license](LICENSE-TEXT). Read more at [Creative Commons](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).
+
+### Data 
+The data content of this repository, including .csv spreadsheets, html tables and other tabular formats, is released under the CC BY-NC-ND 4.0 license](LICENSE-TEXT). Read more at [Creative Commons](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).
