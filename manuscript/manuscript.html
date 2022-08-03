@@ -49,11 +49,9 @@ div.csl-indent {
 <link href="manuscript_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="manuscript_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script src="manuscript_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="manuscript_files/libs/es6shim-0.35.6/es6shim.js"></script>
-<script src="manuscript_files/libs/es7shim-6.0.0/es7shim.js"></script>
-<script src="manuscript_files/libs/graphre-0.1.3/graphre.js"></script>
-<script src="manuscript_files/libs/nomnoml-1.4.0/nomnoml.js"></script>
-<script src="manuscript_files/libs/nomnoml-binding-0.2.5/nomnoml.js"></script>
+<script src="manuscript_files/libs/viz-1.8.2/viz.js"></script>
+<link href="manuscript_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+<script src="manuscript_files/libs/grViz-binding-1.0.9/grViz.js"></script>
 
 
 </head>
@@ -72,6 +70,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#integrated-crop-livestock-forest-overview" id="toc-integrated-crop-livestock-forest-overview" class="nav-link" data-scroll-target="#integrated-crop-livestock-forest-overview">Integrated crop-livestock-forest overview</a></li>
   <li><a href="#model-projections" id="toc-model-projections" class="nav-link" data-scroll-target="#model-projections">Model projections</a></li>
+  <li><a href="#critical-analysis" id="toc-critical-analysis" class="nav-link" data-scroll-target="#critical-analysis">Critical analysis</a></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
@@ -112,7 +111,7 @@ div.csl-indent {
 <div>
   <div class="abstract">
     <div class="abstract-title">Abstract</div>
-    There is a high expectation in the reduction of liquid greenhouse gases in Brazil by the implementation of integrated crop-livestock-forestry systems. The foundation of such expectation relies in the hyphothesis that these systems are capable of storing more above and below ground carbon, in relation to conventional farming systems, due to the presence of trees. However, that are not robust estimates about the pottential of these systems to store carbon in a national scale, and usually point estimates are used to extrapolate carbon sequestration. In order to improve the representation of carbon sequestration by integrated crop-livestock-forestry systems, this project aims to use published data to develop a spatially explicit model to estimate carbon fluxes in Brazil.
+    There is a high expectation in the reduction of liquid greenhouse gases in Brazil by the implementation of integrated crop-livestock-forestry systems. The foundation of such expectation relies in the hypothesis that these systems are capable of storing more above and below ground carbon, in relation to conventional farming systems, due to the presence of trees. However, that are not robust estimates about the potential of these systems to store carbon in a national scale, and usually point estimates are used to extrapolate carbon sequestration. In order to improve the representation of carbon sequestration by integrated crop-livestock-forestry systems, this project aims to use published data to develop a spatially explicit model to estimate carbon fluxes in Brazil.
   </div>
 </div>
 
@@ -127,27 +126,36 @@ div.csl-indent {
 </section>
 <section id="objectives" class="level1">
 <h1>Objectives</h1>
+<p>The present work is composed by three main objectives, accompanied by parallel related questions:</p>
 <ol type="1">
-<li><p>What are the management practices that lead to the best com- promise between carbon sequestration and financial revenue for agricultural land under ICLFS?</p></li>
-<li><p>Can indirect land-use and land-cover changes, especially land sparing under expansion of ICLFS, improve the net carbon budget of this agricultural system?</p></li>
-<li><p>Does the prioritization of the provision of ecosystem services other than carbon storage imply in changes of productivity of ICLFS?</p></li>
-<li><p>Can further expansion of ICLFS, beyond Brazil’s NDC target, replace the afforestation targets pledged in the scientific literature for the tropics in terms of carbon storage, provision of ecosystem services and economic revenue?</p></li>
+<li><p>Develop an overview about the ICLF experiments characteristics being conducted in Brazil;</p>
+<p>1.1. What is the productivity of each component of ICLF systems of different characteristics?</p>
+<p>1.2. What are the effects of ICLF systems over soils characteristcs?</p>
+<p>1.3. What are the management characteristics of ICLF systems?</p>
+<p>1.4. WHat is the economical revenue of ICLF systems?</p>
+<p>1.5. What is the pottential expansion of ICLF systems in Brazil?</p></li>
+<li><p>Estimate the potential of ICLF systems to remove carbon from the atmosphere by 2030 and 2050;</p>
+<p>2.1. What are the ICLF system management characteristics that provide the best balance between carbon removal, productivity and financial revenue?</p>
+<p>2.2. What are the main factors that influence the carbon removal in the modelling framework?</p>
+<p>2.3. What is the pottential of the expansion of ICLF systems in the emissions reduction pledges made by Brazil?</p></li>
+<li><p>Evaluate the feasibility of the implementation of ICLF as a mean to reduce emissions, in relation to different perspectives of solutions to avoid climatic catastrophe;</p>
+<p>3.1. Does the expansionof ICLF systems taking into account equity and possible social impacts, as a public policy?</p>
+<p>3.2. The actual strategies to promote the adoption of ICLF systems are being effective?</p></li>
 </ol>
 <hr>
 </section>
 <section id="materials-and-methods" class="level1">
 <h1>Materials and Methods</h1>
-<p>In order to achieve the proposed objective, the work will be divided in four major parts:</p>
+<p>In order to achieve the proposed objective, the work will be divided in three major parts:</p>
 <ol type="1">
-<li><p>ICLFS management scenario elaboration;</p></li>
-<li><p>Adaptation and application of the modeling framework to ICLFS;</p></li>
-<li><p>Estimate the carbon balance, ecosystem services, and economic evaluation based on outputs from modeling framework;</p></li>
-<li><p>Results consolidation and analysis;</p></li>
+<li><p>Overview of ICLF characteristics in Brazil;</p></li>
+<li><p>Future projections and estimates of benefits generated by ICLF systems adoption;</p></li>
+<li><p>Critical analysis of ICLF as a public policy to curb climate change;</p></li>
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-414f09a3d44a42fe1e8e" style="width:100%;height:464px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-414f09a3d44a42fe1e8e">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n# direction: down\n# .box: dashed\n[Start]-[Finish!]\n[Finish!]-[<box>blablablablabla\n           lablablablablablabla]\n","svg":false,"png":null},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-62855308264e75c7ae2b" style="width:100%;height:464px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-62855308264e75c7ae2b">{"x":{"diagram":"digraph {\n  \n  graph [layout = dot, rankdir = TD, nodesep = 0.9, ranksep = 0.3]\n  \n  node [shape = box,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 1.5,\n        width = 1.5,\n        fontsize = 12]\n\n  edge [penwidth = 1.5]\n\n  a [label = \"Systematic \n Review\", xlabel = \"1\"]\n  b [label = \"Experts Survey\", xlabel = \"1\"]\n  c [label = \"ICLF overview \n data set\", xlabel = \"1\"]\n  d [label = \"Projections \n Scenarios\", xlabel = \"2\"]\n  e [label = \"LULC \n Projections\", xlabel = \"2\"]\n  f [label = \"Benefits \n Estimations\", xlabel = \"2\"]\n  g [label = \"Targeted \n Review\", xlabel = \"3\"]\n  h [label = \"Narrative \n Discussion\", xlabel = \"3\"]\n  \n  a -> c b -> c\n  c -> d d -> e\n  e -> f c -> f\n  f -> h g -> h\n  \n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <section id="integrated-crop-livestock-forest-overview" class="level3">
@@ -161,6 +169,30 @@ div.csl-indent {
 </section>
 <section id="model-projections" class="level3">
 <h3 class="anchored" data-anchor-id="model-projections">Model projections</h3>
+<section id="projections-scenarios" class="level4">
+<h4 class="anchored" data-anchor-id="projections-scenarios">Projections scenarios</h4>
+</section>
+<section id="lulc-projections" class="level4">
+<h4 class="anchored" data-anchor-id="lulc-projections">LULC projections</h4>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-18b5eb76b2a14a8ad587" style="width:100%;height:464px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-18b5eb76b2a14a8ad587">{"x":{"diagram":"digraph {\n  \n  graph [layout = dot, rankdir = LR, nodesep = 0.9, ranksep = 0.3]\n  \n  edge [penwidth = 1.5]\n  \n  node [shape = box,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 1.5,\n        width = 1.9,\n        fontsize = 12]\n        \n  a [label = \"Degraded \n Pastures\"]\n  b [label = \"System \n Management\"]\n  c [label = \"LULC Scenarios\"]\n  d [label = \"LULC/Management \n Time Series\"]\n  \n    node [shape = ellipse,\n        fontname = Helvetica,\n        style = dashed,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 1.5,\n        width = 1.5,\n        fontsize = 12]\n        \n  1 [label = \"LULC Model\"]\n  \n  a -> 1 b -> 1 c -> 1 1 -> d\n  \n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="benefits-estimations" class="level4">
+<h4 class="anchored" data-anchor-id="benefits-estimations">Benefits estimations</h4>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-b770fee34ff354701197" style="width:100%;height:464px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b770fee34ff354701197">{"x":{"diagram":"digraph {\n  \n  graph [layout = dot, rankdir = LR, nodesep = 0.9, ranksep = 0.3]\n  \n  edge [penwidth = 1.5]\n  \n  node [shape = box,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 1.5,\n        width = 1.9,\n        fontsize = 12]\n        \n  a [label = \"LULC/Management \n Time Series\"]\n  b [label = \"Temperature\"]\n  c [label = \"Precipitation\"]\n  d [label = \"Potential \n Evapotranspiration\"]\n  e [label = \"Soil Texture\"]\n  h [label = \"Productivity\"]\n  i [label = \"Litter\"]\n  j [label = \"Decomposition Rates\"]\n  \n  node [shape = ellipse,\n        fontname = Helvetica,\n        style = dashed,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 1.5,\n        width = 2,\n        fontsize = 12]\n        \n  1 [label = \"Productivity Model\"]\n  2 [label = \"Soil Carbon Model\"]\n  3 [label = \"Economic Model\"]\n  \n  a -> 1 a -> 2 a -> 3\n  \n  b -> 1 c -> 1 d -> 1 e -> 1\n  1 -> h 1 -> i\n  \n  b -> 2 c -> 2 d -> 2 e -> 2 j -> 2 i -> 2\n  \n  h -> 3\n  \n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="critical-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="critical-analysis">Critical analysis</h3>
 <hr>
 </section>
 </section>
