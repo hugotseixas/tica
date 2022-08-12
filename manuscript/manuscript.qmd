@@ -23,6 +23,7 @@ license: CC BY-NC-ND 4.0
 #| include: false
 
 library(DiagrammeR)
+
 ```
 
 ------------------------------------------------------------------------
@@ -39,29 +40,31 @@ Unfortunately, estimates of carbon sequestration by ICLF at larger scales usuall
 
 The present work is composed by three main objectives, accompanied by parallel related questions: 
 
-1. Develop an overview about the ICLF experiments characteristics being conducted in Brazil;   
+1. Identify ICLF systems characteristics and dynamics in Brazil;   
+    
+    1.1. What are the management characteristics of ICLF systems?
+    
+    1.2. What are the compositions of each component of ICLF systems?
+    
+    1.3. What is the productivity of each component of ICLF systems? 
+    
+    1.4 What are the effects of ICLF system over soil properties?
+    
+    1.5. What is the economical revenue of ICLF systems?
+    
+    1.6. What is the potential expansion of ICLF systems in Brazil?
 
-    1.1. What is the productivity of each component of ICLF systems of different characteristics?
-    
-    1.2. What are the effects of ICLF systems over soils characteristcs?
-    
-    1.3. What are the management characteristics of ICLF systems?
-    
-    1.4. What is the economical revenue of ICLF systems?
-    
-    1.5. What is the pottential expansion of ICLF systems in Brazil?
-
-2. Estimate the potential of ICLF systems to remove carbon from the atmosphere by 2030 and 2050;
+2. Estimate the potential of ICLF systems to provide benefits, in the context of climate change;
 
     2.1. What are the ICLF system management characteristics that provide the best balance between carbon removal, productivity and financial revenue?
     
     2.2. What are the main factors that influence the carbon removal in the modelling framework?
 
-    2.3. What is the pottential of the expansion of ICLF systems in the emissions reduction pledges made by Brazil?
+    2.3. What is the pottential of the expansion of ICLF systems over the emissions reduction pledges made by Brazil?
 
-3.  Evaluate the feasibility of the implementation of ICLF as a mean to reduce emissions, in relation to different perspectives of solutions to avoid climatic catastrophe;
+3.  Evaluate the implementation of ICLF as a mean to curb and mitigate climate change, in relation to different perspectives of solutions to avoid climatic catastrophe;
 
-    3.1. Does the expansionof ICLF systems taking into account equity and possible social impacts, as a public policy?
+    3.1. Does the expansion of ICLF systems taking into account equity and possible social impacts, as a public policy?
     
     3.2. The actual strategies to promote the adoption of ICLF systems are being effective?
 
