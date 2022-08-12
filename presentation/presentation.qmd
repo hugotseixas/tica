@@ -1,0 +1,241 @@
+---
+title: "Integrated farming and global warming mitigation in Brazil"
+author: "Hugo Tameirão Seixas"
+url: https://hugotseixas.com/
+institute: UNICAMP
+date: 18/08/2022
+format: 
+  revealjs:
+    transition: fade
+    theme: [default, custom.scss]
+    reference-location: document
+---
+
+```{r}
+#| include: false
+
+library(DiagrammeR)
+
+```
+
+## Why?
+
+::: {.sectionhead .absolute top="0" left="90%"}
+1 [2 3]{style="opacity:0.25"}
+:::
+
+<br>
+<br>
+
+::: {.incremental}
+
+To know the potential of Integrated Livestock-Crop-Forestry (ICLF) systems in Brazil
+
+: Reduce national greenhouse gases liquid emissions?
+
+: Increase overall productivity?
+
+: Improve farm revenue?
+
+: Lead agriculture towards sustainability?
+
+:::
+
+## How?
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+<br>
+[<br>]{.mbr}
+[<br>]{.mbr}
+
+::: {.incremental}
+
+1. Identify ICLF systems characteristics and dynamics in Brazil
+
+2. Estimate the potential of ICLF systems to provide benefits, in the context of climate change
+
+3. Evaluate the implementation of ICLF as a mean to curb and mitigate climate change, in relation to different perspectives of solutions
+
+:::
+
+---
+
+### ICLF characterization
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+<br>
+<br>
+[<br>]{.mbr}
+
+Systematic review and meta-analysis:
+: Documents from Scopus and Embrapa
+: Extraction of experiments data
+
+[<br>]{.mbr}
+
+Experts survey:
+: Online questionnaire
+: Fill gaps from literature
+
+---
+
+### ICLF characterization
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+<br>
+[<br>]{.mbr}
+
+
+- Management characteristics of ICLF systems
+    
+- Compositions of each component of ICLF systems
+    
+- Production of each component of ICLF systems
+    
+- Effects of ICLF system over soil properties
+    
+- Economical revenue of ICLF systems
+    
+- Potential expansion of ICLF systems in Brazil
+
+---
+
+### Model projections
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+[<br>]{.mbr}
+[<br>]{.mbr}
+
+::: {.customlist}
+
+Projection scenarios:
+: ICLF expansion trajectory
+: ICLF management
+
+[<br>]{.mbr}
+
+LULC projections:
+: Random process
+: Not spatial
+
+[<br>]{.mbr}
+
+Benefits estimations:
+: Based on empirical and mechanistic processes
+: Uses deterministic and probabilistic factors
+
+:::
+
+---
+
+### Model projections
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+<br>
+<br>
+<br>
+
+- Accumulated carbon emission and removal
+    
+- Food and fiber productivity
+    
+- Total revenue
+
+---
+
+### Critial analysis
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+<br>
+<br>
+[<br>]{.mbr}
+
+Targeted review:
+: Books and institutional documents
+: Media news
+
+[<br>]{.mbr}
+
+Results from data:
+: Contextualized numbers
+: Expectations for the future
+
+---
+
+### Overview
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+[<br>]{.mbr}
+
+```{r}
+#| echo: false
+
+grViz(height = 600,
+  "digraph {
+  
+  graph [layout = dot,
+         rankdir = TD, 
+         nodesep = 4, 
+         ranksep = 0.4,
+         tooltip = ' ']
+  
+  node [shape = box,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+
+  edge [penwidth = 2.5, 
+        arrowsize = 2,
+        tooltip = ' ']
+
+  a [label = 'Systematic \n Review']
+  b [label = 'Experts Survey']
+  c [label = 'ICLF overview \n data set']
+  d [label = 'Projections \n Scenarios']
+  e [label = 'LULC \n Projections']
+  f [label = 'Benefits \n Estimations']
+  g [label = 'Targeted \n Review']
+  h [label = 'Narrative \n Discussion']
+  
+  a -> c b -> c
+  c -> d d -> e
+  e -> f c -> f
+  f -> h g -> h
+  
+  }"
+)
+
+```
+
+## What?
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1 2]{style="opacity:0.25"} 3
+:::

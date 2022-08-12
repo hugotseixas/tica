@@ -1,0 +1,22 @@
+/*-- scss:defaults --*/
+
+$link-color: #8c8c8c;
+
+/*-- scss:rules --*/
+
+.sectionhead {
+  font-size: 1.1em;
+  text-align: center;
+  font-family: $presentation-heading-font;
+  margin: 1px;
+  padding: 2px 2px 2px 2px;
+  width: 120px;
+  border-left: 10px solid;
+}
+
+.mbr {
+  content: "";
+  margin: 2em;
+  display: block;
+  font-size: 15%;
+}
