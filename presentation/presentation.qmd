@@ -1,11 +1,13 @@
 ---
 title: "Integrated farming and global warming mitigation in Brazil"
-author: "Hugo Tameirão Seixas"
-url: https://hugotseixas.com/
+author: 
+  name: "[Hugo Tameirão Seixas](https://hugotseixas.com/)"
+  url: https://hugotseixas.com/
 institute: UNICAMP
 date: 18/08/2022
 format: 
   revealjs:
+    footer: "[github.com/hugotseixas/iclfs-brazil](https://github.com/hugotseixas/iclfs-brazil)"
     transition: fade
     theme: [default, custom.scss]
     reference-location: document
@@ -180,6 +182,24 @@ Results from data:
 
 ---
 
+### Critial analysis
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+<br>
+<br>
+<br>
+
+- Social impacts of the expansion of ICLF
+    
+- Relation with other solutions to curb climate change
+    
+- Long term consistence
+
+---
+
 ### Overview
 
 ::: {.sectionhead .absolute top="0" left="90%"}
@@ -239,3 +259,75 @@ grViz(height = 600,
 ::: {.sectionhead .absolute top="0" left="90%"}
 [1 2]{style="opacity:0.25"} 3
 :::
+
+<br>
+<br>
+
+- A database with data from ICLF experiments
+
+- A model for quantifying benefits provided by ICLF systems
+
+- Data set with future projections regarding the expansion of ICLF
+
+- Qualitative assessment of the ICLF as public policy
+
+---
+
+### Expected results
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1 2]{style="opacity:0.25"} 3
+:::
+
+<br>
+<br>
+<br>
+
+- Broad view of potential outcomes from the expansion of ICLF
+
+- Quantitative and qualitative characterization of ICLF systems in Brazil
+
+- Advance in methods to evaluate agricultural systems
+
+---
+
+### Principles
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1 2]{style="opacity:0.25"} 3
+:::
+
+[<br>]{.mbr}
+
+Reproducibility
+  : Code version control  
+  : Detailed methods description
+  : Data management plan
+    
+[<br>]{.mbr}
+    
+Transparency
+  : Code, data and documents freely accessible (with license)
+
+[<br>]{.mbr}
+   
+Accessibility
+  : Accessible document formats
+  : Data visualization
+  : Simple language
+
+---
+
+<br>
+<br>
+<br>
+
+lab: <https://labterra.cpa.unicamp.br/>
+
+<br>
+
+website: <https://hugotseixas.com/>
+
+<br>
+
+email: <seixas.hugo@protonmail.com>
