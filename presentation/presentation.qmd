@@ -1,10 +1,11 @@
 ---
 title: "Integrated farming and global warming mitigation in Brazil"
 author: 
-  name: "[Hugo Tameirão Seixas](https://hugotseixas.com/)"
-  url: https://hugotseixas.com/
+  - name: Hugo Tameirão Seixas
+    url: https://hugotseixas.com/
+    email: https://hugotseixas.com/
+  - name: David Montenegro Lapola
 institute: UNICAMP
-date: 18/08/2022
 format: 
   revealjs:
     footer: "[github.com/hugotseixas/iclfs-brazil](https://github.com/hugotseixas/iclfs-brazil)"
@@ -318,7 +319,8 @@ Accessibility
 
 ---
 
-<br>
+## Links
+
 <br>
 <br>
 
