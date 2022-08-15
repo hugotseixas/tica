@@ -161,6 +161,222 @@ Benefits estimations:
 
 ---
 
+### Model projections
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+[<br>]{.mbr}
+
+#### Projection scenarios:
+
+<br>
+
+```{r}
+#| echo: false
+
+grViz(height = 300,
+  "digraph {
+  
+  graph [layout = dot,
+         rankdir = TD, 
+         nodesep = 2, 
+         ranksep = 0.4,
+         tooltip = ' ']
+  
+  node [shape = box,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+
+  edge [penwidth = 2.5, 
+        arrowsize = 2,
+        tooltip = ' ']
+
+  a [label = 'Region']
+  b [label = 'Species']
+  c [label = 'Population']
+  d [label = 'Cycle Length']
+  e [label = 'Management \n Practices']
+  
+  a -> b b -> c
+  b -> d b -> e
+  
+  }"
+)
+
+```
+
+<br>
+
+- Rates of ICLF expansion for each year
+
+---
+
+### Model projections
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+[<br>]{.mbr}
+
+#### LULC projections:
+
+[<br>]{.mbr}
+
+```{r}
+#| echo: false
+
+grViz(height = 400,
+  "digraph {
+  
+  graph [layout = dot,
+         rankdir = LR, 
+         nodesep = 1.2, 
+         ranksep = 0.5,
+         tooltip = ' ']
+  
+  node [shape = box,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+
+  edge [penwidth = 2.5, 
+        arrowsize = 2,
+        tooltip = ' ']
+
+  a [label = 'Pasture']
+  b [label = 'Transition \n (ICL)']
+  c [label = 'ICLF']
+  
+    node [shape = oval,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+        
+  e [label = 'Random Variables']
+  f [label = 'Expansion \n Scenario']
+  
+      node [shape = diamond,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+        
+  d [label = 'Random \n Selection']
+  
+  a -> d b -> c c -> b 
+  d -> b e -> b e -> c
+  f -> d
+  
+  }"
+)
+
+```
+
+- Each expansion scenario will be repeated 100 times
+
+---
+
+### Model projections
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+[<br>]{.mbr}
+
+#### Benefits estimations:
+
+[<br>]{.mbr}
+
+```{r}
+#| echo: false
+
+grViz(height = 500,
+  "digraph {
+  
+  graph [layout = dot,
+         rankdir = TD, 
+         nodesep = 1.2, 
+         ranksep = 0.5,
+         tooltip = ' ']
+  
+  node [shape = box,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+
+  edge [penwidth = 2.5, 
+        arrowsize = 2,
+        tooltip = ' ']
+
+  a [label = 'Biomass']
+  b [label = 'Soil Carbon \n (Century)']
+  c [label = 'Productivity']
+  d [label = 'Revenue']
+  
+    node [shape = oval,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+        
+  e [label = 'Population']      
+  f [label = 'Climate']
+  g [label = 'Species']
+  h [label = 'Management \n Practices']
+  
+  a -> b a -> c c -> d 
+
+  e -> a e -> c
+  f -> a f -> b f -> c
+  g -> a g ->b g -> c
+  h -> d
+  
+  }"
+)
+
+```
+
+---
+
 ### Critial analysis
 
 ::: {.sectionhead .absolute top="0" left="90%"}

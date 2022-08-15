@@ -465,6 +465,61 @@ Uses deterministic and probabilistic factors
 </section>
 <section class="slide level2">
 
+<h3 id="model-projections-2">Model projections</h3>
+<div class="sectionhead absolute" style="top: 0px; left: 90%; ">
+<p><span style="opacity:0.25">1</span> 2 <span style="opacity:0.25">3</span></p>
+</div>
+<p><span class="mbr"><br></span></p>
+<h4 id="projection-scenarios">Projection scenarios:</h4>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-29e1b5046dd08e283622" style="width:960px;height:300px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-29e1b5046dd08e283622">{"x":{"diagram":"digraph {\n  \n  graph [layout = dot,\n         rankdir = TD, \n         nodesep = 2, \n         ranksep = 0.4,\n         tooltip = \" \"]\n  \n  node [shape = box,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 2.5,\n        width = 3,\n        height = 1.2,\n        fontsize = 25,\n        tooltip = \" \"]\n\n  edge [penwidth = 2.5, \n        arrowsize = 2,\n        tooltip = \" \"]\n\n  a [label = \"Region\"]\n  b [label = \"Species\"]\n  c [label = \"Population\"]\n  d [label = \"Cycle Length\"]\n  e [label = \"Management \n Practices\"]\n  \n  a -> b b -> c\n  b -> d b -> e\n  \n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><br></p>
+<ul>
+<li>Rates of ICLF expansion for each year</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 id="model-projections-3">Model projections</h3>
+<div class="sectionhead absolute" style="top: 0px; left: 90%; ">
+<p><span style="opacity:0.25">1</span> 2 <span style="opacity:0.25">3</span></p>
+</div>
+<p><span class="mbr"><br></span></p>
+<h4 id="lulc-projections">LULC projections:</h4>
+<p><span class="mbr"><br></span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-911e49bf461b2d39d5c7" style="width:960px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-911e49bf461b2d39d5c7">{"x":{"diagram":"digraph {\n  \n  graph [layout = dot,\n         rankdir = LR, \n         nodesep = 1.2, \n         ranksep = 0.5,\n         tooltip = \" \"]\n  \n  node [shape = box,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 2.5,\n        width = 3,\n        height = 1.2,\n        fontsize = 25,\n        tooltip = \" \"]\n\n  edge [penwidth = 2.5, \n        arrowsize = 2,\n        tooltip = \" \"]\n\n  a [label = \"Pasture\"]\n  b [label = \"Transition \n (ICL)\"]\n  c [label = \"ICLF\"]\n  \n    node [shape = oval,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 2.5,\n        width = 3,\n        height = 1.2,\n        fontsize = 25,\n        tooltip = \" \"]\n        \n  e [label = \"Random Variables\"]\n  f [label = \"Expansion \n Scenario\"]\n  \n      node [shape = diamond,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 2.5,\n        width = 3,\n        height = 1.2,\n        fontsize = 25,\n        tooltip = \" \"]\n        \n  d [label = \"Random \n Selection\"]\n  \n  a -> d b -> c c -> b \n  d -> b e -> b e -> c\n  f -> d\n  \n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<ul>
+<li>Each expansion scenario will be repeated 100 times</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 id="model-projections-4">Model projections</h3>
+<div class="sectionhead absolute" style="top: 0px; left: 90%; ">
+<p><span style="opacity:0.25">1</span> 2 <span style="opacity:0.25">3</span></p>
+</div>
+<p><span class="mbr"><br></span></p>
+<h4 id="benefits-estimations">Benefits estimations:</h4>
+<p><span class="mbr"><br></span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-07ac5610c3aea31ebb6b" style="width:960px;height:500px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-07ac5610c3aea31ebb6b">{"x":{"diagram":"digraph {\n  \n  graph [layout = dot,\n         rankdir = TD, \n         nodesep = 1.2, \n         ranksep = 0.5,\n         tooltip = \" \"]\n  \n  node [shape = box,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 2.5,\n        width = 3,\n        height = 1.2,\n        fontsize = 25,\n        tooltip = \" \"]\n\n  edge [penwidth = 2.5, \n        arrowsize = 2,\n        tooltip = \" \"]\n\n  a [label = \"Biomass\"]\n  b [label = \"Soil Carbon \n (Century)\"]\n  c [label = \"Productivity\"]\n  d [label = \"Revenue\"]\n  \n    node [shape = oval,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 2.5,\n        width = 3,\n        height = 1.2,\n        fontsize = 25,\n        tooltip = \" \"]\n        \n  e [label = \"Population\"]      \n  f [label = \"Climate\"]\n  g [label = \"Species\"]\n  h [label = \"Management \n Practices\"]\n  \n  a -> b a -> c c -> d \n\n  e -> a e -> c\n  f -> a f -> b f -> c\n  g -> a g ->b g -> c\n  h -> d\n  \n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
 <h3 id="critial-analysis">Critial analysis</h3>
 <div class="sectionhead absolute" style="top: 0px; left: 90%; ">
 <p><span style="opacity:0.25">1</span> 2 <span style="opacity:0.25">3</span></p>
@@ -512,8 +567,8 @@ Expectations for the future
 <p><span class="mbr"><br></span></p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-11b04e6bc5868b37dede" style="width:960px;height:600px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-11b04e6bc5868b37dede">{"x":{"diagram":"digraph {\n  \n  graph [layout = dot,\n         rankdir = TD, \n         nodesep = 4, \n         ranksep = 0.4,\n         tooltip = \" \"]\n  \n  node [shape = box,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 2.5,\n        width = 3,\n        height = 1.2,\n        fontsize = 25,\n        tooltip = \" \"]\n\n  edge [penwidth = 2.5, \n        arrowsize = 2,\n        tooltip = \" \"]\n\n  a [label = \"Systematic \n Review\"]\n  b [label = \"Experts Survey\"]\n  c [label = \"ICLF overview \n data set\"]\n  d [label = \"Projections \n Scenarios\"]\n  e [label = \"LULC \n Projections\"]\n  f [label = \"Benefits \n Estimations\"]\n  g [label = \"Targeted \n Review\"]\n  h [label = \"Narrative \n Discussion\"]\n  \n  a -> c b -> c\n  c -> d d -> e\n  e -> f c -> f\n  f -> h g -> h\n  \n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-bfb03eeff1c864dbf842" style="width:960px;height:600px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bfb03eeff1c864dbf842">{"x":{"diagram":"digraph {\n  \n  graph [layout = dot,\n         rankdir = TD, \n         nodesep = 4, \n         ranksep = 0.4,\n         tooltip = \" \"]\n  \n  node [shape = box,\n        fontname = Helvetica,\n        style = filled,\n        fontcolor = \"#343a40\"\n        fillcolor = \"#f7f7f9\"\n        penwidth = 2.5,\n        width = 3,\n        height = 1.2,\n        fontsize = 25,\n        tooltip = \" \"]\n\n  edge [penwidth = 2.5, \n        arrowsize = 2,\n        tooltip = \" \"]\n\n  a [label = \"Systematic \n Review\"]\n  b [label = \"Experts Survey\"]\n  c [label = \"ICLF overview \n data set\"]\n  d [label = \"Projections \n Scenarios\"]\n  e [label = \"LULC \n Projections\"]\n  f [label = \"Benefits \n Estimations\"]\n  g [label = \"Targeted \n Review\"]\n  h [label = \"Narrative \n Discussion\"]\n  \n  a -> c b -> c\n  c -> d d -> e\n  e -> f c -> f\n  f -> h g -> h\n  \n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
