@@ -18,6 +18,14 @@ format:
 #| include: false
 
 library(DiagrammeR)
+library(terra)
+library(sf)
+library(geobr)
+library(mapsf)
+
+degraded_pasture <- rast("../iclfs_projections/base_grid_pasture.tif")*1000
+
+brazil <- read_state()
 
 ```
 
@@ -300,6 +308,31 @@ grViz(height = 400,
 ```
 
 - Each expansion scenario will be repeated 100 times
+
+---
+
+### Model projections
+
+::: {.sectionhead .absolute top="0" left="90%"}
+[1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
+:::
+
+[<br>]{.mbr}
+
+#### LULC projections:
+
+```{r}
+#| echo: false
+#| fig-cap: Degraded pastures covers a total area of 81 million hectares.
+
+plot(
+  degraded_pasture / cellSize(degraded_pasture) * 100,
+  axes = FALSE,
+  col = cartography::carto.pal("orange.pal", n1 = 20)
+)
+plot(st_geometry(brazil), add = TRUE)
+
+```
 
 ---
 
