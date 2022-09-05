@@ -108,7 +108,7 @@ lulc <- as_tibble(as.data.frame(r, na.rm = FALSE, cells = TRUE)) %>%
   rename(area = pasture_quality_2020) %>%
   mutate(
     year = 2020,
-    cover = 1,
+    system = 1,
     cycle_lenght = NA_real_,
     cycle_end = NA_real_,
     transition = NA_real_,
@@ -131,7 +131,7 @@ for (y in 2021:2100) {
   sample_pool <- lulc %>%
     filter(
       year == y - 1,
-      cover == 1
+      system == 1
     )
 
   sample <- sample_pool %>%
@@ -159,7 +159,7 @@ for (y in 2021:2100) {
     filter(year == y - 1) %>%
     mutate(
       year = y,
-      new_cover = sample_system,
+      new_system = sample_system,
       new_cycle = sample_cycle,
       new_transition = sample_transition,
       new_transition_length = sample_transition_length,
@@ -168,7 +168,7 @@ for (y in 2021:2100) {
       new_transition_management = sample_transition_management,
       transition = if_else(cell %in% sample_sub$cell, new_transition, transition),
       transition_length = if_else(cell %in% sample_sub$cell, new_transition_length, transition_length),
-      cover = if_else(cell %in% sample_sub$cell, new_system, cover),
+      system = if_else(cell %in% sample_sub$cell, new_system, system),
       cycle_lenght = if_else(cell %in% sample_sub$cell, new_cycle, cycle_lenght),
       cycle_end = if_else(cell %in% sample_sub$cell, year + cycle_lenght + transition_length, cycle_end),
       tree_pop = if_else(cell %in% sample_sub$cell, new_tree_pop, tree_pop),
@@ -178,7 +178,7 @@ for (y in 2021:2100) {
 
   new_year <- new_year %>%
     mutate(
-      cover = if_else(cycle_end - year == 0, new_system, cover, missing = cover),
+      system = if_else(cycle_end - year == 0, new_system, system, missing = system),
       tree_pop = if_else(cycle_end - year == 0, new_tree_pop, tree_pop, missing = tree_pop),
       system_management = if_else(cycle_end - year == 0, new_system_management, system_management, missing = system_management),
       transition_management = if_else(cycle_end - year == 0, new_transition_management, transition_management, missing = transition_management),
@@ -188,7 +188,7 @@ for (y in 2021:2100) {
       cycle_end = if_else(cycle_end - year == 0, year + cycle_lenght + transition_length, cycle_end, missing = cycle_end)
     ) %>%
     select(
-      cell, area, year, cover, transition, transition_length, cycle_lenght,
+      cell, area, year, system, transition, transition_length, cycle_lenght,
       cycle_end, tree_pop, system_management, transition_management
     )
 
