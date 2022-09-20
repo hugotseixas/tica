@@ -4,7 +4,6 @@ author:
   - name: Hugo Tameirão Seixas
     url: https://hugotseixas.com/
     email: https://hugotseixas.com/
-  - name: David Montenegro Lapola
 institute: UNICAMP
 format: 
   revealjs:
