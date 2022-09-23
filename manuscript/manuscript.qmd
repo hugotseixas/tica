@@ -142,7 +142,7 @@ The literature review will be performed over published research from two sources
 
 * Embrapa: ((ICLF) OR (iclfs) OR (crop-livestock-forestry) OR (crop-livestock-forest) OR (agrosilvipastoral) OR (ilpf) OR (lavoura-pecuária-floresta) OR (agrosilvipastoril)) AND (ano-publicacao:[2000 TO *]) AND (tipo-material-sigla:"PC" OR tipo-material-sigla:"AP" OR tipo-material-sigla:"NC" OR tipo-material-sigla:"RT") AND (idioma:"Inglês" OR idioma:"Português")
 
-The data and information extract from selected research will be diverse, and will be organized in 11 relational tables. The tables will cover general information about the research document and characteristics of the experiment, as also data about the system management, soil properties, productivity, growth, emissions, and radiation. All tables will be described by metadata files.
+The data and information extract from selected research will be diverse, and will be organized in 11 [relational tables](../iclfs_review/tables/00_tables_collection.html). The tables will cover general information about the research document and characteristics of the experiment, as also data about the system management, soil properties, productivity, growth, emissions, and radiation. All tables will be described by metadata files.
 
 An important assumption of the review is that the ICLF experiments are representative of the ICLF being implemented by farmers in Brazil.
 
@@ -162,7 +162,19 @@ The web application will be deployed in a personal website, where the participan
 
 ### Model projections
 
+Model projections will estimate emissions and removals of Greenhouse Gases (GHG), food and fiber productivity and income of ICLF systems. The projections will be performed by a mixed modelling framework, using random processes, empirical and mechanistic models, deterministic and probabilistic factors to estimate the variables of interest.
+
+The projections will cover the whole Brazilian territory, from 2020 to 2100. Estimations will be made over a grid formed by 3x3 kilometers cells.
+
+The model will assume that ICLF will only occupy areas considered as degraded pasture according to the classification performed by MapBiomas [@Souza_2020]. Another assumption is that after a transition from degraded pasture to ICLF, it will never change to another use.
+
 #### Projections scenarios
+
+To conduct the projections, a set of possible scenarios will be created. The scenarios will be based on data and information gathered from the systematic review and the experts survey.
+
+The ICLF expansion scenarios will be based on the expectations of experts, and will provide data to create three scenarios. One will be the median of the expected area to be occupied by ICLF in 2030, 2050 and 2100, the other two will be the upper and lower quartiles. These three scenarios will be considered as reasonable future projections. There are going to be other two extreme scenarios, one where there wont be any expansion of ICLF, and another where the ICLF will cover all the degraded pasture extent by 2100.
+
+The ICLF management scenarios will be based on the systematic review and experts survey. The management scenarios will dictate the characteristics of the ICLF systems being implemented in the future, as the species, population, spacing, inputs, and cycle length. The management scenarios will depend on the region where the ICLF system is being implemented.
 
 ```{r}
 #| echo: false
@@ -173,7 +185,7 @@ grViz(
   graph [layout = dot,
          rankdir = TD, 
          nodesep = 2, 
-         ranksep = 0.4,
+         ranksep = 0.5,
          tooltip = ' ']
   
   node [shape = box,
@@ -205,7 +217,13 @@ grViz(
 
 ```
 
-#### LULC projections
+#### Land use projections
+
+The land use projections will be performed by randomly assigning grid cells occupied by degraded pastures to be converted to ICLF. The assigned grid cell will first be occupied by a transition state, which will be a Integrated Crop Livestock (ICL) system, and after a certain period, it will finally change to a ICLF. The assigned cells will also be attributed with management characteristics from the management scenarios explained in the section above.
+
+The rate of ICLF expansion from year to year will be closely linear, and will be dictated by the ICLF expansion scenario.
+
+The ICLF expansion process will be repeated 100 times for each ICLF expansion scenario, providing a range of outcomes in the final results.
 
 ```{r}
 #| echo: false
@@ -276,10 +294,12 @@ grViz(
 
 #### Benefits estimations
 
+
+
 ```{r}
 #| echo: false
 
-grViz(height = 500,
+grViz(
   "digraph {
   
   graph [layout = dot,
