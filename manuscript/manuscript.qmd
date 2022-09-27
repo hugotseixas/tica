@@ -298,9 +298,18 @@ Three types of benefits will be estimated: carbon sequestration, food and fiber 
 
 Carbon sequestration will account for above and below ground. 
 
-The above ground carbon will be calculated by estimates of tree growth and litter accumulation, and will be based on empirical models (ordinary least squares linear regression). The above ground carbon accumulation will be dependent on climatic variables, the species used in the ICLF system, and the population of each component of the integrated system. 
+The above ground carbon will be calculated by estimates of tree growth and litter accumulation, and will be based on empirical models (ordinary least squares linear regression or random forest). The above ground carbon accumulation will be dependent on climatic variables, the species used in the ICLF system, and the population of each component of the integrated system.
 
-The below ground carbon will be calculated using a modelling framework proposed by @Sierra_2012. It is a flexible framework based on a general model of soil organic matter decomposition [@Sierra_2012]. An implementation of the Century model [@Parton_1987] will be used to simulate organic matter decomposition along time. The soil carbon accumulation will be calculated by the amount of biomass input from the ICLF components over time. The decomposition will be affected by precipitation, temperature, potential evapotranspiration and soil texture. 
+The below ground carbon will be calculated using a modelling framework proposed by @Sierra_2012. It is a flexible framework based on a general model of soil organic matter decomposition [@Sierra_2012]. An implementation of the Century model [@Parton_1987] will be used to simulate organic matter decomposition along time. The soil carbon accumulation will be calculated by the amount of biomass input from the ICLF components over time. The decomposition will be affected by precipitation, temperature, potential evapotranspiration and soil texture.
+
+The food and fiber productivity will be calculated separately for each component of ICLF. The components are the trees, the annual crops, the pasture and the livestock.
+
+The estimations of productivity will be performed by empirical models (ordinary least squares linear regression or random forest). They will be based on data gathered from the systematic review, and will be dependent on climatic variables, species used in each component, and the population numbers.
+
+The economic revenue estimations will account for costs and income related to the ICLF implementation. 
+
+The costs to implement the ICLF systems will be based on management practices gathered by the systematic
+review, as also external sources when necessary. The income will be calculated over the productivity of each component of the ICLF system. The prices off inputs and outcomes will be corrected by inflation projections.
 
 ```{r}
 #| echo: false
@@ -363,6 +372,20 @@ grViz(
 ```
 
 ### Critical analysis
+
+The critical analysis will expand the interpretation of the suitability of the expansion of ICLF as a mean to curb global warming. This will be done by putting the ICLF in context of some subjects:
+
+* The impact of the ICLF expansion in Brazil is important when comparing it with estimations of gross national emissions? What are the areas where the ICLF can actually help in decreasing emissions?
+
+* What are possible social impacts of the stimulation of ICLF adoption? Will it decrease social inequality in rural areas? Will it play a role in mitigating damage caused by climate change?
+
+* Nature based solutions or human based solutions? Do they complement each other or do they compete?
+
+* What are the consequences of focusing on increasing carbon removals rather than decreasing gross emissions? And how is this being addressed in public policies.
+
+To discuss the points above, a targeted review will be performed. The targeted review will be conducted by actively searching for digital content of various nature to seek information about the questions. It contrasts the systematic review since there will be no formal strategy of literature search.
+
+The use of a narrative discussion will expand the scope of the project, avoiding to drawn all the conclusions solely on quantitative estimates, and to put all the generated results in contexts of a bigger scenario.
 
 ------------------------------------------------------------------------
 
