@@ -294,7 +294,13 @@ grViz(
 
 #### Benefits estimations
 
+Three types of benefits will be estimated: carbon sequestration, food and fiber production, and economic revenue.
 
+Carbon sequestration will account for above and below ground. 
+
+The above ground carbon will be calculated by estimates of tree growth and litter accumulation, and will be based on empirical models (ordinary least squares linear regression). The above ground carbon accumulation will be dependent on climatic variables, the species used in the ICLF system, and the population of each component of the integrated system. 
+
+The below ground carbon will be calculated using a modelling framework proposed by @Sierra_2012. It is a flexible framework based on a general model of soil organic matter decomposition [@Sierra_2012]. An implementation of the Century model [@Parton_1987] will be used to simulate organic matter decomposition along time. The soil carbon accumulation will be calculated by the amount of biomass input from the ICLF components over time. The decomposition will be affected by precipitation, temperature, potential evapotranspiration and soil texture. 
 
 ```{r}
 #| echo: false
