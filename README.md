@@ -1,9 +1,7 @@
 
-# Integrated farming and global warming mitigation in Brazil
+# Dimensions of the impacts of land transitions in the Amazon and Cerrado
 
-## Using land-use change projections of integrated crop-livestock-forestry systems expansion in Brazil within the context of the Paris Agreement
 
-There is a high expectation in the reduction of liquid greenhouse gases in Brazil by the implementation of integrated crop-livestock-forestry systems. The foundation of such expectation relies in the hypothesis that these systems are capable of storing more above and below ground carbon, in relation to conventional farming systems, due to the presence of trees. However, that are not robust estimates about the potential of these systems to store carbon in a national scale, and usually point estimates are used to extrapolate carbon sequestration. In order to improve the representation of carbon sequestration by integrated crop-livestock-forestry systems, this project aims to use published data to develop a spatially explicit model to estimate carbon fluxes in Brazil.
 
 ## License
 
