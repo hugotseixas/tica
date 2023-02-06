@@ -4,25 +4,27 @@ author:
   - name: Hugo Tameirão Seixas
     url: https://hugotseixas.com/
     email: https://hugotseixas.com/
-institute: UNICAMP
 format: 
   revealjs:
     footer: "[github.com/hugotseixas/iclfs-brazil](https://github.com/hugotseixas/iclfs-brazil)"
     transition: fade
     theme: [default, custom.scss]
     reference-location: document
+    self-contained: true
 ---
 
 ```{r}
 #| include: false
 
 library(DiagrammeR)
+library(cartography)
 library(terra)
 library(sf)
 library(geobr)
 library(mapsf)
 
-degraded_pasture <- rast("../iclfs_projections/base_grid_pasture.tif")*1000
+degraded_pasture <- 
+  rast("../iclfs_projections/data/base_grid_pasture.tif") * 1000
 
 brazil <- read_state()
 
@@ -409,7 +411,7 @@ grViz(height = 500,
 
 ---
 
-### Critial analysis
+### Critical analysis
 
 ::: {.sectionhead .absolute top="0" left="90%"}
 [1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
@@ -431,7 +433,7 @@ Results from data:
 
 ---
 
-### Critial analysis
+### Critical analysis
 
 ::: {.sectionhead .absolute top="0" left="90%"}
 [1]{style="opacity:0.25"} 2 [3]{style="opacity:0.25"}
@@ -570,10 +572,6 @@ Accessibility
 ## Links
 
 <br>
-<br>
-
-lab: <https://labterra.cpa.unicamp.br/>
-
 <br>
 
 website: <https://hugotseixas.com/>
