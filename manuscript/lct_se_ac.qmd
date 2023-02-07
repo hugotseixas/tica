@@ -16,6 +16,7 @@ editor_options:
   chunk_output_type: console
 execute:
   freeze: auto
+  cache: true
 license: CC BY-NC-ND 4.0
 ---
 
@@ -107,9 +108,19 @@ grViz(
 
 ```
 
-#### Literature Overview
+\
 
-The literature overview will be performed over different subjects. For all of them, an hybrid approach will be adopted, in which database searches are combined with snowball searches.
+The literature review will provide a theoretical and practical basis for the modelling section. 
+
+The database structuring will store all the relevant data in a single file structure, so that the modelling section can be performed in a clean and organized manner.
+
+The models will be developed following standard procedures and libraries that allow the implementation of different techniques. Each model will be stored as a mean to be reproduced when needed.
+
+Future projections will serve as a bridge to discuss how public policies can be planned to mitigate negative impacts of native vegetation suppression in the Amazon and Cerrado.
+
+#### Literature Review
+
+The literature review will be performed over different subjects. For all of them, an hybrid approach will be adopted, in which database searches are combined with snowball searches.
 
 ```{r}
 #| echo: false
@@ -157,6 +168,10 @@ grViz(
 
 ```
 
+\
+
+The literature review will serve to answer questions about variables that will be predicted in this project. For each variable, I want to explore what are the main drivers that are causing them, how these drivers relate with each other, and what were the methods used to estimate the effects and interactions. 
+
 #### Database Structuring
 
 The database will contain data from different themes.
@@ -182,6 +197,8 @@ ggplot() +
   theme_void()
 
 ```
+
+Each grid cell will contain an observation, for each year, for all the variables that will be included in the study. 
 
 #### Model Development
 
@@ -230,7 +247,13 @@ Each model will be responsible to predict environmental and social outcomes from
 
 ## Results
 
+The study will provide three main quantitative results, predictions of vegetation suppression, predictions of land use transitions, and predictions of social and environmental variables. 
+
+More than only the predictions, I will also analyse and present explanations of the models behavior, and inferences about the studied phenomena (will only take this leap if I feel confident with the models).
+
 ## Discussion
+
+The discussion of the results will focus on two fronts, comparing our results with previous studies, and build a bridge with discussions from social sciences and political science.
 
 ## Conclusions
 
