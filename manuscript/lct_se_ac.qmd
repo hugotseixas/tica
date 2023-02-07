@@ -34,6 +34,8 @@ library(tidyverse)
 
 ## Introduction
 
+Analysis of the drivers and impacts of native vegetation suppression in Brazil is not new. However, the approaches used to analyse this phenomena usually focus in few dimensions. I propose creating a modelling framework, using modern techniques, to predict and explain native vegetation suppression and its impacts on social and environmental variables. The study will also analyse the Amazon and Cerrado at the same time, and will explore whether predictions from one biome are related to predictions from the other biome.
+
 ## Objectives
 
 The present work is composed of three main objectives, accompanied by related questions:
@@ -49,6 +51,7 @@ The present work is composed of three main objectives, accompanied by related qu
     a.  What is the importance of land cover transitions in predicting environmental and social variables?
     b.  Does land-use transitions interact with other drivers of environmental and social variables?
     c.  What are the expected social and environmental projections in different land-cover trajectories for the near future?
+    d.  Do predictions from both biomes show relation between each other? 
 
 ## Materials and Methods
 
