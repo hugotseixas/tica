@@ -12,12 +12,10 @@ format:
 page-layout: article
 bibliography: references.bib
 link-citations: true
-editor: visual
 editor_options: 
   chunk_output_type: console
 execute:
   freeze: auto
-  cache: true
 license: CC BY-NC-ND 4.0
 ---
 
@@ -37,7 +35,7 @@ library(tidyverse)
 
 ## Objectives
 
-The present work is composed of  three main objectives, accompanied by related questions:
+The present work is composed of three main objectives, accompanied by related questions:
 
 1.  Predict probability and area of native vegetation suppression in the Amazon and Cerrado;
     a.  What are the main drivers of native vegetation suppression?
@@ -71,8 +69,8 @@ grViz(
   
   graph [layout = dot, 
          rankdir = TD, 
-         nodesep = 1.5, 
-         ranksep = 1.0,
+         nodesep = 1.2, 
+         ranksep = 0.8,
          tooltip = ' ']
   
   node [shape = box,
@@ -111,11 +109,59 @@ grViz(
 
 #### Literature Overview
 
-The literature overview will be performed over different subjects.
+The literature overview will be performed over different subjects. For all of them, an hybrid approach will be adopted, in which database searches are combined with snowball searches.
+
+```{r}
+#| echo: false
+
+grViz(
+  "digraph {
+  
+  graph [layout = dot, 
+         overlap = false,
+         rankdir = TB, 
+         nodesep = 5, 
+         ranksep = 0.4,
+         tooltip = ' ']
+  
+  node [shape = box,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+
+  edge [penwidth = 2.5, 
+        arrowsize = 2,
+        tooltip = ' ']
+
+  a [label = 'Specific \n Questions']
+  b [label = 'Query \n Development']
+  c [label = 'Database Search']
+  d [label = 'Documents \n Screening']
+  e [label = 'Documents \n Collection']
+  f [label = 'Forward Snowball \n Search']
+  g [label = 'Final Collection']
+  
+  a -> b a -> d
+  b -> c c -> d
+  d -> e e -> f
+  f -> d e -> g
+  
+  }"
+)
+
+```
 
 #### Database Structuring
 
-The database will contain data from different themes. To structure a collection of data which presents different nature, I will transform them into a common grid system. The grid system will be composed by 0.3 degrees cells.
+The database will contain data from different themes.
+To structure a collection of data which presents different nature, I will transform them into a common grid system.
+The grid system will be composed by 0.3 degrees cells.
 
 ```{r}
 #| echo: false
@@ -137,10 +183,10 @@ ggplot() +
 
 ```
 
-
 #### Model Development
 
-The models will follow a sequential order. The output of a model will serve as a feature to the next model. 
+The models will follow a sequential order.
+The output of a model will serve as a feature to the next model.
 
 ```{r}
 #| echo: false
@@ -168,13 +214,19 @@ table %>%
 
 ```
 
-The first model will classify areas that suffered vegetation suppression. So the outcome will be a binary result (0 = no suppression; 1 = suppression). I want that this model to have the minimum inclusion errors for the class "1". In other words, I want to avoid, as best as I can, classifying an area with label "1", when the reality is that the area should be label "0". To achieve this, the model will be adjusted to present the minimum inclusion error for the class "1", and the probability threshold for class "1" will be a higher value.
+The first model will classify areas that suffered vegetation suppression.
+So the outcome will be a binary result (0 = no suppression; 1 = suppression).
+I want that this model to have the minimum inclusion errors for the class "1".
+In other words, I want to avoid, as best as I can, classifying an area with label "1", when the reality is that the area should be label "0".
+To achieve this, the model will be adjusted to present the minimum inclusion error for the class "1", and the probability threshold for class "1" will be a higher value.
 
-The second model will predict the amount of vegetation suppression that was classified with the label "1" in the previous model. The predictions will have to be bounded by the amount of natural vegetation inside the grid cell.
+The second model will predict the amount of vegetation suppression that was classified with the label "1" in the previous model.
+The predictions will have to be bounded by the amount of natural vegetation inside the grid cell.
 
 The third model will predict the predominant land use transitions of the areas that suffered native vegetation suppression.
 
-The fourth model will be actually a set of models. Each model will be responsible to predict environmental and social outcomes from land transition patterns.
+The fourth model will be actually a set of models.
+Each model will be responsible to predict environmental and social outcomes from land transition patterns.
 
 ## Results
 
