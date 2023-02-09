@@ -283,7 +283,7 @@ grViz(
 
 ```
 
-The data will be stored in a nested directories structured database with hive-style partitioning. 
+The data will be stored in a nested directories database with hive-style partitioning. 
 The database will be composed of a collection of parquet files, a format with high compression, that facilitates processing large volumes of data.
 The main partition will be the variables, which means that each variable will be stored in a separate directory.
 If necessary, the data will be partitioned by further variables (as a rule of thumb, each parquet file should not be smaller than 20MB and not bigger than 2GB).
