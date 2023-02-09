@@ -18,9 +18,11 @@ execute:
   freeze: auto
   cache: true
 license: CC BY-NC-ND 4.0
+self-contained: true
 ---
 
 ```{r}
+#| label: libraries
 #| include: false
 
 library(sf)
@@ -34,7 +36,11 @@ library(tidyverse)
 
 ## Introduction
 
-Analysis of the drivers and impacts of native vegetation suppression in Brazil is not new. However, the approaches used to analyse this phenomena usually focus in few dimensions. I propose creating a modelling framework, using modern techniques, to predict and explain native vegetation suppression and its impacts on social and environmental variables. The study will also analyse the Amazon and Cerrado at the same time, and will explore whether predictions from one biome are related to predictions from the other biome.
+Analyzing the drivers and impacts of native vegetation suppression is a complex task. The amount of factors influencing both phenomena can be numerous and heterogeneous. Existing literature suggests that native vegetation suppression can be caused by economic fluctuations [@hargrave-2012], conservation policies [@pfaff-2015], population distribution [@jusys-2016], land tenure [@cattaneo-2001], livestock and crop productions [@bowman-2016]. By the other side, vegetation removed is believed to impact human health [@santos-2018], climate regime [@silva-2023], regional hydrology [@cavalcante-2019], soil properties [@dias-2022], biodiversity [@gestich-2021].
+
+Usually, the studies analyzing both phenomena focus in few variables, and normally struggle to relate their results to other areas of knowledge.
+
+I propose creating a modelling framework, using modern techniques, to predict and explain native vegetation suppression and its impacts on social and environmental variables. The study will also analyse the Amazon and Cerrado at the same time, and will explore whether predictions from one biome are related to predictions from the other biome.
 
 ## Objectives
 
@@ -53,9 +59,11 @@ The present work is composed of three main objectives, accompanied by related qu
     c.  What are the expected social and environmental projections in different land-cover trajectories for the near future?
     d.  Do predictions from both biomes show relation between each other? 
 
+An important aspect of the objectives, is that they are bound to the model behavior. This means that the results will not necessarily describe the phenomena in the real world, and this leap should be done with extreme care. This is true for any type of model developed to explain the reality.
+
 ## Materials and Methods
 
-To achieve the proposed goal, I will divide the work into three major parts:
+To achieve the proposed goal, I will divide the work into four major parts:
 
 1.  Literature overview of the main drivers of the expected outcomes (vegetation suppression, land cover transition, social and environmental variables);
 
@@ -66,6 +74,7 @@ To achieve the proposed goal, I will divide the work into three major parts:
 4.  Future projections;
 
 ```{r}
+#| label: method-diagram
 #| echo: false
 
 grViz(
@@ -113,7 +122,7 @@ grViz(
 
 \
 
-The literature review will provide a theoretical and practical basis for the modelling section. 
+The literature review will provide a theoretical and practical basis for the modelling section. Information about what variables are being used, how are they being manipulated, what are the analysis techniques used to reach the results.
 
 The database structuring will store all the relevant data in a single file structure, so that the modelling section can be performed in a clean and organized manner.
 
@@ -126,6 +135,7 @@ Future projections will serve as a bridge to discuss how public policies can be 
 The literature review will be performed over different subjects. For all of them, an hybrid approach will be adopted, in which database searches are combined with snowball searches.
 
 ```{r}
+#| label: lit-review-diagram
 #| echo: false
 
 grViz(
@@ -182,6 +192,7 @@ To structure a collection of data which presents different nature, I will transf
 The grid system will be composed by 0.3 degrees cells.
 
 ```{r}
+#| label: grid-map-figure
 #| echo: false
 #| message: false
 
@@ -203,12 +214,62 @@ ggplot() +
 
 Each grid cell will contain an observation, for each year, for all the variables that will be included in the study. 
 
+```{r}
+#| label: database-diagram
+#| echo: false
+#| message: false
+
+grViz(
+  "digraph {
+  
+  graph [layout = dot, 
+         overlap = false,
+         rankdir = TB, 
+         nodesep = 1.4, 
+         ranksep = 0.8,
+         tooltip = ' ']
+  
+  node [shape = box,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+
+  edge [penwidth = 2.5, 
+        arrowsize = 2,
+        tooltip = ' ']
+
+  a [label = 'Data Source']
+  b [label = 'Data Source']
+  c [label = 'Data Source']
+  d [label = 'Data Source']
+  e [label = 'Pre Processing']
+  f [label = 'Gridded Data']
+  g [label = 'Database']
+  
+  a -> e b -> e
+  c -> e d -> e
+  e -> f f -> g
+  
+  }"
+)
+
+```
+
+The data will be stored in a nested directories structured database, using give-style partitioning. The database will be composed by a collection of parquet files, a format with high compression, that facilitates processing large volumes of data.
+
 #### Model Development
 
 The models will follow a sequential order.
 The output of a model will serve as a feature to the next model.
 
 ```{r}
+#| label: model-table
 #| echo: false
 
 table <-
@@ -248,6 +309,68 @@ The third model will predict the predominant land use transitions of the areas t
 The fourth model will be actually a set of models.
 Each model will be responsible to predict environmental and social outcomes from land transition patterns.
 
+Each model will follow the standard approach to develop supervised models.
+
+```{r}
+#| label: model-diagram
+#| echo: false
+#| message: false
+
+grViz(
+  height = 800,
+  "digraph {
+  
+  graph [layout = dot, 
+         overlap = false,
+         rankdir = TD, 
+         nodesep = 1.8, 
+         ranksep = 0.5,
+         tooltip = ' ']
+  
+  node [shape = box,
+        fontname = Helvetica,
+        style = filled,
+        fontcolor = '#343a40'
+        fillcolor = '#f7f7f9'
+        penwidth = 2.5,
+        width = 3,
+        height = 1.2,
+        fontsize = 25,
+        tooltip = ' ']
+
+  edge [penwidth = 2.5, 
+        arrowsize = 2,
+        tooltip = ' ']
+
+  a [label = 'Database']
+  b [label = 'Variables \n Selection']
+  c [label = 'Data Split']
+  d [label = 'Training Data']
+  e [label = 'Validation \n Data']
+  f [label = 'Test Data']
+  g [label = 'Pre Processing']
+  h [label = 'Initial \n Model Fit']
+  i [label = 'Parameters \n Adjustments']
+  j [label = 'Final \n Model Fit']
+  k [label = 'Model \n Assessment']
+  l [label = 'Model \n Interpretation']
+  
+  a -> b b -> c
+  c -> d c -> e c -> f 
+  d -> g g -> h 
+  h -> i e -> i
+  i -> j j -> k f -> k
+  j -> l k -> l
+  
+  }"
+)
+
+```
+
+\
+
+In order to interpret the models, a series of methods will be used to explain the predictions, such as surrogate models, feature interactions, permutation feature importance, counterfactual explanations and Shapley values. These are all model agnostic methods, so they can be applied in any kind of regression or classification models.
+
 ## Results
 
 The study will provide three main quantitative results, predictions of vegetation suppression, predictions of land use transitions, and predictions of social and environmental variables. 
@@ -259,6 +382,8 @@ More than only the predictions, I will also analyse and present explanations of 
 The discussion of the results will focus on two fronts, comparing our results with previous studies, and build a bridge with discussions from social sciences and political science.
 
 ## Conclusions
+
+The idea of the project is to advance the understanding of why vegetation removals are happening, and than how are they impacting the environment and human well being. This have potential to shed light of what can be done to mitigate negative effects after the vegetation removal occurs.
 
 ## Schedule
 
