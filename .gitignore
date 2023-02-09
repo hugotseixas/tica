@@ -3,3 +3,6 @@
 .Rdata
 .httr-oauth
 .DS_Store
+
+manuscript/lct_se_ac_cache/*
+manuscript/lct_se_ac_files/*
