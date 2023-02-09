@@ -45,11 +45,11 @@ On the other side, vegetation removal may impact human health [@santos-2018], cl
 Unfortunately, much of the research in this area tends to focus on only a few dimensions of the problem, rather than taking a holistic approach.
 This narrow focus often fails to capture the full extent of the issue and can lead to oversimplifications or misdirection in efforts to solve it.
 
-The objective of this project is to create a modelling framework, designed to  predict and understand the causes and impacts of native vegetation suppression in the Cerrado and Amazon biomes, considering environmental and anthropic dimensions. 
-The project aims to develop a deeper understanding of the relationships between land use changes, environmental factors, and social dynamics related to the suppression of native vegetation.
+This project aims to predict and understand the causes and impacts of native vegetation suppression in the Cerrado and Amazon biomes, considering environmental and anthropic dimensions. 
+The results will provide a deeper understanding of the relationships between land use changes, environmental factors, and social dynamics related to native vegetation suppression.
 
-To achieve the objective, regression and classification models will be applied to existing data on land use changes, environmental factors, and social variables in the Cerrado and Amazon biomes. 
-The models will be used to identify patterns and relationships between these variables, and to predict future trends.
+Regression and classification models will be applied to existing data on land use changes, environmental factors, and social variables in the Cerrado and Amazon biomes. 
+The models will be used to identify patterns and relationships between these variables and to predict future trends.
 
 The results of this project will contribute to a better understanding of the causes and impacts of native vegetation suppression in the Cerrado and Amazon biomes. 
 This knowledge will inform the development of effective conservation and management strategies that will help to protect these vital and unique ecosystems.
@@ -69,13 +69,13 @@ The present work is composed of three main objectives, accompanied by related qu
     a.  What is the importance of land cover transitions in predicting environmental and social variables?
     b.  Does land-use transitions interact with other drivers of environmental and social variables?
     c.  What are the expected social and environmental projections in different land-cover trajectories for the near future?
-    d.  Do predictions from both biomes show relation between each other? 
+    d.  Do predictions from both biomes show a relation between each other? 
 
-The three objectives, in conjunction, will provide an in-depth analysis of what can be done to avoid native vegetation suppression, and how to mitigate its negative impacts.
+The three objectives, in conjunction, will provide an in-depth analysis of how to avoid native vegetation suppression and mitigate its negative impacts.
 
 ## Materials and Methods
 
-The study will rely on the use of available data to develop regression and classification models that will predict native vegetation suppression and its impacts. 
+The study will rely on available data to develop regression and classification models to predict native vegetation suppression and its impacts. 
 To achieve the proposed goal, I will divide the work into four major parts:
 
 1.  Literature overview of the main drivers of the expected outcomes (vegetation suppression, land cover transition, social and environmental variables);
@@ -135,20 +135,21 @@ grViz(
 
 \
 
-The literature review will provide a theoretical and practical basis for the modelling section. 
-Information about what variables are being used, how are they being manipulated, and what are the analysis techniques used to reach the results.
+The literature review will provide a theoretical and practical basis for the modeling section. 
+Information about the key variables, their manipulation process, and the analysis techniques used to reach the results.
 
-The database structuring will store all the relevant data in a single file structure, so that the modelling section can be performed in a clean and organized manner.
+The database structuring will store all the relevant data in a single file structure to facilitate the modeling process.
 
-The models will be developed following standard procedures and libraries that allow the implementation of different techniques. 
-The choice of models will be done after a series of tests, and will depend on the accuracy and the adequacy to the theory. Each model will be stored as a mean to be reproduced when needed.
+The modeling process will follow standard procedures and libraries, with the possibility to implement different techniques. 
 
-Future projections will serve as a bridge to discuss how public policies can be planned to mitigate negative impacts of native vegetation suppression in the Amazon and Cerrado.
+The choice of models will depend on a series of tests, accounting the accuracy and adequacy of the model to the theory. 
+
+Future projections will serve as a bridge to discuss public policy planning to mitigate the negative impacts of native vegetation suppression in the Amazon and Cerrado.
 
 #### Literature Review
 
-The literature review will be performed over different subjects. 
-For all of them, an hybrid approach will be adopted, in which database searches are combined with snowball searches.
+The literature review will address different topics. 
+For all of them, I will adopt a hybrid approach of database searches combined with snowball searches.
 
 ```{r}
 #| label: lit-review-diagram
@@ -199,15 +200,15 @@ grViz(
 
 \
 
-The literature review will serve to answer questions about variables that will be predicted in this project. 
-For each variable, I want to explore what are the main drivers that are causing them, how these drivers relate with each other, and what were the methods used to estimate the effects and interactions. 
+The literature review will answer questions about variables to be predicted in this project. 
+For each variable, I want to explore the main drivers that cause them, how they relate to each other, and the methods used to estimate the effects and interactions. 
 
 #### Database Structuring
 
-The database will contain data from different domains, which can be available in different formats and structures.
-It is vital that all variables of interests are organized in a coherent manner, so that the modelling process can be more efficient and transparent.
-To structure a collection of data which presents different nature, I will transform all the variables to fit into a common grid system.
-The grid system will be composed by 0.2 degrees cells (40km x 40km), which should be a balanced compromise between detail and computational cost. 
+The database will contain data from different domains, which can be available in diverse formats and structures.
+To make the modeling process more efficient and transparent, all variables of interest must be organized coherently.
+To structure a collection of data that presents different natures, I will transform all the variables into a standard grid system.
+The grid system will be composed of 0.2 degrees cells (40km x 40km), which should be a balanced compromise between detail and computational cost.
 
 ```{r}
 #| label: grid-map-figure
@@ -230,10 +231,10 @@ ggplot() +
 
 ```
 
-Each grid cell will contain an observation, for each year, for all the variables that will be included in the study. 
-Only pixels that contained natural vegetation at the first year of the analysis will be considered valid.
+Each grid cell will contain an observation, for each year, for all the variables. 
+Only pixels that contained natural vegetation in the first year of the analysis will be considered valid.
 
-The process to create the database will consist of accessing the data sources, download the data to the local environment, transform and organize the data to the common grid (if the data source provides any kind of pre-processing tool before download the data, it should be done that way), and store in the local environment.
+The process to create the database will consist of accessing the data sources, downloading the data to the local environment, transforming and organizing the data to the grid (if the data source provides any pre-processing tool before downloading the data, it should be done that way), and store in the local environment.
 
 ```{r}
 #| label: database-diagram
@@ -282,15 +283,15 @@ grViz(
 
 ```
 
-The data will be stored in a nested directories structured database, using give-style partitioning. 
-The database will be composed by a collection of parquet files, a format with high compression, that facilitates processing large volumes of data.
-The basic partition will be the variables, which means that each variable will be stored in a separated directory.
+The data will be stored in a nested directories structured database with hive-style partitioning. 
+The database will be composed of a collection of parquet files, a format with high compression, that facilitates processing large volumes of data.
+The main partition will be the variables, which means that each variable will be stored in a separate directory.
 If necessary, the data will be partitioned by further variables (as a rule of thumb, each parquet file should not be smaller than 20MB and not bigger than 2GB).
 
 #### Model Development
 
 The models will follow a sequential order.
-The output of a model will serve as a feature to the next model.
+The output of a model will serve as a feature of the next model.
 
 ```{r}
 #| label: model-table
@@ -321,16 +322,16 @@ table %>%
 
 The first model will classify areas that suffered vegetation suppression.
 So the outcome will be a binary result (0 = no suppression; 1 = suppression).
-I want that this model to have the minimum inclusion errors for the class "1".
-In other words, I want to avoid, as best as I can, classifying an area with label "1", when the reality is that the area should be label "0".
-To achieve this, the model will be adjusted to present the minimum inclusion error for the class "1", and the probability threshold to classify an observation as class "1" will be a higher value.
+I want this model to have the minimum inclusion errors for class "1".
+In other words, I want to avoid classifying an area with the label "1" when the reality is that it should be labeled "0".
+To achieve this, the model will be adjusted to present the minimum inclusion error for class "1", and the probability threshold to classify an observation as class "1" will be a higher value.
 
 The second model will predict the amount of vegetation suppression that was classified with the label "1" in the previous model.
-The predictions will have to be bounded by the amount of natural vegetation inside the grid cell (a poisson distribution may be adequate to represent this variable).
+The predictions will have to be bounded by the amount of natural vegetation inside the grid cell (a Poisson distribution may be adequate to represent this variable).
 
 The third model will predict the predominant land use transitions of the areas that suffered native vegetation suppression.
 
-The fourth model will be actually a set of models.
+The fourth model will be a set of models.
 Each model will be responsible to predict a single environmental or social outcome.
 
 Each model will follow the standard approach to develop supervised models.
@@ -393,10 +394,10 @@ grViz(
 
 \
 
-To understand and interpret the predictions made by the models, I will employ a variety of methods to interpret prediction models. They may include surrogate models, feature interactions, permutation feature importance, counterfactual explanations, and Shapley values. 
-These methods are model-agnostic, meaning they can be applied to any type of regression or classification model, regardless of its underlying structure or parameters.
+To understand and interpret the predictions made by the models, I will employ a variety of methods. They may include surrogate models, feature interactions, permutation feature importance, counterfactual explanations, and Shapley values. 
+These methods are model-agnostic, meaning they can be applied to any regression or classification model, regardless of its underlying structure or parameters.
 By using these techniques, I aim to gain a deeper understanding of the relationships between the variables and how they contribute to the predictions.
-This information will help to assess the reliability of the models and the validity of their results.
+This information will enable assessing the reliability of the models and validity of their results.
 
 ## Results
 
@@ -404,7 +405,7 @@ The study will present three main quantitative results based on quantitative dat
 Our predictions on vegetation suppression will show the likelihood and extent of removal events, serving as a basis for predicting the land use changes of the affected grid cells. 
 Finally, we will predict the impact of these findings on the environment and human well-being.
 
-As part of the study, I will not only present the predictions generated by the models, but also perform an in-depth analysis of the models behavior. 
+As part of the study, I will not only present the predictions generated by the models but also perform an in-depth analysis of the model's behavior. 
 This analysis will provide a deeper understanding of the underlying mechanisms that drive the predictions and help to assess their reliability and accuracy.
 Furthermore, based on my confidence in the models and their results, I will make inferences about the studied phenomena. 
 This will allow me to go beyond the mere presentation of the predictions and offer insights into the relationships between the variables, the causes of the observed patterns, and the implications of the results for the environment and human well-being. 
@@ -424,8 +425,8 @@ This information can then be used to prioritize the most pressing issues and to 
 
 ## Conclusions
 
-The main objective of the project is to delve deeper into the reasons behind vegetation removals and to assess their impact on the environment and human well-being. 
-This effort has the potential to provide valuable insights into what can be done to reduce the negative consequences after the vegetation removal. 
+The main objective of the project is to delve deeper into the reasons behind vegetation removals and assess their impact on the environment and human well-being. 
+This effort has the potential to provide valuable insights into what can reduce the negative consequences after vegetation removal. 
 By thoroughly investigating the causes of vegetation removal and its effects, the project aims to contribute to a better understanding of this complex issue and to identify strategies for mitigating its negative impact. 
 The end goal is to ensure that future vegetation removal is carried out in a way that minimizes harm to the environment and supports the well-being of people who depend on it.
 
