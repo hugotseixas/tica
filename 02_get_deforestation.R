@@ -60,7 +60,7 @@ prodes <- rast("data/temp/prodes_brasil_2021.tif")
 
 # TRANSFORM DATA TO BASE GRID ------------------------------------------------
 
-deforastation <-
+deforestation <-
   map_df(
     .x = base_grid$cell_id,
     .f = ~ {
@@ -81,15 +81,29 @@ deforastation <-
         as_tibble() %>%
         select(area)
 
+      total_years <-
+        tibble(
+          year = 2000:2021
+        )
+
       classes %>%
         bind_cols(area) %>%
+        mutate(
+          year = case_when( # Add year of deforestation
+            class < 50 ~ class + 2000,
+            class > 50 & class < 90 ~ class - 40 + 2000,
+            class > 90 ~ NA_integer_
+          )
+        ) %>%
         summarise(
           area = sum(area, na.rm = TRUE),
-          .by = "class"
+          .by = "year"
         ) %>%
-        mutate(cell_id = .x)
+        full_join(total_years, by = join_by(year)) %>%
+        arrange(year) %>%
+        mutate(
+          cell_id = .x # Add id column
+        )
 
     }
   )
-
-
