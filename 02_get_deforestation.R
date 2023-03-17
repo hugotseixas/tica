@@ -13,6 +13,7 @@ library(terra)
 library(curl)
 library(fs)
 library(glue)
+library(furrr)
 library(tidyverse)
 #
 # CONFLICTS -------------------------------------------------------------------
@@ -30,6 +31,9 @@ data_url <-
     "http://terrabrasilis.dpi.inpe.br/download/dataset/",
     "brasil-prodes/raster/prodes_brasil_2021.zip"
   )
+
+# Configure parallel processing
+plan(multisession, workers = 6)
 
 #
 # DOWNLOAD DATA ---------------------------------------------------------------
@@ -61,11 +65,9 @@ prodes <- rast("data/temp/prodes_brasil_2021.tif")
 # TRANSFORM DATA TO BASE GRID ------------------------------------------------
 
 deforestation <-
-  map_df(
+  map_dfr(
     .x = base_grid$cell_id,
     .f = ~ {
-
-      cat(.x, "\r")
 
       cell <- base_grid %>%
         filter(cell_id == .x)
@@ -77,7 +79,7 @@ deforestation <-
         rename("class" = "prodes_brasil_2021")
 
       area <- cell_subset %>%
-        cellSize() %>%
+        cellSize(mask = TRUE) %>%
         as_tibble() %>%
         select(area)
 
