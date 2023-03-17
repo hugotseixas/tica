@@ -8,9 +8,9 @@
 #
 # LIBRARIES -------------------------------------------------------------------
 #
+library(conflicted)
 library(sf)
 library(geobr)
-library(conflicted)
 library(tidyverse)
 #
 # CONFLICTS -------------------------------------------------------------------
@@ -57,7 +57,7 @@ grid <-
     .predicate = if (full_cells) {st_within} else {st_intersects}
   ) %>%
   rename(cell = x) %>%
-  mutate(id = row_number())
+  mutate(cell_id = row_number())
 
 # Save grid polygons as FlatGeobuf file
 write_sf(
