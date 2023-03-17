@@ -9,7 +9,6 @@
 #
 # LIBRARIES -------------------------------------------------------------------
 #
-library(s2)
 library(sf)
 library(geobr)
 library(conflicted)
