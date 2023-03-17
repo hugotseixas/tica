@@ -6,7 +6,6 @@
 #
 # Notes:
 #
-#
 # LIBRARIES -------------------------------------------------------------------
 #
 library(sf)
@@ -57,7 +56,8 @@ grid <-
     # Choose filter function based on option above
     .predicate = if (full_cells) {st_within} else {st_intersects}
   ) %>%
-  rename(cell = x)
+  rename(cell = x) %>%
+  mutate(id = row_number())
 
 # Save grid polygons as FlatGeobuf file
 write_sf(
