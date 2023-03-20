@@ -33,24 +33,28 @@ data_url <-
   )
 
 # Configure parallel processing
-plan(multisession, workers = 6)
+plan(multisession, workers = 10)
 
 #
 # DOWNLOAD DATA ---------------------------------------------------------------
 
-dir_create("data/temp/")
+if (!file_exists("data/temp/prodes_brasil_2021.tif")) {
 
-curl_download(
-  url = data_url,
-  destfile = "./data/temp/prodes.zip",
-  quiet = FALSE
-)
+  dir_create("data/temp/")
 
-unzip(
-  zipfile = "./data/temp/prodes.zip",
-  files = "prodes_brasil_2021.tif",
-  exdir = "./data/temp/"
-)
+  curl_download(
+    url = data_url,
+    destfile = "./data/temp/prodes.zip",
+    quiet = FALSE
+  )
+
+  unzip(
+    zipfile = "./data/temp/prodes.zip",
+    files = "prodes_brasil_2021.tif",
+    exdir = "./data/temp/"
+  )
+
+}
 
 # LOAD DATA -------------------------------------------------------------------
 
@@ -58,16 +62,16 @@ base_grid <-
   read_sf("data/base_grid.fgb") %>%
   arrange(cell_id)
 
-prodes <- read_stars("data/temp/prodes_brasil_2021.tif")
-
 prodes <- rast("data/temp/prodes_brasil_2021.tif")
 
 # TRANSFORM DATA TO BASE GRID ------------------------------------------------
 
 deforestation <-
-  map_dfr(
+  map_df(
     .x = base_grid$cell_id,
     .f = ~ {
+
+      cat("Cell ", .x, "\r")
 
       cell <- base_grid %>%
         filter(cell_id == .x)
