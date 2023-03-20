@@ -1,13 +1,19 @@
 # HEADER ----------------------------------------------------------------------
 #
 # Title:          Get deforestation data
-# Description:
+# Description:    This script downloads and process deforestation data from
+#                 PRODES (http://terrabrasilis.dpi.inpe.br/). The data
+#                 is sliced for each base grid cell, and transformed to
+#                 a table with the deforestation area of each year for each
+#                 cell.
 #
-# Notes:
+# Notes:          This script download PRODES data to your local machine.
+#                 The downloaded files are deleted by the end of the script.
 #
 # LIBRARIES -------------------------------------------------------------------
 #
 library(conflicted)
+library(arrow)
 library(sf)
 library(terra)
 library(curl)
@@ -118,3 +124,17 @@ deforestation <-
 
     }
   )
+
+# SAVE RESULTING DATA ---------------------------------------------------------
+
+# Write deforestation table to parquet file
+write_parquet(
+  x = deforestation,
+  sink = "data/deforestation.parquet",
+  version = "latest"
+)
+
+# CLEAN FILES -----------------------------------------------------------------
+
+# Delete temporary folder with PRODES data
+dir_delete("data/temp/")
