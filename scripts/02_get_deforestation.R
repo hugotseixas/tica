@@ -13,7 +13,6 @@ library(terra)
 library(curl)
 library(fs)
 library(glue)
-library(furrr)
 library(tidyverse)
 #
 # CONFLICTS -------------------------------------------------------------------
@@ -31,9 +30,6 @@ data_url <-
     "http://terrabrasilis.dpi.inpe.br/download/dataset/",
     "brasil-prodes/raster/prodes_brasil_2021.zip"
   )
-
-# Configure parallel processing
-plan(multisession, workers = 10)
 
 #
 # DOWNLOAD DATA ---------------------------------------------------------------
@@ -68,44 +64,53 @@ prodes <- rast("data/temp/prodes_brasil_2021.tif")
 
 deforestation <-
   map_df(
-    .x = base_grid$cell_id,
+    .x = base_grid$cell_id, # Map function to every grid cell
     .f = ~ {
 
       cat("Cell ", .x, "\r")
 
+      # Filter the cell
       cell <- base_grid %>%
         filter(cell_id == .x)
 
+      # Crop PRODES raster to the cell extent
       cell_subset <- crop(prodes, cell)
 
+      # Get the classes values as a table
       classes <- cell_subset %>%
         as_tibble() %>%
         rename("class" = "prodes_brasil_2021")
 
+      # Calculate the area for each class inside the cell
       area <- cell_subset %>%
         cellSize(mask = TRUE) %>%
         as_tibble() %>%
         select(area)
 
+      # Create table with all years
       total_years <-
         tibble(
           year = 2000:2021
         )
 
+      # Merge classes and areas and process data
       classes %>%
         bind_cols(area) %>%
-        mutate(
+        mutate( # Transform classes to years of deforestation
           year = case_when( # Add year of deforestation
             class < 50 ~ class + 2000,
             class > 50 & class < 90 ~ class - 40 + 2000,
             class > 90 ~ NA_integer_
           )
         ) %>%
-        summarise(
+        summarise( # Get the deforestation are by year
           area = sum(area, na.rm = TRUE),
           .by = "year"
         ) %>%
-        full_join(total_years, by = join_by(year)) %>%
+        full_join( # Add all years to the time series
+          total_years,
+          by = join_by(year)
+        ) %>%
         arrange(year) %>%
         mutate(
           cell_id = .x # Add id column
