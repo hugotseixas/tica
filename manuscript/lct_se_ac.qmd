@@ -9,7 +9,8 @@ author:
 format: 
   html:
     theme: lux
-page-layout: article
+    page-layout: article
+toc: true
 bibliography: references.bib
 link-citations: true
 editor_options: 
@@ -25,8 +26,6 @@ self-contained: true
 #| label: libraries
 #| include: false
 
-library(sf)
-library(geobr)
 library(gt)
 library(DiagrammeR)
 library(lubridate)
@@ -140,9 +139,7 @@ Information about the key variables, their manipulation process, and the analysi
 
 The database structuring will store all the relevant data in a single file structure to facilitate the modeling process.
 
-The modeling process will follow standard procedures and libraries, with the possibility to implement different techniques. 
-
-The choice of models will depend on a series of tests, accounting the accuracy and adequacy of the model to the theory. 
+The modeling process will follow standard procedures and libraries, with the possibility to implement different techniques.
 
 Future projections will serve as a bridge to discuss public policy planning to mitigate the negative impacts of native vegetation suppression in the Amazon and Cerrado.
 
@@ -210,26 +207,7 @@ To make the modeling process more efficient and transparent, all variables of in
 To structure a collection of data that presents different natures, I will transform all the variables into a standard grid system.
 The grid system will be composed of 0.2 degrees cells (40km x 40km), which should be a balanced compromise between detail and computational cost.
 
-```{r}
-#| label: grid-map-figure
-#| echo: false
-#| message: false
-
-biomes <- read_biomes(showProgress = FALSE) %>%
-  filter(name_biome %in% c("Amazônia", "Cerrado")) %>%
-  st_make_valid()
-
-grid <- 
-  st_make_grid(biomes, cellsize = 0.2) %>%
-  st_as_sf() %>%
-  st_filter(biomes, .predicate = st_intersects)
-
-ggplot() +
-  geom_sf(data = biomes) +
-  geom_sf(data = grid, fill = "transparent") +
-  theme_void()
-
-```
+![Representation of the spatial grid that will be used to store the data from different sources.](figs/grid_cells.png)
 
 Each grid cell will contain an observation, for each year, for all the variables. 
 Only pixels that contained natural vegetation in the first year of the analysis will be considered valid.
@@ -425,10 +403,15 @@ This information can then be used to prioritize the most pressing issues and to 
 
 ## Conclusions
 
-The main objective of the project is to delve deeper into the reasons behind vegetation removals and assess their impact on the environment and human well-being. 
-This effort has the potential to provide valuable insights into what can reduce the negative consequences after vegetation removal. 
-By thoroughly investigating the causes of vegetation removal and its effects, the project aims to contribute to a better understanding of this complex issue and to identify strategies for mitigating its negative impact. 
-The end goal is to ensure that future vegetation removal is carried out in a way that minimizes harm to the environment and supports the well-being of people who depend on it.
+The final outcome of this project is expected to provide answers to the following questions as concluding remarks:
+
+- How suitable were the models to represent the studied phenomena?
+
+The final remarks should summarize the potential of utilizing observed data and statistical models to estimate the causes and impacts of deforestation, as also explore the limitations of this method. 
+
+- What are the implications of the results to the development of public policies in the Amazon and Cerrado biomes?
+
+Assuming that the models were suitable for representing the phenomena, the concluding remarks will summarize how the results can inform important variables that need to be taken into account for the development of public policies. Spatialization may also prove useful by providing regions that are more suitable for different kinds of strategies to mitigate deforestation and its impacts.
 
 ## Schedule
 
