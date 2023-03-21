@@ -66,7 +66,7 @@ base_grid <-
 
 prodes <- rast("data/temp/prodes_brasil_2021.tif")
 
-# TRANSFORM DATA TO BASE GRID ------------------------------------------------
+# TRANSFORM DATA TO BASE GRID -------------------------------------------------
 
 deforestation <-
   map_df(
