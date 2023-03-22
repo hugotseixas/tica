@@ -39,18 +39,22 @@ c_units <-
 
 # TRANSFORM DATA TO BASE GRID -------------------------------------------------
 
-# Select UC columns
+# Select UC columns and fix dates
 c_units <- c_units %>%
   select(
     code_conservation_unit, category, group, government_level,
     creation_year, geom
+  ) %>%
+  mutate(
+    creation_year = str_sub(creation_year, start = -4),
+    creation_year = as.numeric(creation_year)
   )
 
 st_agr(c_units) = "constant"
 
 st_agr(base_grid) = "constant"
 
-uc <-
+uc_grid <-
   map_df(
     .x = base_grid$cell_id, # Map function to every grid cell
     .f = ~ {
@@ -90,7 +94,7 @@ uc <-
           mutate(uc_area = st_area(.)) %>%
           as_tibble() %>%
           select(!geom) %>%
-          mutate(year = as.numeric(creation_year)) %>%
+          mutate(year = creation_year) %>%
           full_join(
             total_years,
             by = join_by(year)
@@ -104,3 +108,12 @@ uc <-
 
     }
   )
+
+# SAVE RESULTING DATA ---------------------------------------------------------
+
+# Write deforestation table to parquet file
+write_parquet(
+  x = uc_grid,
+  sink = "data/uc.parquet",
+  version = "latest"
+)
