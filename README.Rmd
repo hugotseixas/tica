@@ -8,12 +8,12 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-",
+  fig.path = "/man/figures/README-",
   out.width = "100%"
 )
 ```
 
-# TICA: Dimensions of land transitions impacts in the Cerrado and Amazon <a href="https://hugotseixas.com/en/tica/"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# TICA: Dimensions of land transitions impacts in the Cerrado and Amazon <a href="https://hugotseixas.com/en/tica/"><img src="/man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
