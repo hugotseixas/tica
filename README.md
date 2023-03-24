@@ -6,6 +6,13 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+## Overview
+
+TICA is a model being develop to estimate deforestation, land use
+transitions, and their impact on social and environmental aspects of the
+Cerrado and Amazônia biomes in Brazil. This model is part of an effort
+to develop an interdisciplinary approach to analyse these phenomena.
+
 ## Installation
 
 You can install the development version of TICA from
