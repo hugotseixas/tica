@@ -13,10 +13,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-# TICA: Dimensions of land transitions impacts in the Cerrado and Amazon
+# TICA: Dimensions of land transitions impacts in the Cerrado and Amazon <a href="https://hugotseixas.com/en/tica/"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
+
+## Overview
+
+TICA is a model being develop to estimate deforestation, land use transitions, and their impact on social and environmental aspects of the Cerrado and Amazônia biomes in Brazil. This model is part of an effort to develop an interdisciplinary approach to analyse these phenomena.
 
 ## Installation
 
