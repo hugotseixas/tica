@@ -8,6 +8,7 @@
 #'
 #' @examples
 #' base_grid <- create_grid(resolution = 0.2, full_cells = TRUE)
+#'
 create_grid <- function(resolution, full_cells) {
 
   # Load biomes limit
@@ -38,6 +39,6 @@ create_grid <- function(resolution, full_cells) {
       cell_area = sf::st_area(geometry)
     )
 
-  return(grid)
+  base::return(grid)
 
 }
