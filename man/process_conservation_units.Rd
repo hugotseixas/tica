@@ -19,7 +19,7 @@ Process conservation units data to base grid
 }
 \examples{
 \dontrun{
-  uc_grid <- process_conservation_units("./data/base_grid.fgb", 1985:2021)
+  uc_grid <- process_conservation_units("./inst/base_grid.fgb", 1985:2021)
 }
 
 }
