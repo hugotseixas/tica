@@ -19,4 +19,5 @@ Create base grid for TICA
 }
 \examples{
 base_grid <- create_grid(resolution = 0.2, full_cells = TRUE)
+
 }
