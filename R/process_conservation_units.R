@@ -8,14 +8,15 @@
 #'
 #' @examples
 #' \dontrun{
-#'   uc_grid <- process_conservation_units("./data/base_grid.fgb", 1985:2021)
+#'   uc_grid <- process_conservation_units("./inst/base_grid.fgb", 1985:2021)
 #' }
 #'
 process_conservation_units <- function(base_grid_path, timespan) {
 
   base_grid <-
     sf::read_sf(base_grid_path) |>
-    dplyr::arrange(cell_id)
+    dplyr::arrange(cell_id) |>
+    dplyr::select(cell_id, geometry)
 
   cell_list <- base_grid |>
     dplyr::pull(cell_id)
@@ -24,8 +25,8 @@ process_conservation_units <- function(base_grid_path, timespan) {
     geobr::read_conservation_units(showProgress = FALSE) |>
     sf::st_make_valid() |>
     dplyr::select( # Select variables
-      code_conservation_unit, category, group,
-      government_level, creation_year, geom
+      category, group, government_level,
+      creation_year, geom
     ) |>
     dplyr::mutate( # Fix dates
       creation_year = stringr::str_sub(creation_year, start = -4),
@@ -53,7 +54,8 @@ process_conservation_units <- function(base_grid_path, timespan) {
           dplyr::filter(cell_id == .x)
 
         cell_units <- conservation_units |>
-          sf::st_intersection(cell)
+          sf::st_intersection(cell) |>
+          dplyr::relocate(cell_id)
 
         # Create table with all years
         total_years <-
@@ -64,15 +66,17 @@ process_conservation_units <- function(base_grid_path, timespan) {
         if (base::nrow(cell_units) == 0) {
 
           cell_units <-
-            tibble_row(
+            tibble::tibble_row(
               !!!base::names(cell_units)
             ) |>
             janitor::clean_names() |>
             dplyr::mutate(
-              cell_area = cell$cell_area,
-              name_biome = cell$name_biome,
               cell_id = cell$cell_id,
-              dplyr::across(code_conservation_unit:creation_year, ~ NA_real_),
+              dplyr::across(
+                category:government_level,
+                ~ NA_character_
+              ),
+              creation_year = NA_integer_,
               uc_area = units::set_units(
                 0,
                 "m^2",
@@ -88,16 +92,22 @@ process_conservation_units <- function(base_grid_path, timespan) {
             dplyr::mutate(uc_area = sf::st_area(geom)) |>
             tibble::as_tibble() |>
             dplyr::select(!geom) |>
-            dplyr::mutate(year = creation_year) |>
+            dplyr::mutate(
+              creation_year = base::as.integer(creation_year),
+              year = creation_year
+            ) |>
             dplyr::full_join(
               total_years,
               by = dplyr::join_by(year)
             ) |>
             dplyr::arrange(year) |>
             dplyr::mutate(
-              cell_area = cell$cell_area,
-              name_biome = cell$name_biome,
-              cell_id = cell$cell_id
+              cell_id = cell$cell_id,
+              uc_area = dplyr::if_else(
+                base::is.na(uc_area),
+                units::set_units(0, "m^2", mode = "standard"),
+                uc_area
+              )
             )
 
         }
@@ -106,5 +116,7 @@ process_conservation_units <- function(base_grid_path, timespan) {
 
       }
     )
+
+  base::return(uc_grid)
 
 }
