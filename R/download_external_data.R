@@ -74,22 +74,6 @@ download_external_data <- function(
 
     fs::dir_create(glue::glue(dest_dir, "lulc/"))
 
-    url_list <-
-      purrr::map_chr(
-        .x = timespan,
-        ~ glue::glue(
-          "https://storage.googleapis.com/mapbiomas-public/",
-          "brasil/collection-7/lclu/coverage/",
-          "brasil_coverage_{.x}.tif"
-        )
-      )
-
-    path_list <-
-      purrr::map_chr(
-        .x = timespan,
-        ~ glue::glue(dest_dir, "lulc/lulc_{.x}.tif")
-      )
-
     purrr::walk(
       .x = timespan,
       ~ {
@@ -112,7 +96,7 @@ download_external_data <- function(
           factor = 10,
           fun = "modal",
           na.rm = TRUE,
-          filename = glue::glue("lulc/lulc_{.x}.tif"),
+          filename = glue::glue(dest_dir, "lulc/lulc_{.x}.tif"),
           overwrite = TRUE
         )
 
