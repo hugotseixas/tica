@@ -4,12 +4,21 @@
 \alias{create_grid}
 \title{Create base grid for TICA}
 \usage{
-create_grid(resolution, full_cells)
+create_grid(
+  aoi_path = "./data/external/aoi/aoi.fgb",
+  resolution = 0.5,
+  full_cells = TRUE,
+  shape = "hex"
+)
 }
 \arguments{
+\item{aoi_path}{Path to file of area of interest.}
+
 \item{resolution}{Set the resolution of the grid in degrees.}
 
 \item{full_cells}{Choose if cells should completely inside the biomes.}
+
+\item{shape}{Shape of the grid cells.}
 }
 \value{
 A tibble.
@@ -18,6 +27,8 @@ A tibble.
 Create base grid for TICA
 }
 \examples{
+\dontrun{
 base_grid <- create_grid(resolution = 0.2, full_cells = TRUE)
+}
 
 }

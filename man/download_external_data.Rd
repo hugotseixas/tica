@@ -2,33 +2,30 @@
 % Please edit documentation in R/download_external_data.R
 \name{download_external_data}
 \alias{download_external_data}
+\alias{download_aoi}
+\alias{download_land_use}
+\alias{download_conservation_units}
+\alias{download_indigenous_lands}
 \title{Download external data}
 \usage{
-download_external_data(
-  dest_dir = "./data/external/",
-  timespan = 1985:2021,
-  aoi = TRUE,
-  lulc = TRUE
-)
+download_external_data(dest_dir = "./data/external/", timespan = 1985:2021)
+
+download_aoi(dest_dir = "./data/external/")
+
+download_land_use(dest_dir = "./data/external/", timespan = 1985:2021)
+
+download_conservation_units(dest_dir = "./data/external/")
+
+download_indigenous_lands(dest_dir = "./data/external/")
 }
 \arguments{
 \item{dest_dir}{Destination directory for external files}
 
 \item{timespan}{Set the years to download data}
-
-\item{aoi}{Download area of interest}
-
-\item{lulc}{Download land use data}
 }
 \value{
 A tibble
 }
 \description{
 Download external data
-}
-\examples{
-\dontrun{
-  download_external_data(lulc = TRUE)
-}
-
 }
