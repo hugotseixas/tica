@@ -2,29 +2,27 @@
 #'
 #' @param dest_dir Destination directory for external files
 #' @param timespan Set the years to download data
-#' @param lulc Download land use data
-#' @param aoi Download area of interest
 #'
 #' @return A tibble
+#'
 #' @export
-#'
-#' @examples
-#' \dontrun{
-#'   download_external_data(lulc = TRUE)
-#' }
-#'
-download_external_data <- function(
+download_external_data <-
+  function(
     dest_dir = "./data/external/",
-    timespan = 1985:2021,
-    aoi = TRUE,
-    lulc = TRUE
-) {
+    timespan = 1985:2021
+  ) {
 
-  # Create dir to store data
-  fs::dir_create(dest_dir)
+    # Create dir to store data
+    fs::dir_create(dest_dir)
 
-  # Download area of interest (AOI) data
-  if (aoi) {
+  }
+
+#' @export
+#' @rdname download_external_data
+download_aoi <-
+  function(
+    dest_dir = "./data/external/"
+  ) {
 
     cat(
       "Download AOI data",
@@ -64,8 +62,13 @@ download_external_data <- function(
 
   }
 
-  # Download land use data
-  if (lulc) {
+#' @export
+#' @rdname download_external_data
+download_land_use <-
+  function(
+    dest_dir = "./data/external/",
+    timespan = 1985:2021
+  ) {
 
     cat(
       "Download LULC data",
@@ -105,4 +108,134 @@ download_external_data <- function(
 
   }
 
-}
+#' @export
+#' @rdname download_external_data
+download_conservation_units <-
+  function(
+    dest_dir = "./data/external/"
+  ) {
+
+    cat(
+      "Download Conservation Units data",
+      "\n"
+    )
+
+    fs::dir_create(glue::glue(dest_dir, "uc/"))
+
+    uc_data <-
+      sf::read_sf(
+        glue::glue(
+          "https://www.ipea.gov.br/",
+          "geobr/data_gpkg/conservation_units/201909/",
+          "conservation_units_201909_simplified.gpkg"
+        )
+      ) |>
+      dplyr::select( # Select variables
+        category, group, government_level,
+        creation_year, geom
+      ) |>
+      dplyr::rename(
+        geometry = geom
+      ) |>
+      dplyr::mutate( # Fix dates
+        creation_year = stringr::str_sub(creation_year, start = -4),
+        creation_year = base::as.numeric(creation_year)
+      )
+
+    if (fs::file_exists(glue::glue(dest_dir, "uc/uc.fgb"))) {
+
+      fs::file_delete(glue::glue(dest_dir, "uc/uc.fgb"))
+
+    }
+
+    # Save grid polygons as FlatGeobuf file
+    sf::write_sf(
+      obj = uc_data,
+      dsn = glue::glue(dest_dir, "uc/uc.fgb"),
+      driver = "FlatGeobuf",
+      append = FALSE
+    )
+
+  }
+
+#' @export
+#' @rdname download_external_data
+download_indigenous_lands <-
+  function(
+    dest_dir = "./data/external/"
+  ) {
+
+    cat(
+      "Download Indigenous Lands data",
+      "\n"
+    )
+
+    fs::dir_create(glue::glue(dest_dir, "il/"))
+
+    h <- curl::new_handle()
+
+    curl::handle_setopt(
+      h,
+      ssl_verifypeer = FALSE
+    )
+
+    curl::curl_download(
+      url = glue::glue(
+        "https://geoserver.funai.gov.br/geoserver/Funai/",
+        "ows?service=WFS&version=1.0.0",
+        "&request=GetFeature&typeName=Funai%3Atis_poligonais_portarias&",
+        "maxFeatures=10000&outputFormat=SHAPE-ZIP"
+      ),
+      destfile = glue::glue(dest_dir, "il/il.zip"),
+      handle = h
+    )
+
+    utils::unzip(
+      zipfile = glue::glue(dest_dir, "il/il.zip"),
+      exdir = glue::glue(dest_dir, "il/")
+    )
+
+    il_data <-
+      sf::read_sf(
+        glue::glue(dest_dir, "il/tis_poligonais_portariasPolygon.shp")
+      ) |>
+      dplyr::select( # Select variables
+        terrai_cod, fase_ti, modalidade, data_em_es, data_delim,
+        data_decla, data_homol, data_regul, geometry
+      ) |>
+      tidyr::pivot_longer(
+        cols = tidyr::matches("data"),
+        names_to = "year_type",
+        values_to = "creation_year"
+      ) |>
+      dplyr::slice_max(
+        order_by = creation_year,
+        by = "terrai_cod",
+        with_ties = FALSE
+      ) |>
+      dplyr::rename(type = modalidade) |>
+      dplyr::mutate(creation_year = lubridate::year(creation_year))
+
+    if (fs::file_exists(glue::glue(dest_dir, "il/il.fgb"))) {
+
+      fs::file_delete(glue::glue(dest_dir, "il/il.fgb"))
+
+    }
+
+    # Save grid polygons as FlatGeobuf file
+    sf::write_sf(
+      obj = il_data,
+      dsn = glue::glue(dest_dir, "il/il.fgb"),
+      driver = "FlatGeobuf",
+      append = FALSE
+    )
+
+    fs::file_delete(
+      fs::dir_ls(
+        path = glue::glue(dest_dir, "il/"),
+        glob = "*.fgb",
+        invert = TRUE
+      )
+    )
+
+  }
