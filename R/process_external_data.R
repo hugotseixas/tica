@@ -221,6 +221,6 @@ process_indigenous_lands <-
         }
       )
 
-    base::return(uc_grid)
+    base::return(il_grid)
 
   }
