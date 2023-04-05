@@ -1,7 +1,8 @@
 #' Download external data
 #'
-#' @param dest_dir Destination directory for external files
-#' @param timespan Set the years to download data
+#' @param dest_dir Destination directory for external files.
+#' @param timespan Set the years to download data.
+#' @param aoi_path Set path to data with area of interest limits.
 #'
 #' @return A tibble
 #'
@@ -67,6 +68,7 @@ download_aoi <-
 download_land_use <-
   function(
     dest_dir = "./data/external/",
+    aoi_path = "./data/external/aoi/aoi.fgb",
     timespan = 1985:2021
   ) {
 
@@ -77,9 +79,16 @@ download_land_use <-
 
     fs::dir_create(glue::glue(dest_dir, "lulc/"))
 
+    aoi_data <- sf::read_sf(aoi_path)
+
     purrr::walk(
       .x = timespan,
       ~ {
+
+        cat(
+          .x,
+          "\r"
+        )
 
         terra::terraOptions(progress = 0)
 
@@ -96,7 +105,7 @@ download_land_use <-
 
         terra::aggregate(
           x = lulc,
-          factor = 10,
+          fact = 10,
           fun = "modal",
           na.rm = TRUE,
           filename = glue::glue(dest_dir, "lulc/lulc_{.x}.tif"),
