@@ -4,6 +4,7 @@
 \alias{process_external_data}
 \alias{process_conservation_units}
 \alias{process_indigenous_lands}
+\alias{process_land_use}
 \title{Process external data to base grid}
 \usage{
 process_external_data()
@@ -19,6 +20,18 @@ process_indigenous_lands(
   external_data_path = "./data/external/il/il.fgb",
   timespan = 1985:2021
 )
+
+process_land_use(
+  base_grid_path = "../tica-book/data/base_grid.fgb",
+  external_data_path = "../tica-book/data/external/lulc/",
+  timespan = 1985:2021,
+  natural_class = c(3, 4, 11, 12),
+  pasture_class = c(15),
+  temporary_crop_class = c(39, 20, 40, 62, 41),
+  perennial_crop_class = c(46, 47, 48),
+  forest_plantation_class = c(9),
+  mosaic_class = c(21)
+)
 }
 \arguments{
 \item{base_grid_path}{Path to the base grid file}
@@ -26,6 +39,18 @@ process_indigenous_lands(
 \item{external_data_path}{Set path to external data file}
 
 \item{timespan}{Set the years for the data in the base grid}
+
+\item{natural_class}{Set classes of natural cover}
+
+\item{pasture_class}{Set classes for pasture cover}
+
+\item{temporary_crop_class}{Set classes for temporary crops cover}
+
+\item{perennial_crop_class}{Set classes for perennial crops cover}
+
+\item{forest_plantation_class}{Set classes for forest plantation cover}
+
+\item{mosaic_class}{Set classes for mixed cover}
 }
 \value{
 A tibble

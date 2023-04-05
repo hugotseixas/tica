@@ -12,16 +12,22 @@ download_external_data(dest_dir = "./data/external/", timespan = 1985:2021)
 
 download_aoi(dest_dir = "./data/external/")
 
-download_land_use(dest_dir = "./data/external/", timespan = 1985:2021)
+download_land_use(
+  dest_dir = "./data/external/",
+  aoi_path = "./data/external/aoi/aoi.fgb",
+  timespan = 1985:2021
+)
 
 download_conservation_units(dest_dir = "./data/external/")
 
 download_indigenous_lands(dest_dir = "./data/external/")
 }
 \arguments{
-\item{dest_dir}{Destination directory for external files}
+\item{dest_dir}{Destination directory for external files.}
 
-\item{timespan}{Set the years to download data}
+\item{timespan}{Set the years to download data.}
+
+\item{aoi_path}{Set path to data with area of interest limits.}
 }
 \value{
 A tibble
