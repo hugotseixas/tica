@@ -22,4 +22,10 @@ Imports:
     terra,
     tidyr,
     curl,
-    lubridate
+    lubridate,
+    ggplot2,
+    scales,
+    scico,
+    gganimate,
+    cowplot,
+    ggiraph
