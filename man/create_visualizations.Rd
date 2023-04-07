@@ -22,7 +22,8 @@ eda_cumulative_distribution(
   data = NULL,
   variable = NULL,
   quantiles_list = c(0, 0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99, 1),
-  scale_transform = "identity"
+  scale_transform = "identity",
+  xlim = NULL
 )
 
 eda_spatial_distribution(
