@@ -66,7 +66,7 @@ eda_histogram <-
         expand = c(0.001, 0.001)
       ) +
       cowplot::theme_nothing() +
-      ggplot2::theme(text = ggplot2::element_text(size = 13))
+      ggplot2::theme(text = ggplot2::element_text(size = 12))
 
     return(viz)
 
@@ -84,12 +84,12 @@ eda_cumulative_distribution <-
     data = NULL,
     variable = NULL,
     quantiles_list = c(0, 0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99, 1),
-    scale_transform = "identity"
+    scale_transform = "identity",
+    xlim = NULL
   ) {
 
     # Calculate percentiles
     quantile_table <- data |>
-      tidyr::drop_na() |>
       dplyr::rename(viz_variable = {{variable}}) |>
       dplyr::reframe(
         quant = quantile(viz_variable, quantiles_list),
@@ -98,7 +98,6 @@ eda_cumulative_distribution <-
 
     # Get cumulative sum for each percentile
     cumsum_table <- data |>
-      tidyr::drop_na() |>
       dplyr::rename(viz_variable = {{variable}}) |>
       dplyr::arrange(viz_variable) |>
       dplyr::mutate(cumulative = cumsum(viz_variable/sum(viz_variable))) |>
@@ -115,7 +114,6 @@ eda_cumulative_distribution <-
       dplyr::distinct(cumulative, viz_variable, probs)
 
     viz_table <- data %>%
-      tidyr::drop_na() %>%
       dplyr::rename(viz_variable = {{variable}}) |>
       dplyr::arrange(viz_variable) %>%
       dplyr::mutate(cumulative = cumsum(viz_variable/sum(viz_variable))) %>%
@@ -157,8 +155,12 @@ eda_cumulative_distribution <-
       ) +
       ggplot2::scale_x_continuous(
         breaks = c(cumsum_table$viz_variable),
-        labels = scales::label_number(accuracy = 1, scale = 0.0001),
+        labels = scales::label_number(
+          scale_cut = scales::cut_short_scale(),
+          accuracy = 1
+        ),
         guide = ggplot2::guide_axis(angle = 55),
+        limits = xlim,
         trans = scale_transform
       ) +
       ggplot2::scale_y_continuous(
@@ -168,8 +170,9 @@ eda_cumulative_distribution <-
       ) +
       scico::scale_fill_scico_d(palette = "bilbao") +
       ggplot2::guides(fill = "none") +
-      cowplot::theme_nothing() +
-      ggplot2::theme(text = ggplot2::element_text(size = 13))
+      ggplot2::coord_cartesian(clip = "off") +
+      cowplot::theme_nothing(font_size = 11) +
+      ggplot2::theme(text = ggplot2::element_text(size = 12))
 
     return(viz)
 
