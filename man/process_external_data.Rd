@@ -22,8 +22,8 @@ process_indigenous_lands(
 )
 
 process_land_use(
-  base_grid_path = "../tica-book/data/base_grid.fgb",
-  external_data_path = "../tica-book/data/external/lulc/",
+  base_grid_path = "./data/base_grid.fgb",
+  external_data_path = "./data/external/lulc/",
   timespan = 1985:2021,
   natural_class = c(3, 4, 11, 12),
   pasture_class = c(15),

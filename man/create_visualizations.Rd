@@ -8,22 +8,29 @@
 \alias{eda_time_series}
 \title{Title Create data visualizations}
 \usage{
-create_visualizations()
-
-eda_histogram(
-  data = NULL,
-  variable = NULL,
-  n_bins = 30,
-  scale_transform = "identity",
-  xlim = NULL
+create_visualizations(
+  f,
+  data,
+  group_variable,
+  viz_title = NULL,
+  x_title = NULL,
+  y_title = NULL,
+  out_format = c("png", "rdata"),
+  out_filename = NULL,
+  out_path = NULL,
+  out_width = 15,
+  out_height = 11,
+  ...
 )
 
+eda_histogram(data, variable, n_bins, scale_transform, x_lim, ...)
+
 eda_cumulative_distribution(
-  data = NULL,
-  variable = NULL,
-  quantiles_list = c(0, 0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99, 1),
-  scale_transform = "identity",
-  xlim = NULL
+  data,
+  variable,
+  quantiles_list,
+  scale_transform,
+  ...
 )
 
 eda_spatial_distribution(
@@ -40,15 +47,33 @@ eda_time_series(
 )
 }
 \arguments{
+\item{f}{Type of visualization}
+
 \item{data}{A tibble to provide data}
+
+\item{group_variable}{Set variable to create facet label}
+
+\item{viz_title}{Visualization title}
+
+\item{x_title}{Horizontal axis title}
+
+\item{y_title}{Vertical axis title}
+
+\item{out_format}{The format of the visualization output}
+
+\item{out_filename}{Name of the file}
+
+\item{out_path}{Path of the file}
+
+\item{out_width}{Width in centimeters of the .png file}
+
+\item{out_height}{Height in centimeters of the .png file}
+
+\item{...}{Parameters passed to visualization functions}
 
 \item{variable}{The variable to be represented in the visualization}
 
-\item{n_bins}{Number of bins for the visualization}
-
 \item{scale_transform}{A transform for the horizontal axis}
-
-\item{xlim}{The limits for the horizontal axis}
 
 \item{quantiles_list}{List of percentiles to be calculated}
 
@@ -66,7 +91,7 @@ Title Create data visualizations
 }
 \examples{
 \dontrun{
-  eda_histogram()
+  create_visualizations()
 }
 
 }
