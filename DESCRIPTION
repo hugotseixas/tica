@@ -28,4 +28,4 @@ Imports:
     scico,
     gganimate,
     cowplot,
-    ggiraph
+    ragg
