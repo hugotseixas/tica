@@ -2,36 +2,161 @@
 #'
 #' @return A ggplot
 #'
+#' @param f Type of visualization
+#' @param data A tibble to provide data
+#' @param group_variable Set variable to create facet label
+#' @param viz_title Visualization title
+#' @param x_title Horizontal axis title
+#' @param y_title Vertical axis title
+#' @param out_format The format of the visualization output
+#' @param out_filename Name of the file
+#' @param out_path Path of the file
+#' @param out_width Width in centimeters of the .png file
+#' @param out_height Height in centimeters of the .png file
+#' @param ... Parameters passed to visualization functions
+#'
 #' @examples
 #' \dontrun{
-#'   eda_histogram()
+#'   create_visualizations()
 #' }
 #'
 #' @export
+#' @rdname create_visualizations
 create_visualizations <-
   function(
-
+    f,
+    data,
+    group_facet = FALSE,
+    group_variable = NULL,
+    viz_title = NULL,
+    x_title = NULL,
+    y_title = NULL,
+    out_format = c("png", "rdata"),
+    out_filename = NULL,
+    out_path = NULL,
+    out_width = 15,
+    out_height = 11,
+    ...
   ) {
 
+    if (group_facet) {
+      group_list <- data |>
+        dplyr::distinct({{group_variable}}) |>
+        dplyr::pull(dplyr::any_of({{group_variable}}))
 
+    } else {
+
+      group_list <- NA
+
+    }
+
+    viz_list <-
+      purrr::map(
+        group_list,
+        \(group) {
+
+          if (group_facet) {
+
+            viz_data <- data |>
+              dplyr::filter({{group_variable}} == group)
+
+            viz <- f(data = viz_data, ...) +
+              ggplot2::facet_wrap(
+                facets = ggplot2::vars({{group_variable}}),
+                nrow = 1,
+                strip.position = "right"
+              )
+
+          } else {
+
+            viz_data <- data
+
+            viz <- f(data = viz_data, ...)
+
+          }
+
+          return(viz)
+
+        }
+      )
+
+    custom_title <- cowplot::ggdraw() +
+      cowplot::draw_label(
+        {{viz_title}},
+        size = 15,
+        fontface = 'bold',
+        x = 0,
+        hjust = 0
+      ) +
+      ggplot2::theme(
+        plot.margin = ggplot2::margin(0, 0, 0, 0)
+      )
+
+    viz_grid <-
+      cowplot::plot_grid(
+        custom_title,
+        plotlist =  viz_list,
+        ncol = 1,
+        scale = 0.9,
+        rel_heights = c(0.1, rep(1, length(group_list)))
+      ) +
+      cowplot::draw_label(
+        {{x_title}},
+        x = 0.5, y = 0,
+        vjust = -0.2,
+        angle = 0,
+        size = 13
+      ) +
+      cowplot::draw_label(
+        {{y_title}},
+        x = 0, y = 0.5,
+        vjust = 1.5,
+        angle = 90,
+        size = 13
+      )
+
+    if ("png" %in% out_format) {
+
+      ggplot2::ggsave(
+        filename = glue::glue("{out_filename}.png"),
+        path = out_path,
+        plot = viz_grid,
+        device = ragg::agg_png,
+        width = out_width,
+        height = out_height,
+        units = "cm",
+        dpi = 300
+      )
+
+    }
+
+    if ("rdata" %in% out_format) {
+
+      obj_name <- out_filename
+
+      assign(obj_name, viz_grid)
+
+      save(
+        list = obj_name,
+        file = glue::glue("{out_path}{out_filename}.rdata")
+      )
+
+    }
+
+    return(viz_grid)
 
   }
 
-#' @param data A tibble to provide data
-#' @param variable The variable to be represented in the visualization
-#' @param n_bins Number of bins for the visualization
-#' @param scale_transform A transform for the horizontal axis
-#' @param xlim The limits for the horizontal axis
-#'
 #' @export
 #' @rdname create_visualizations
 eda_histogram <-
   function(
-    data = NULL,
-    variable = NULL,
-    n_bins = 30,
-    scale_transform = "identity",
-    xlim = NULL
+    data,
+    variable,
+    n_bins,
+    scale_transform,
+    x_lim,
+    ...
   ) {
 
     if (scale_transform == "log") {
@@ -49,7 +174,7 @@ eda_histogram <-
         data = data,
         mapping = ggplot2::aes(
           x = {{variable}},
-          y = ggplot2::after_stat(count)
+          y = ggplot2::after_stat(count / max(count))
         )
       ) +
       ggplot2::geom_histogram(
@@ -62,11 +187,18 @@ eda_histogram <-
         trans = scale_transform,
         breaks = custom_breaks,
         labels = scales::label_number(accuracy = 1),
-        limits = xlim,
+        limits = x_lim,
         expand = c(0.001, 0.001)
       ) +
-      cowplot::theme_nothing() +
-      ggplot2::theme(text = ggplot2::element_text(size = 12))
+      ggplot2::coord_cartesian(clip = "off") +
+      cowplot::theme_minimal_grid() +
+      ggplot2::theme(
+        text = ggplot2::element_text(size = 12),
+        axis.title = ggplot2::element_blank(),
+        axis.text.y = ggplot2::element_blank(),
+        plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
+        strip.text.y = ggplot2::element_text(size = 13, face = "bold")
+      )
 
     return(viz)
 
@@ -81,11 +213,11 @@ eda_histogram <-
 #' @rdname create_visualizations
 eda_cumulative_distribution <-
   function(
-    data = NULL,
-    variable = NULL,
-    quantiles_list = c(0, 0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99, 1),
-    scale_transform = "identity",
-    xlim = NULL
+    data,
+    variable,
+    quantiles_list,
+    scale_transform,
+    ...
   ) {
 
     # Calculate percentiles
@@ -113,10 +245,10 @@ eda_cumulative_distribution <-
       ) |>
       dplyr::distinct(cumulative, viz_variable, probs)
 
-    viz_table <- data %>%
+    viz_table <- data |>
       dplyr::rename(viz_variable = {{variable}}) |>
-      dplyr::arrange(viz_variable) %>%
-      dplyr::mutate(cumulative = cumsum(viz_variable/sum(viz_variable))) %>%
+      dplyr::arrange(viz_variable) |>
+      dplyr::mutate(cumulative = cumsum(viz_variable/sum(viz_variable))) |>
       dplyr::left_join(
         quantile_table,
         by = dplyr::join_by(viz_variable <= quant),
@@ -160,7 +292,6 @@ eda_cumulative_distribution <-
           accuracy = 1
         ),
         guide = ggplot2::guide_axis(angle = 55),
-        limits = xlim,
         trans = scale_transform
       ) +
       ggplot2::scale_y_continuous(
@@ -171,8 +302,13 @@ eda_cumulative_distribution <-
       scico::scale_fill_scico_d(palette = "bilbao") +
       ggplot2::guides(fill = "none") +
       ggplot2::coord_cartesian(clip = "off") +
-      cowplot::theme_nothing(font_size = 11) +
-      ggplot2::theme(text = ggplot2::element_text(size = 12))
+      cowplot::theme_minimal_grid() +
+      ggplot2::theme(
+        text = ggplot2::element_text(size = 12),
+        axis.title = ggplot2::element_blank(),
+        plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
+        strip.text.y = ggplot2::element_text(size = 13, face = "bold")
+      )
 
     return(viz)
 
@@ -187,10 +323,12 @@ eda_cumulative_distribution <-
 #' @rdname create_visualizations
 eda_spatial_distribution <-
   function(
-    data = NULL,
-    variable = NULL,
-    base_map = NULL,
-    animated = FALSE
+    data,
+    variable,
+    variable_label,
+    base_map,
+    animated = FALSE,
+    ...
   ) {
 
     viz <- data |>
@@ -213,13 +351,27 @@ eda_spatial_distribution <-
           fill = {{variable}}
         )
       ) +
-      ggplot2::coord_sf() +
       scico::scale_fill_scico(
         palette = "bilbao",
         labels = scales::label_number(scale_cut = scales::cut_short_scale())
       ) +
-      cowplot::theme_nothing() +
-      ggplot2::theme(text = ggplot2::element_text(size = 13))
+      ggplot2::labs(fill = variable_label) +
+      ggplot2::guides(
+        fill = ggplot2::guide_colourbar(
+          title.position = "top",
+          title.hjust = 0.5
+        )
+      ) +
+      ggplot2::coord_sf() +
+      cowplot::theme_map() +
+      ggplot2::theme(
+        text = ggplot2::element_text(size = 12),
+        legend.position = "bottom",
+        legend.key.height = ggplot2::unit(2, 'mm'),
+        legend.key.width = ggplot2::unit(25, 'mm'),
+        legend.justification = c(0.5, 0.5),
+        plot.margin = ggplot2::margin(-0.8, -0.3, 0, -0.3, "cm")
+      )
 
     if (animated) {
 
@@ -240,9 +392,10 @@ eda_spatial_distribution <-
 #' @rdname create_visualizations
 eda_time_series <-
   function(
-    data = NULL,
-    variable = NULL,
-    ts_type = c("step", "bar", "line")
+    data,
+    variable,
+    ts_type = c("step", "bar", "line"),
+    ...
   ) {
 
     viz <- data |>
@@ -286,11 +439,12 @@ eda_time_series <-
 
       viz <- viz +
         ggplot2::geom_line(
-          mapping = aes(color = {{variable}})
+          mapping = aes(color = {{variable}}),
+          linewidth = 1.5,
         ) +
         ggplot2::geom_point(
           mapping = aes(color = {{variable}}),
-          size = 1.5
+          size = 3
         ) +
         scico::scale_color_scico(
           palette = "bilbao",
@@ -307,8 +461,14 @@ eda_time_series <-
       ggplot2::scale_x_continuous(
         labels = scales::label_date(format = "%Y")
       ) +
-      cowplot::theme_nothing() +
-      ggplot2::theme(text = ggplot2::element_text(size = 13))
+      ggplot2::guides(fill = "none", color = "none") +
+      cowplot::theme_minimal_grid() +
+      ggplot2::theme(
+        text = ggplot2::element_text(size = 12),
+        axis.title = ggplot2::element_blank(),
+        plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
+        strip.text.y = ggplot2::element_text(size = 13, face = "bold")
+      )
 
     return(viz)
 
