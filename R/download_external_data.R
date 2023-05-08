@@ -3,6 +3,8 @@
 #' @param dest_dir Destination directory for external files.
 #' @param timespan Set the years to download data.
 #' @param aoi_path Set path to data with area of interest limits.
+#' @param crs Set the Coordinate Reference System to be used
+#' @param agg_fact Set the factor to aggregate raster cells
 #'
 #' @return A tibble
 #'
@@ -10,7 +12,9 @@
 download_external_data <-
   function(
     dest_dir = "./data/external/",
-    timespan = 1985:2021
+    timespan = 1985:2021,
+    crs,
+    ...
   ) {
 
     # Create dir to store data
@@ -22,7 +26,8 @@ download_external_data <-
 #' @rdname download_external_data
 download_aoi <-
   function(
-    dest_dir = "./data/external/"
+    dest_dir = "./data/external/",
+    crs = "EPSG:5880"
   ) {
 
     cat(
@@ -33,19 +38,33 @@ download_aoi <-
     fs::dir_create(glue::glue(dest_dir, "aoi/"))
 
     aoi_data <-
-      sf::read_sf(
+      sf::read_sf( # Get data from IPEA and read as sf
         glue::glue(
           "https://www.ipea.gov.br/",
           "geobr/data_gpkg/biomes/2019/biomes_2019_simplified.gpkg"
         )
       ) |>
-      dplyr::rename(
+      sf::st_transform( # Transform to desired coordinate system
+        crs = crs
+      ) |>
+      dplyr::rename( # Rename columns
         region_name = name_biome,
         region_code = code_biome,
         geometry = geom
       ) |>
-      dplyr::filter(region_code %in% c(1, 3)) |>
-      dplyr::select(!year)
+      dplyr::filter( # Filter Amazon and Cerrado biomes
+        region_code %in% c(1, 3)
+      ) |>
+      dplyr::select(
+        !year
+      ) |>
+      sf::st_simplify( # Simplify polygon
+        dTolerance = 5000
+      ) |>
+      smoothr::smooth( # Smooth polygon
+        method = "ksmooth",
+        smoothness = 3
+      )
 
     if (fs::file_exists(glue::glue(dest_dir, "aoi/aoi.fgb"))) {
 
@@ -69,7 +88,9 @@ download_land_use <-
   function(
     dest_dir = "./data/external/",
     aoi_path = "./data/external/aoi/aoi.fgb",
-    timespan = 1985:2021
+    timespan = 1985:2021,
+    crs = "EPSG:5880",
+    agg_fact = 5
   ) {
 
     cat(
@@ -79,9 +100,12 @@ download_land_use <-
 
     fs::dir_create(glue::glue(dest_dir, "lulc/"))
 
-    aoi_data <- sf::read_sf(aoi_path)
+    aoi_data <-
+      sf::read_sf( # Read region of interest
+        dsn = aoi_path
+      )
 
-    purrr::walk(
+    purrr::walk( # Download raster files, year by year
       .x = timespan,
       ~ {
 
@@ -94,18 +118,30 @@ download_land_use <-
 
         lulc <-
           terra::rast(
-            glue::glue(
+            glue::glue( # Download and read data from MapBiomas
               "https://storage.googleapis.com/mapbiomas-public/",
               "brasil/collection-7/lclu/coverage/",
               "brasil_coverage_{.x}.tif"
             )
           )
 
-        lulc <- terra::crop(lulc, terra::vect(aoi_data))
+        lulc <-
+        terra::crop( # Crop raster extents to area of interest
+          lulc,
+          terra::vect(aoi_data)
+        )
 
-        terra::aggregate(
+        lulc <-
+          terra::project( # Transform raster to desired coordinate system
+            lulc,
+            crs,
+            method = "near",
+            threads = TRUE
+          )
+
+        terra::aggregate( # Aggregate cells to coarser resolution
           x = lulc,
-          fact = 10,
+          fact = agg_fact,
           fun = "modal",
           na.rm = TRUE,
           filename = glue::glue(dest_dir, "lulc/lulc_{.x}.tif"),
@@ -121,7 +157,9 @@ download_land_use <-
 #' @rdname download_external_data
 download_conservation_units <-
   function(
-    dest_dir = "./data/external/"
+    dest_dir = "./data/external/",
+    crs = "EPSG:5880",
+    ...
   ) {
 
     cat(
@@ -132,23 +170,15 @@ download_conservation_units <-
     fs::dir_create(glue::glue(dest_dir, "uc/"))
 
     uc_data <-
-      sf::read_sf(
+      sf::read_sf( # Download data from IPEA and read as sf
         glue::glue(
           "https://www.ipea.gov.br/",
           "geobr/data_gpkg/conservation_units/201909/",
           "conservation_units_201909_simplified.gpkg"
         )
       ) |>
-      dplyr::select( # Select variables
-        category, group, government_level,
-        creation_year, geom
-      ) |>
-      dplyr::rename(
-        geometry = geom
-      ) |>
-      dplyr::mutate( # Fix dates
-        creation_year = stringr::str_sub(creation_year, start = -4),
-        creation_year = base::as.numeric(creation_year)
+      sf::st_transform( # Transform polygons to desired coordinate system
+        crs = crs
       )
 
     if (fs::file_exists(glue::glue(dest_dir, "uc/uc.fgb"))) {
@@ -171,7 +201,9 @@ download_conservation_units <-
 #' @rdname download_external_data
 download_indigenous_lands <-
   function(
-    dest_dir = "./data/external/"
+    dest_dir = "./data/external/",
+    crs = "EPSG:5880",
+    ...
   ) {
 
     cat(
@@ -188,7 +220,7 @@ download_indigenous_lands <-
       ssl_verifypeer = FALSE
     )
 
-    curl::curl_download(
+    curl::curl_download( # Download data from FUNAI
       url = glue::glue(
         "https://geoserver.funai.gov.br/geoserver/Funai/",
         "ows?service=WFS&version=1.0.0",
@@ -205,25 +237,12 @@ download_indigenous_lands <-
     )
 
     il_data <-
-      sf::read_sf(
+      sf::read_sf( # Read data as sf
         glue::glue(dest_dir, "il/tis_poligonais_portariasPolygon.shp")
       ) |>
-      dplyr::select( # Select variables
-        terrai_cod, fase_ti, modalidade, data_em_es, data_delim,
-        data_decla, data_homol, data_regul, geometry
-      ) |>
-      tidyr::pivot_longer(
-        cols = tidyr::matches("data"),
-        names_to = "year_type",
-        values_to = "creation_year"
-      ) |>
-      dplyr::slice_max(
-        order_by = creation_year,
-        by = "terrai_cod",
-        with_ties = FALSE
-      ) |>
-      dplyr::rename(type = modalidade) |>
-      dplyr::mutate(creation_year = lubridate::year(creation_year))
+      sf::st_transform( # Transform polygons to the desired coordinate system
+        crs = crs
+      )
 
     if (fs::file_exists(glue::glue(dest_dir, "il/il.fgb"))) {
 
