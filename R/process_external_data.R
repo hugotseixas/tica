@@ -3,6 +3,12 @@
 #' @param base_grid_path Path to the base grid file
 #' @param external_data_path Set path to external data file
 #' @param timespan Set the years for the data in the base grid
+#' @param natural_class Set classes of natural cover
+#' @param pasture_class Set classes for pasture cover
+#' @param temporary_crop_class Set classes for temporary crops cover
+#' @param perennial_crop_class Set classes for perennial crops cover
+#' @param forest_plantation_class Set classes for forest plantation cover
+#' @param mosaic_class Set classes for mixed cover
 #'
 #' @return A tibble
 #'
@@ -33,11 +39,18 @@ process_conservation_units <-
 
     conservation_units <-
       sf::read_sf(external_data_path) |>
-      sf::st_make_valid()
+      dplyr::select( # Select variables
+        category, group, government_level,
+        creation_year, geometry
+      ) |>
+      dplyr::mutate( # Fix dates
+        creation_year = stringr::str_sub(creation_year, start = -4),
+        creation_year = as.numeric(creation_year)
+      )
 
-    sf::st_agr(conservation_units) = "constant"
+    sf::st_agr(conservation_units) <- "constant"
 
-    sf::st_agr(base_grid) = "constant"
+    sf::st_agr(base_grid) <- "constant"
 
     uc_grid <-
       purrr::map_df(
@@ -65,7 +78,7 @@ process_conservation_units <-
               year = timespan
             )
 
-          if (base::nrow(cell_units) == 0) {
+          if (nrow(cell_units) == 0) {
 
             cell_units <-
               tibble::tibble_row(
@@ -87,6 +100,9 @@ process_conservation_units <-
           } else {
 
             cell_units <- cell_units |>
+              sf::st_set_precision(2) |>
+              sf::st_intersection() |> # Create new polygons for overlaps
+              dplyr::select(!c(n.overlaps, origins)) |>
               dplyr::mutate(uc_area = as.numeric(sf::st_area(geometry))) |>
               tibble::as_tibble() |>
               dplyr::select(!geometry) |>
@@ -138,7 +154,22 @@ process_indigenous_lands <-
 
     indigenous_lands <-
       sf::read_sf(external_data_path) |>
-      sf::st_make_valid()
+      dplyr::select( # Select variables
+        terrai_cod, fase_ti, modalidade, data_em_es, data_delim,
+        data_decla, data_homol, data_regul, geometry
+      ) |>
+      tidyr::pivot_longer( # Set dates to one column
+        cols = tidyr::matches("data"),
+        names_to = "year_type",
+        values_to = "creation_year"
+      ) |>
+      dplyr::slice_max( # Get the latest date to represent the IL
+        order_by = creation_year,
+        by = "terrai_cod",
+        with_ties = FALSE
+      ) |>
+      dplyr::rename(type = modalidade) |>
+      dplyr::mutate(creation_year = lubridate::year(creation_year))
 
     sf::st_agr(indigenous_lands) = "constant"
 
@@ -185,7 +216,7 @@ process_indigenous_lands <-
                   ~ NA_character_
                 ),
                 creation_year = NA_integer_,
-                uc_area = 0
+                il_area = 0
               ) |>
               dplyr::select(!geometry) |>
               dplyr::bind_cols(total_years)
@@ -193,6 +224,10 @@ process_indigenous_lands <-
           } else {
 
             cell_lands <- cell_lands |>
+              dplyr::arrange(creation_year) |>
+              sf::st_set_precision(1000) |>
+              sf::st_intersection() |> # Create new polygons for overlaps
+              dplyr::select(!c(n.overlaps, origins)) |>
               dplyr::mutate(il_area = as.numeric(sf::st_area(geometry))) |>
               tibble::as_tibble() |>
               dplyr::select(!geometry) |>
@@ -225,16 +260,6 @@ process_indigenous_lands <-
 
   }
 
-#' @param base_grid_path Path to the base grid file
-#' @param external_data_path Set path to external data file
-#' @param timespan Set the years for the data in the base grid
-#' @param natural_class Set classes of natural cover
-#' @param pasture_class Set classes for pasture cover
-#' @param temporary_crop_class Set classes for temporary crops cover
-#' @param perennial_crop_class Set classes for perennial crops cover
-#' @param forest_plantation_class Set classes for forest plantation cover
-#' @param mosaic_class Set classes for mixed cover
-#'
 #' @export
 #' @rdname process_external_data
 process_land_use <-
