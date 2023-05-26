@@ -6,12 +6,15 @@
 \alias{eda_cumulative_distribution}
 \alias{eda_spatial_distribution}
 \alias{eda_time_series}
+\alias{eda_colsum}
+\alias{eda_summary_table}
 \title{Title Create data visualizations}
 \usage{
 create_visualizations(
   f,
   data,
-  group_variable,
+  group_facet = FALSE,
+  group_variable = NULL,
   viz_title = NULL,
   x_title = NULL,
   y_title = NULL,
@@ -34,16 +37,25 @@ eda_cumulative_distribution(
 )
 
 eda_spatial_distribution(
-  data = NULL,
-  variable = NULL,
-  base_map = NULL,
-  animated = FALSE
+  data,
+  variable,
+  variable_label,
+  base_map,
+  animated = FALSE,
+  ...
 )
 
-eda_time_series(
-  data = NULL,
-  variable = NULL,
-  ts_type = c("step", "bar", "line")
+eda_time_series(data, variable, ts_type = c("step", "bar", "line"), ...)
+
+eda_colsum(data, variable, cat_variable, scale_transform, ...)
+
+eda_summary_table(
+  data,
+  variable,
+  rowname_variable,
+  viz_title,
+  out_filename = NULL,
+  out_path = NULL
 )
 }
 \arguments{

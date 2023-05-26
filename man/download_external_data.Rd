@@ -8,26 +8,45 @@
 \alias{download_indigenous_lands}
 \title{Download external data}
 \usage{
-download_external_data(dest_dir = "./data/external/", timespan = 1985:2021)
+download_external_data(
+  dest_dir = "./data/external/",
+  timespan = 1985:2021,
+  crs,
+  ...
+)
 
-download_aoi(dest_dir = "./data/external/")
+download_aoi(dest_dir = "./data/external/", crs = "EPSG:5880")
 
 download_land_use(
   dest_dir = "./data/external/",
   aoi_path = "./data/external/aoi/aoi.fgb",
-  timespan = 1985:2021
+  timespan = 1985:2021,
+  crs = "EPSG:5880",
+  agg_fact = 5
 )
 
-download_conservation_units(dest_dir = "./data/external/")
+download_conservation_units(
+  dest_dir = "./data/external/",
+  crs = "EPSG:5880",
+  ...
+)
 
-download_indigenous_lands(dest_dir = "./data/external/")
+download_indigenous_lands(
+  dest_dir = "./data/external/",
+  crs = "EPSG:5880",
+  ...
+)
 }
 \arguments{
 \item{dest_dir}{Destination directory for external files.}
 
 \item{timespan}{Set the years to download data.}
 
+\item{crs}{Set the Coordinate Reference System to be used}
+
 \item{aoi_path}{Set path to data with area of interest limits.}
+
+\item{agg_fact}{Set the factor to aggregate raster cells}
 }
 \value{
 A tibble
