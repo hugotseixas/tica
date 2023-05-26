@@ -268,7 +268,7 @@ eda_cumulative_distribution <-
         ),
         alpha = 0.7
       ) +
-      ggplot2::geom_step(
+      ggplot2::geom_line(
         linewidth = 0.5
       ) +
       ggplot2::annotate(
@@ -344,6 +344,12 @@ eda_spatial_distribution <-
 
     }
 
+    break_values <-
+      c(
+        min(dplyr::pull(data, {{variable}})),
+        max(dplyr::pull(data, {{variable}}))
+      )
+
     viz <- viz +
       ggplot2::geom_sf(
         mapping = ggplot2::aes(
@@ -353,6 +359,9 @@ eda_spatial_distribution <-
       ) +
       scico::scale_fill_scico(
         palette = "bilbao",
+        begin = 0.1,
+        end = 0.9,
+        breaks = break_values,
         labels = scales::label_number(scale_cut = scales::cut_short_scale())
       ) +
       ggplot2::labs(fill = variable_label) +
@@ -410,11 +419,12 @@ eda_time_series <-
 
       viz <- viz +
         ggplot2::geom_step(
-          mapping = ggplot2::aes(color = {{variable}})
+          mapping = ggplot2::aes(color = {{variable}}),
+          linewidth = 1.5
         ) +
         ggplot2::geom_point(
           mapping = ggplot2::aes(color = {{variable}}),
-          size = 1.5
+          size = 3
         ) +
         scico::scale_color_scico(
           palette = "bilbao",
@@ -435,7 +445,7 @@ eda_time_series <-
           begin = 0.2
         )
 
-    }else if (ts_type == "line") {
+    } else if (ts_type == "line") {
 
       viz <- viz +
         ggplot2::geom_line(
@@ -469,6 +479,140 @@ eda_time_series <-
         plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
         strip.text.y = ggplot2::element_text(size = 13, face = "bold")
       )
+
+    return(viz)
+
+  }
+
+#' @export
+#' @rdname create_visualizations
+eda_colsum <-
+  function(
+    data,
+    variable,
+    cat_variable,
+    scale_transform,
+    ...
+  ) {
+
+    if (scale_transform == "log") {
+
+      custom_breaks <- scales::breaks_log()
+
+    } else if (scale_transform == "identity") {
+
+      custom_breaks <- scales::breaks_pretty()
+
+    } else { stop("Invalid transform.") }
+
+    viz <- data |>
+      ggplot2::ggplot(
+        ggplot2::aes(
+          x = {{cat_variable}},
+          y = {{variable}},
+          fill = {{variable}},
+          group = {{cat_variable}}
+        )
+      ) +
+      ggplot2::geom_col(
+        color = "#000000"
+      ) +
+      ggplot2::geom_label(
+        aes(
+          label = scales::number(
+            {{variable}},
+            accuracy = 1,
+            scale_cut = scales::cut_short_scale()
+          )
+        ),
+        nudge_y = -2,
+        label.r = ggplot2::unit(0, "lines"),
+        fill = "#ffffff"
+      ) +
+      ggplot2::scale_y_continuous(
+        trans = scale_transform,
+        breaks = custom_breaks,
+        labels = scales::label_number(scale_cut = scales::cut_short_scale())
+      ) +
+      scico::scale_fill_scico(
+        palette = "bilbao",
+        labels = scales::label_number(
+          data,scale_cut = scales::cut_short_scale()),
+        begin = 0.2
+      ) +
+      ggplot2::guides(fill = "none") +
+      ggplot2::coord_cartesian(clip = "off") +
+      cowplot::theme_minimal_grid() +
+      ggplot2::theme(
+        text = ggplot2::element_text(size = 12),
+        axis.title = ggplot2::element_blank(),
+        plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
+        strip.text.y = ggplot2::element_text(size = 13, face = "bold")
+      )
+
+  }
+
+#' @export
+#' @rdname create_visualizations
+eda_summary_table <-
+  function(
+    data,
+    variable,
+    rowname_variable,
+    viz_title,
+    out_filename = NULL,
+    out_path = NULL
+  ) {
+
+    viz <- data |>
+      dplyr::summarise(
+        dplyr::across(
+          .cols = {{variable}},
+          .fns = list(
+            min = min,
+            qu_1st = ~ quantile(.x, 0.25),
+            mean = mean,
+            median = median,
+            qu_3rd = ~ quantile(.x, 0.75),
+            max = max,
+            std = sd,
+            n_miss = ~ sum(is.na(.x))
+          ),
+          .names = "{.fn}"
+        ),
+        .by = {{rowname_variable}}
+      ) |>
+      dplyr::rename("rowname" = {{rowname_variable}}) |>
+      gt::gt(
+        rowname_col = "rowname"
+      ) |>
+      gt::tab_header(
+        title = viz_title
+      ) |>
+      gt::fmt_number(
+        columns = tidyselect::everything(),
+        suffixing = TRUE,
+        decimals = 0
+      ) |>
+      gt::cols_label(
+        min = gt::md("**Minimum**"),
+        qu_1st = gt::md("**1st Quantile**"),
+        mean = gt::md("**Mean**"),
+        median = gt::md("**Median**"),
+        qu_3rd = gt::md("**3rd Quantile**"),
+        max = gt::md("**Maximum**"),
+        std = gt::md("**Standard Deviation**"),
+        n_miss = gt::md("**Missing Values**")
+      ) |>
+      gt::tab_options(
+        table.font.size = 14
+      ) |>
+      gt::opt_stylize(style = 1, color = "gray")
+
+    gt::gtsave(
+      data = viz,
+      filename = glue::glue("{out_path}{out_filename}.html")
+    )
 
     return(viz)
 
