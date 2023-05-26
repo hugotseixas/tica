@@ -46,7 +46,8 @@ process_conservation_units <-
       dplyr::mutate( # Fix dates
         creation_year = stringr::str_sub(creation_year, start = -4),
         creation_year = as.numeric(creation_year)
-      )
+      ) |>
+      dplyr::arrange(creation_year, desc(group))
 
     sf::st_agr(conservation_units) <- "constant"
 
@@ -100,7 +101,7 @@ process_conservation_units <-
           } else {
 
             cell_units <- cell_units |>
-              sf::st_set_precision(2) |>
+              sf::st_set_precision(1000) |>
               sf::st_intersection() |> # Create new polygons for overlaps
               dplyr::select(!c(n.overlaps, origins)) |>
               dplyr::mutate(uc_area = as.numeric(sf::st_area(geometry))) |>
@@ -169,7 +170,8 @@ process_indigenous_lands <-
         with_ties = FALSE
       ) |>
       dplyr::rename(type = modalidade) |>
-      dplyr::mutate(creation_year = lubridate::year(creation_year))
+      dplyr::mutate(creation_year = lubridate::year(creation_year)) |>
+      dplyr::arrange(creation_year)
 
     sf::st_agr(indigenous_lands) = "constant"
 
@@ -224,7 +226,6 @@ process_indigenous_lands <-
           } else {
 
             cell_lands <- cell_lands |>
-              dplyr::arrange(creation_year) |>
               sf::st_set_precision(1000) |>
               sf::st_intersection() |> # Create new polygons for overlaps
               dplyr::select(!c(n.overlaps, origins)) |>
