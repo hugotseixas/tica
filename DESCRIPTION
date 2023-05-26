@@ -28,4 +28,5 @@ Imports:
     scico,
     gganimate,
     cowplot,
-    ragg
+    ragg,
+    smoothr
