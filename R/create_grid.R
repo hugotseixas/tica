@@ -45,7 +45,10 @@ create_grid <-
       ) |>
       dplyr::mutate(
         cell_id = dplyr::row_number(),
-        cell_area = base::as.numeric(sf::st_area(geometry))
+        cell_area = as.integer(sf::st_area(geometry))
+      ) |>
+      dplyr::mutate(
+        cell_area = cell_area * 0.0001 # Convert area to hectares
       ) |>
       dplyr::relocate(cell_id)
 
