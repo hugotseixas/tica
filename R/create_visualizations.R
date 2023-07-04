@@ -508,7 +508,11 @@ eda_colsum <-
     viz <- data |>
       ggplot2::ggplot(
         ggplot2::aes(
-          x = {{cat_variable}},
+          x = forcats::fct_reorder(
+            {{cat_variable}},
+            {{variable}},
+            .desc = TRUE
+          ),
           y = {{variable}},
           fill = {{variable}},
           group = {{cat_variable}}
@@ -534,6 +538,7 @@ eda_colsum <-
         breaks = custom_breaks,
         labels = scales::label_number(scale_cut = scales::cut_short_scale())
       ) +
+      ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(n.dodge = 2)) +
       scico::scale_fill_scico(
         palette = "bilbao",
         labels = scales::label_number(
@@ -570,10 +575,10 @@ eda_summary_table <-
           .cols = {{variable}},
           .fns = list(
             min = min,
-            qu_1st = ~ quantile(.x, 0.25),
+            #qu_1st = ~ quantile(.x, 0.25),
             mean = mean,
             median = median,
-            qu_3rd = ~ quantile(.x, 0.75),
+            #qu_3rd = ~ quantile(.x, 0.75),
             max = max,
             std = sd,
             n_miss = ~ sum(is.na(.x))
@@ -596,10 +601,10 @@ eda_summary_table <-
       ) |>
       gt::cols_label(
         min = gt::md("**Minimum**"),
-        qu_1st = gt::md("**1st Quantile**"),
+        #qu_1st = gt::md("**1st Quantile**"),
         mean = gt::md("**Mean**"),
         median = gt::md("**Median**"),
-        qu_3rd = gt::md("**3rd Quantile**"),
+        #qu_3rd = gt::md("**3rd Quantile**"),
         max = gt::md("**Maximum**"),
         std = gt::md("**Standard Deviation**"),
         n_miss = gt::md("**Missing Values**")
