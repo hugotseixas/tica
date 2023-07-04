@@ -295,11 +295,11 @@ process_land_use <-
           forest_plantation_class, mosaic_class
         ),
         to = c(
-          base::rep(1, times = base::length(pasture_class)),
-          base::rep(2, times = base::length(temporary_crop_class)),
-          base::rep(3, times = base::length(perennial_crop_class)),
-          base::rep(4, times = base::length(forest_plantation_class)),
-          base::rep(5, times = base::length(mosaic_class))
+          rep(1, times = base::length(pasture_class)),
+          rep(2, times = base::length(temporary_crop_class)),
+          rep(3, times = base::length(perennial_crop_class)),
+          rep(4, times = base::length(forest_plantation_class)),
+          rep(5, times = base::length(mosaic_class))
         )
       )
 
