@@ -30,6 +30,11 @@ download_aoi <-
     crs = "EPSG:5880"
   ) {
 
+    utils::globalVariables(
+      "name_biome", "code_biome",
+      "geom", "region_code", "year"
+    )
+
     cat(
       "Download AOI data",
       "\n"
@@ -120,33 +125,33 @@ download_land_use <-
           terra::rast(
             glue::glue( # Download and read data from MapBiomas
               "https://storage.googleapis.com/mapbiomas-public/",
-              "brasil/collection-7/lclu/coverage/",
+              "brasil/collection-71/lclu/coverage/",
               "brasil_coverage_{.x}.tif"
             )
           )
 
         lulc <-
-        terra::crop( # Crop raster extents to area of interest
-          lulc,
-          terra::vect(aoi_data)
+          terra::crop( # Crop raster extents to area of interest
+            lulc,
+            terra::vect(sf::st_transform(aoi_data, sf::st_crs(lulc)))
+          )
+
+        lulc <- terra::aggregate( # Aggregate cells to coarser resolution
+          x = lulc,
+          fact = agg_fact,
+          fun = "modal",
+          na.rm = TRUE
         )
 
         lulc <-
           terra::project( # Transform raster to desired coordinate system
             lulc,
-            crs,
+            terra::crs(crs),
             method = "near",
-            threads = TRUE
+            threads = TRUE,
+            filename = glue::glue(dest_dir, "lulc/lulc_{.x}.tif"),
+            overwrite = TRUE
           )
-
-        terra::aggregate( # Aggregate cells to coarser resolution
-          x = lulc,
-          fact = agg_fact,
-          fun = "modal",
-          na.rm = TRUE,
-          filename = glue::glue(dest_dir, "lulc/lulc_{.x}.tif"),
-          overwrite = TRUE
-        )
 
       }
     )
