@@ -60,7 +60,7 @@ process_conservation_units <-
 
           cat(
             "Progress: ",
-            round(.x/base::length(cell_list) * 100),
+            round(.x / base::length(cell_list) * 100),
             "%",
             "\r"
           )
@@ -101,7 +101,7 @@ process_conservation_units <-
           } else {
 
             cell_units <- cell_units |>
-              sf::st_set_precision(1000) |>
+              sf::st_set_precision(100000) |>
               sf::st_intersection() |> # Create new polygons for overlaps
               dplyr::select(!c(n.overlaps, origins)) |>
               dplyr::mutate(uc_area = as.numeric(sf::st_area(geometry))) |>
@@ -173,9 +173,9 @@ process_indigenous_lands <-
       dplyr::mutate(creation_year = lubridate::year(creation_year)) |>
       dplyr::arrange(creation_year)
 
-    sf::st_agr(indigenous_lands) = "constant"
+    sf::st_agr(indigenous_lands) <- "constant"
 
-    sf::st_agr(base_grid) = "constant"
+    sf::st_agr(base_grid) <- "constant"
 
     il_grid <-
       purrr::map_df(
