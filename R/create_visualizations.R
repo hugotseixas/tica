@@ -542,7 +542,9 @@ eda_colsum <-
       scico::scale_fill_scico(
         palette = "bilbao",
         labels = scales::label_number(
-          data,scale_cut = scales::cut_short_scale()),
+          data,
+          scale_cut = scales::cut_short_scale()
+        ),
         begin = 0.2
       ) +
       ggplot2::guides(fill = "none") +
