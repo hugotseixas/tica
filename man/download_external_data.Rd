@@ -6,6 +6,7 @@
 \alias{download_land_use}
 \alias{download_conservation_units}
 \alias{download_indigenous_lands}
+\alias{download_federal_roads}
 \title{Download external data}
 \usage{
 download_external_data(
@@ -36,6 +37,8 @@ download_indigenous_lands(
   crs = "EPSG:5880",
   ...
 )
+
+download_federal_roads(dest_dir = "./data/external/", crs = "EPSG:5880", ...)
 }
 \arguments{
 \item{dest_dir}{Destination directory for external files.}

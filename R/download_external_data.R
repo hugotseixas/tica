@@ -272,3 +272,122 @@ download_indigenous_lands <-
     )
 
   }
+
+#' @export
+#' @rdname download_external_data
+download_federal_roads <-
+  function(
+    dest_dir = "./data/external/",
+    crs = "EPSG:5880",
+    ...
+  ) {
+
+    cat(
+      "Download Federal Roads data",
+      "\n"
+    )
+
+    fs::dir_create(glue::glue(dest_dir, "fr/"))
+
+    h <- curl::new_handle()
+
+    curl::handle_setopt(
+      h,
+      ssl_verifypeer = FALSE
+    )
+
+    curl::curl_download( # Download data from SNV (1994 - 2010)
+      url = glue::glue(
+        "http://servicos.dnit.gov.br/dnitcloud/index.php/s/oTpPRmYs5AAdiNr/",
+        "download?path=%2FHist%C3%B3rico%20Planilhas%20(1994-2010)",
+        "%2FPNV%20Planilhas%20(1994-2010)%20(XLS)&files=%5B",
+        "%22PNV2005.xlsx%22%2C%22PNV2006.xlsx%22%2C%22PNV2007.xlsx",
+        "%22%2C%22PNV2008.xlsx%22%2C%22PNV2009.xlsx%22%2C%22PNV1994.xlsx",
+        "%22%2C%22PNV1996.xlsx%22%2C%22PNV1998.xlsx%22%2C%22PNV1999.xlsx",
+        "%22%2C%22PNV2000.xlsx%22%2C%22PNV2001.xlsx%22%2C%22PNV2002.xlsx",
+        "%22%2C%22PNV2003.xlsx%22%2C%22PNV2004.xlsx%22%2C%22PNV2010.xlsx",
+        "%22%5D&downloadStartSecret=72ezfy19fpf"
+      ),
+      destfile = glue::glue(dest_dir, "fr/fr_hist.zip"),
+      handle = h
+    )
+
+    utils::unzip(
+      zipfile = glue::glue(dest_dir, "fr/fr_hist.zip"),
+      exdir = glue::glue(dest_dir, "fr/")
+    )
+
+    curl::curl_download( # Download data from SNV (2011 - 2023)
+      url = glue::glue(
+        "http://servicos.dnit.gov.br/dnitcloud/index.php/s/oTpPRmYs5AAdiNr/",
+        "download?path=%2FSNV%20Planilhas%20(2011-Atual)",
+        "%20(XLS)&files=%5B%22SNV_201811A.xls%22%2C%22SNV_201710B.xls",
+        "%22%2C%22SNV_201612A.xls%22%2C%22SNV_201503A.xls",
+        "%22%2C%22SNV_2011.xlsx%22%2C%22SNV_2012.xlsx",
+        "%22%2C%22SNV_2013.xlsx%22%2C%22SNV_2014.xlsx",
+        "%22%2C%22SNV_201910A.xls%22%2C%22SNV_202010A.xls",
+        "%22%2C%22SNV_202110A.xls%22%2C%22SNV_202210C.xls",
+        "%22%2C%22SNV_202308A.xlsx%22%5D&downloadStartSecret=d45aldp5i3v"
+      ),
+      destfile = glue::glue(dest_dir, "fr/fr.zip"),
+      handle = h
+    )
+
+    utils::unzip(
+      zipfile = glue::glue(dest_dir, "fr/fr.zip"),
+      exdir = glue::glue(dest_dir, "fr/")
+    )
+
+    curl::curl_download( # Download spatial data from SNV (2023)
+      url = glue::glue(
+        "http://servicos.dnit.gov.br/dnitcloud/index.php/s/oTpPRmYs5AAdiNr/",
+        "download?path=%2FSNV%20Bases%20Geom%C3%A9tricas%20(2013-Atual)",
+        "%20(SHP)&files=202308A.zip&downloadStartSecret=qpotl2vvwrm"
+      ),
+      destfile = glue::glue(dest_dir, "fr/fr_spatial.zip"),
+      handle = h
+    )
+
+    utils::unzip(
+      zipfile = glue::glue(dest_dir, "fr/fr_spatial.zip"),
+      exdir = glue::glue(dest_dir, "fr/")
+    )
+
+    rf_spatial_data <-
+      sf::read_sf( # Read data as sf
+        glue::glue(dest_dir, "fr/SNV_202308A.shp")
+      ) |>
+      sf::st_transform( # Transform lines to the desired coordinate system
+        crs = crs
+      )
+
+    if (fs::file_exists(glue::glue(dest_dir, "fr/fr.fgb"))) {
+
+      fs::file_delete(glue::glue(dest_dir, "fr/fr.fgb"))
+
+    }
+
+    # Save grid polygons as FlatGeobuf file
+    sf::write_sf(
+      obj = rf_spatial_data,
+      dsn = glue::glue(dest_dir, "fr/fr_raw.fgb"),
+      driver = "FlatGeobuf",
+      append = FALSE
+    )
+
+    fs::file_delete(
+      purrr::map(
+        .x = c("zip", "cpg", "dbf", "prj", "sbn", "sbx", "shp", "shx"),
+        .f = ~ {
+
+          fs::dir_ls(
+            path = glue::glue(dest_dir, "fr/"),
+            glob = glue::glue("*.{.x}")
+          )
+
+        }
+      ) |>
+        purrr::flatten_chr()
+    )
+
+  }
