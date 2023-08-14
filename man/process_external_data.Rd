@@ -5,6 +5,7 @@
 \alias{process_conservation_units}
 \alias{process_indigenous_lands}
 \alias{process_land_use}
+\alias{process_federal_roads}
 \title{Process external data to base grid}
 \usage{
 process_external_data()
@@ -31,6 +32,12 @@ process_land_use(
   perennial_crop_class = c(46, 47, 48),
   forest_plantation_class = c(9),
   mosaic_class = c(21)
+)
+
+process_federal_roads(
+  base_grid_path = "./data/base_grid.fgb",
+  external_data_path = "./data/external/fr/fr.fgb",
+  timespan = 1985:2021
 )
 }
 \arguments{

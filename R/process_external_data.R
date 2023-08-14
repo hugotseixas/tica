@@ -184,7 +184,7 @@ process_indigenous_lands <-
 
           cat(
             "Progress: ",
-            round(.x/base::length(cell_list) * 100),
+            round(.x / base::length(cell_list) * 100),
             "%",
             "\r"
           )
@@ -310,7 +310,7 @@ process_land_use <-
         natural_class = natural_dict_to,
         human_class = human_dict_to
       ) |>
-      dplyr::mutate(class_diff = human_class - natural_class )
+      dplyr::mutate(class_diff = human_class - natural_class)
 
     base_grid <-
       sf::read_sf(base_grid_path) |>
@@ -343,7 +343,7 @@ process_land_use <-
 
           cat(
             "Progress: ",
-            round(.x/base::length(cell_list) * 100),
+            round(.x / base::length(cell_list) * 100),
             "%",
             "\r"
           )
@@ -409,5 +409,219 @@ process_land_use <-
       )
 
     return(deforestation_grid)
+
+  }
+
+#' @export
+#' @rdname process_external_data
+process_federal_roads <-
+  function(
+    base_grid_path = "./data/base_grid.fgb",
+    external_data_path = "./data/external/fr/fr_raw.fgb",
+    timespan = 1985:2021
+  ) {
+
+    base_grid <-
+      sf::read_sf(base_grid_path) |>
+      dplyr::arrange(cell_id) |>
+      dplyr::select(cell_id, geometry)
+
+    cell_list <- base_grid |>
+      dplyr::pull(cell_id)
+
+    fr_data <-
+      purrr::map_df(
+        .x = fs::dir_ls("./data/external/fr/", regexp = "PNV|SNV"),
+        .f = ~ {
+
+          table_version <-
+            as.integer(
+              stringr::str_sub(stringr::str_extract(.x, "(\\d)+"), 1, 4)
+            )
+
+          if (stringr::str_detect(.x, "PNV")) {
+
+            if (table_version < 2007) {
+
+              readxl::read_excel(.x, sheet = 1) |>
+                janitor::clean_names() |>
+                tidyr::drop_na(br) |>
+                dplyr::rename(year = versao) |>
+                dplyr::select(br, uf, codigo, superficie, year)
+
+            } else if (table_version > 2006 & table_version < 2010) {
+
+              readxl::read_excel(.x, sheet = 1) |>
+                janitor::clean_names() |>
+                tidyr::drop_na(br) |>
+                dplyr::rename(year = versao) |>
+                dplyr::mutate(
+                  superficie = dplyr::if_else(
+                    is.na(superficie_estadual),
+                    superficie,
+                    superficie_estadual
+                  )
+                ) |>
+                dplyr::select(br, uf, codigo, superficie, year)
+
+            } else if (table_version == 2010) {
+
+              readxl::read_excel(
+                .x,
+                skip = 2,
+                sheet = 1,
+                guess_max = 10000,
+                .name_repair = "unique_quiet"
+              ) |>
+                janitor::clean_names() |>
+                tidyr::drop_na(br) |>
+                dplyr::rename(superficie = superficie_federal) |>
+                dplyr::mutate(year = 2010) |>
+                dplyr::mutate(
+                  superficie = dplyr::if_else(
+                    is.na(superficie_estadual_coincidente),
+                    superficie,
+                    superficie_estadual_coincidente
+                  )
+                ) |>
+                dplyr::select(br, uf, codigo, superficie, year)
+
+            }
+
+          } else {
+
+            if (table_version < 2016) {
+
+              readxl::read_excel(
+                .x,
+                skip = 2,
+                sheet = 1,
+                guess_max = 10000,
+                .name_repair = "unique_quiet"
+              ) |>
+                janitor::clean_names() |>
+                tidyr::drop_na(br) |>
+                dplyr::mutate(
+                  year = table_version,
+                  superficie = dplyr::if_else(
+                    is.na(superficie_estadual_coincidente),
+                    superficie,
+                    superficie_estadual_coincidente
+                  )
+                ) |>
+                dplyr::select(br, uf, codigo, superficie, year)
+
+            } else {
+
+              readxl::read_excel(.x, skip = 2, sheet = 1) |>
+                janitor::clean_names() |>
+                tidyr::drop_na(br) |>
+                dplyr::mutate(
+                  year = table_version,
+                  superficie = dplyr::if_else(
+                    is.na(superficie_est_coincidente),
+                    superficie,
+                    superficie_est_coincidente
+                  )
+                ) |>
+                dplyr::select(br, uf, codigo, superficie, year)
+
+            }
+
+          }
+
+        }
+      )
+
+    fr_data <- fr_data |>
+      dplyr::filter(superficie != "PLA") |>
+      dplyr::slice_min(year, by = c("codigo"), na_rm = TRUE)
+
+    federal_roads <-
+      sf::read_sf("./data/external/fr/fr_raw.fgb") |>
+      dplyr::filter(!leg_multim %in% c("Planejada", "Travessia")) |>
+      dplyr::select(vl_codigo, vl_extensa) |>
+      dplyr::rename(codigo = vl_codigo, length = vl_extensa) |>
+      dplyr::inner_join(fr_data, by = "codigo")
+
+    sf::st_agr(federal_roads) <- "constant"
+
+    sf::st_agr(base_grid) <- "constant"
+
+    fr_grid <-
+      purrr::map_df(
+        .x = cell_list, # Map function to every grid cell
+        .f = ~ {
+
+          cat(
+            "Progress: ",
+            round(.x / length(cell_list) * 100),
+            "%",
+            "\r"
+          )
+
+          # Filter the cell
+          cell <- base_grid |>
+            dplyr::filter(cell_id == .x)
+
+          cell_roads <- federal_roads |>
+            sf::st_intersection(cell) |>
+            dplyr::rename(creation_year = year) |>
+            dplyr::select(cell_id, length, creation_year)
+
+          # Create table with all years
+          total_years <-
+            tibble::tibble(
+              year = timespan
+            )
+
+          if (nrow(cell_roads) == 0) {
+
+            cell_roads <-
+              tibble::tibble_row(
+                !!!names(cell_roads)
+              ) |>
+              janitor::clean_names() |>
+              dplyr::mutate(
+                cell_id = cell$cell_id,
+                length = 0,
+                creation_year = NA_integer_
+              ) |>
+              dplyr::select(!geometry) |>
+              dplyr::bind_cols(total_years)
+
+          } else {
+
+            cell_roads <- cell_roads |>
+              dplyr::distinct(geometry, .keep_all = TRUE) |>
+              dplyr::mutate(length = as.numeric(sf::st_length(geometry))) |>
+              tibble::as_tibble() |>
+              dplyr::select(!geometry) |>
+              dplyr::mutate(
+                creation_year = as.integer(creation_year),
+                year = creation_year
+              ) |>
+              dplyr::full_join(
+                total_years,
+                by = dplyr::join_by(year)
+              ) |>
+              dplyr::arrange(year) |>
+              dplyr::mutate(
+                cell_id = cell$cell_id,
+                length = dplyr::if_else(
+                  base::is.na(length),
+                  0,
+                  length
+                )
+              )
+
+          }
+
+          return(cell_roads)
+
+        }
+      )
+
+    return(fr_grid)
 
   }
