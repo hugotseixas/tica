@@ -16,6 +16,8 @@ Imports:
     janitor,
     purrr,
     tibble,
+    readr,
+    readxl,
     stringr,
     glue,
     fs,
