@@ -36,14 +36,7 @@ eda_cumulative_distribution(
   ...
 )
 
-eda_spatial_distribution(
-  data,
-  variable,
-  variable_label,
-  base_map,
-  animated = FALSE,
-  ...
-)
+eda_spatial_distribution(data, variable, variable_label, base_map, ...)
 
 eda_time_series(data, variable, ts_type = c("step", "bar", "line"), ...)
 
@@ -62,6 +55,8 @@ eda_summary_table(
 \item{f}{Type of visualization}
 
 \item{data}{A tibble to provide data}
+
+\item{group_facet}{Toggle faceting by group}
 
 \item{group_variable}{Set variable to create facet label}
 
@@ -85,15 +80,23 @@ eda_summary_table(
 
 \item{variable}{The variable to be represented in the visualization}
 
+\item{n_bins}{Number of bins of histogram}
+
 \item{scale_transform}{A transform for the horizontal axis}
+
+\item{x_lim}{Limit of x axis}
 
 \item{quantiles_list}{List of percentiles to be calculated}
 
+\item{variable_label}{Set the labels of the table variables}
+
 \item{base_map}{An sf object to serve as base map}
 
-\item{animated}{Should the visualization be animated?}
-
 \item{ts_type}{The type of the time series visualization}
+
+\item{cat_variable}{Set the catgorical variable}
+
+\item{rowname_variable}{Set the variable used as table row name}
 }
 \value{
 A ggplot

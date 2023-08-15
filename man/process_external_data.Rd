@@ -8,17 +8,24 @@
 \alias{process_federal_roads}
 \title{Process external data to base grid}
 \usage{
-process_external_data()
+process_external_data(
+  f,
+  base_grid_path = "./data/base_grid.fgb",
+  external_data_path,
+  dest_dir,
+  timespan = 1985:2021
+)
 
 process_conservation_units(
-  base_grid_path = "./data/base_grid.fgb",
-  external_data_path = "./data/external/uc/uc.fgb",
-  timespan = 1985:2021
+  base_grid_path,
+  external_data_path,
+  dest_dir,
+  timespan
 )
 
 process_indigenous_lands(
   base_grid_path = "./data/base_grid.fgb",
-  external_data_path = "./data/external/il/il.fgb",
+  external_data_path = "./data/external_raw/il/il.fgb",
   timespan = 1985:2021
 )
 
@@ -36,14 +43,18 @@ process_land_use(
 
 process_federal_roads(
   base_grid_path = "./data/base_grid.fgb",
-  external_data_path = "./data/external/fr/fr.fgb",
+  external_data_path = "./data/external/fr/fr_raw.fgb",
   timespan = 1985:2021
 )
 }
 \arguments{
+\item{f}{Variable to process}
+
 \item{base_grid_path}{Path to the base grid file}
 
 \item{external_data_path}{Set path to external data file}
+
+\item{dest_dir}{Set path to save processed data}
 
 \item{timespan}{Set the years for the data in the base grid}
 

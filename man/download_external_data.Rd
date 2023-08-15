@@ -10,37 +10,28 @@
 \title{Download external data}
 \usage{
 download_external_data(
-  dest_dir = "./data/external/",
-  timespan = 1985:2021,
-  crs,
-  ...
-)
-
-download_aoi(dest_dir = "./data/external/", crs = "EPSG:5880")
-
-download_land_use(
-  dest_dir = "./data/external/",
-  aoi_path = "./data/external/aoi/aoi.fgb",
+  f,
+  dest_dir = "./data/external_raw/",
   timespan = 1985:2021,
   crs = "EPSG:5880",
-  agg_fact = 5
-)
-
-download_conservation_units(
-  dest_dir = "./data/external/",
-  crs = "EPSG:5880",
+  aoi_path = "./data/external_raw/aoi/aoi.fgb",
+  agg_fact = 5,
   ...
 )
 
-download_indigenous_lands(
-  dest_dir = "./data/external/",
-  crs = "EPSG:5880",
-  ...
-)
+download_aoi(dest_dir, crs, ...)
 
-download_federal_roads(dest_dir = "./data/external/", crs = "EPSG:5880", ...)
+download_land_use(dest_dir, aoi_path, timespan, crs, agg_fact, ...)
+
+download_conservation_units(dest_dir, crs, ...)
+
+download_indigenous_lands(dest_dir, crs, ...)
+
+download_federal_roads(dest_dir, crs, ...)
 }
 \arguments{
+\item{f}{Variable to download}
+
 \item{dest_dir}{Destination directory for external files.}
 
 \item{timespan}{Set the years to download data.}
@@ -50,9 +41,11 @@ download_federal_roads(dest_dir = "./data/external/", crs = "EPSG:5880", ...)
 \item{aoi_path}{Set path to data with area of interest limits.}
 
 \item{agg_fact}{Set the factor to aggregate raster cells}
+
+\item{...}{Parameters passed to download functions}
 }
 \value{
-A tibble
+Downloaded files
 }
 \description{
 Download external data
