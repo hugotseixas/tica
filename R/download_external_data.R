@@ -1,24 +1,58 @@
 #' Download external data
 #'
+#' @param f Variable to download
 #' @param dest_dir Destination directory for external files.
 #' @param timespan Set the years to download data.
 #' @param aoi_path Set path to data with area of interest limits.
 #' @param crs Set the Coordinate Reference System to be used
 #' @param agg_fact Set the factor to aggregate raster cells
+#' @param ... Parameters passed to download functions
 #'
-#' @return A tibble
+#' @return Downloaded files
+#'
+#' @importFrom rlang .data
 #'
 #' @export
 download_external_data <-
   function(
-    dest_dir = "./data/external/",
+    f,
+    dest_dir = "./data/external_raw/",
     timespan = 1985:2021,
-    crs,
+    crs = "EPSG:5880",
+    aoi_path = "./data/external_raw/aoi/aoi.fgb",
+    agg_fact = 5,
     ...
   ) {
 
-    # Create dir to store data
-    fs::dir_create(dest_dir)
+    if (is.function(f)) {
+
+      f(
+        dest_dir = dest_dir,
+        timespan = timespan,
+        crs = crs,
+        aoi_path = aoi_path,
+        agg_fact = agg_fact,
+        ...
+      )
+
+    } else if (is.character(f)) {
+
+      eval(
+        parse(
+          text = glue::glue(
+            "{f}(",
+            "dest_dir = dest_dir,",
+            "timespan = timespan,",
+            "crs = crs,",
+            "aoi_path = aoi_path,",
+            "agg_fact = agg_fact,",
+            "...",
+            ")"
+          )
+        )
+      )
+
+    }
 
   }
 
@@ -26,14 +60,10 @@ download_external_data <-
 #' @rdname download_external_data
 download_aoi <-
   function(
-    dest_dir = "./data/external/",
-    crs = "EPSG:5880"
+    dest_dir,
+    crs,
+    ...
   ) {
-
-    utils::globalVariables(
-      "name_biome", "code_biome",
-      "geom", "region_code", "year"
-    )
 
     cat(
       "Download AOI data",
@@ -53,15 +83,15 @@ download_aoi <-
         crs = crs
       ) |>
       dplyr::rename( # Rename columns
-        region_name = name_biome,
-        region_code = code_biome,
-        geometry = geom
+        region_name = "name_biome",
+        region_code = "code_biome",
+        geometry = "geom"
       ) |>
       dplyr::filter( # Filter Amazon and Cerrado biomes
-        region_code %in% c(1, 3)
+        .data$region_code %in% c(1, 3)
       ) |>
       dplyr::select(
-        !year
+        !"year"
       ) |>
       sf::st_simplify( # Simplify polygon
         dTolerance = 5000
@@ -91,11 +121,12 @@ download_aoi <-
 #' @rdname download_external_data
 download_land_use <-
   function(
-    dest_dir = "./data/external/",
-    aoi_path = "./data/external/aoi/aoi.fgb",
-    timespan = 1985:2021,
-    crs = "EPSG:5880",
-    agg_fact = 5
+    dest_dir,
+    aoi_path,
+    timespan,
+    crs,
+    agg_fact,
+    ...
   ) {
 
     cat(
@@ -105,11 +136,6 @@ download_land_use <-
 
     fs::dir_create(glue::glue(dest_dir, "lulc/"))
 
-    aoi_data <-
-      sf::read_sf( # Read region of interest
-        dsn = aoi_path
-      )
-
     purrr::walk( # Download raster files, year by year
       .x = timespan,
       ~ {
@@ -118,6 +144,11 @@ download_land_use <-
           .x,
           "\r"
         )
+
+        aoi_data <-
+          sf::read_sf( # Read region of interest
+            dsn = aoi_path
+          )
 
         terra::terraOptions(progress = 0)
 
@@ -162,8 +193,8 @@ download_land_use <-
 #' @rdname download_external_data
 download_conservation_units <-
   function(
-    dest_dir = "./data/external/",
-    crs = "EPSG:5880",
+    dest_dir,
+    crs,
     ...
   ) {
 
@@ -206,8 +237,8 @@ download_conservation_units <-
 #' @rdname download_external_data
 download_indigenous_lands <-
   function(
-    dest_dir = "./data/external/",
-    crs = "EPSG:5880",
+    dest_dir,
+    crs,
     ...
   ) {
 
@@ -277,8 +308,8 @@ download_indigenous_lands <-
 #' @rdname download_external_data
 download_federal_roads <-
   function(
-    dest_dir = "./data/external/",
-    crs = "EPSG:5880",
+    dest_dir,
+    crs,
     ...
   ) {
 
@@ -361,9 +392,9 @@ download_federal_roads <-
         crs = crs
       )
 
-    if (fs::file_exists(glue::glue(dest_dir, "fr/fr.fgb"))) {
+    if (fs::file_exists(glue::glue(dest_dir, "fr/fr_raw.fgb"))) {
 
-      fs::file_delete(glue::glue(dest_dir, "fr/fr.fgb"))
+      fs::file_delete(glue::glue(dest_dir, "fr/fr_raw.fgb"))
 
     }
 
