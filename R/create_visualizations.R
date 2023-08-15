@@ -4,6 +4,7 @@
 #'
 #' @param f Type of visualization
 #' @param data A tibble to provide data
+#' @param group_facet Toggle faceting by group
 #' @param group_variable Set variable to create facet label
 #' @param viz_title Visualization title
 #' @param x_title Horizontal axis title
@@ -13,6 +14,11 @@
 #' @param out_path Path of the file
 #' @param out_width Width in centimeters of the .png file
 #' @param out_height Height in centimeters of the .png file
+#' @param n_bins Number of bins of histogram
+#' @param x_lim Limit of x axis
+#' @param variable_label Set the labels of the table variables
+#' @param cat_variable Set the catgorical variable
+#' @param rowname_variable Set the variable used as table row name
 #' @param ... Parameters passed to visualization functions
 #'
 #' @examples
@@ -41,8 +47,8 @@ create_visualizations <-
 
     if (group_facet) {
       group_list <- data |>
-        dplyr::distinct({{group_variable}}) |>
-        dplyr::pull(dplyr::any_of({{group_variable}}))
+        dplyr::distinct({{ group_variable }}) |>
+        dplyr::pull(dplyr::any_of({{ group_variable }}))
 
     } else {
 
@@ -84,7 +90,7 @@ create_visualizations <-
       cowplot::draw_label(
         {{viz_title}},
         size = 15,
-        fontface = 'bold',
+        fontface = "bold",
         x = 0,
         hjust = 0
       ) +
@@ -317,7 +323,6 @@ eda_cumulative_distribution <-
 #' @param data A tibble to provide data
 #' @param variable The variable to be represented in the visualization
 #' @param base_map An sf object to serve as base map
-#' @param animated Should the visualization be animated?
 #'
 #' @export
 #' @rdname create_visualizations
@@ -327,7 +332,6 @@ eda_spatial_distribution <-
     variable,
     variable_label,
     base_map,
-    animated = FALSE,
     ...
   ) {
 
@@ -353,7 +357,7 @@ eda_spatial_distribution <-
     viz <- viz +
       ggplot2::geom_sf(
         mapping = ggplot2::aes(
-          geometry = geometry,
+          geometry = .data$geometry,
           fill = {{variable}}
         )
       ) +
@@ -382,13 +386,6 @@ eda_spatial_distribution <-
         plot.margin = ggplot2::margin(-0.8, -0.3, 0, -0.3, "cm")
       )
 
-    if (animated) {
-
-      viz <- viz +
-        gganimate::transition_time(time = year)
-
-    }
-
     return(viz)
 
   }
@@ -409,7 +406,7 @@ eda_time_series <-
 
     viz <- data |>
       ggplot2::ggplot(
-        mapping = aes(
+        mapping = ggplot2::aes(
           x = date,
           y = {{variable}}
         )
@@ -449,11 +446,11 @@ eda_time_series <-
 
       viz <- viz +
         ggplot2::geom_line(
-          mapping = aes(color = {{variable}}),
+          mapping = ggplot2::aes(color = {{variable}}),
           linewidth = 1.5,
         ) +
         ggplot2::geom_point(
-          mapping = aes(color = {{variable}}),
+          mapping = ggplot2::aes(color = {{variable}}),
           size = 3
         ) +
         scico::scale_color_scico(
@@ -522,7 +519,7 @@ eda_colsum <-
         color = "#000000"
       ) +
       ggplot2::geom_label(
-        aes(
+        ggplot2::aes(
           label = scales::number(
             {{variable}},
             accuracy = 1,
@@ -557,6 +554,8 @@ eda_colsum <-
         strip.text.y = ggplot2::element_text(size = 13, face = "bold")
       )
 
+    return(viz)
+
   }
 
 #' @export
@@ -577,10 +576,8 @@ eda_summary_table <-
           .cols = {{variable}},
           .fns = list(
             min = min,
-            #qu_1st = ~ quantile(.x, 0.25),
             mean = mean,
             median = median,
-            #qu_3rd = ~ quantile(.x, 0.75),
             max = max,
             std = sd,
             n_miss = ~ sum(is.na(.x))
@@ -603,10 +600,8 @@ eda_summary_table <-
       ) |>
       gt::cols_label(
         min = gt::md("**Minimum**"),
-        #qu_1st = gt::md("**1st Quantile**"),
         mean = gt::md("**Mean**"),
         median = gt::md("**Median**"),
-        #qu_3rd = gt::md("**3rd Quantile**"),
         max = gt::md("**Maximum**"),
         std = gt::md("**Standard Deviation**"),
         n_miss = gt::md("**Missing Values**")
