@@ -1,7 +1,9 @@
 #' Process external data to base grid
 #'
+#' @param f Variable to process
 #' @param base_grid_path Path to the base grid file
 #' @param external_data_path Set path to external data file
+#' @param dest_dir Set path to save processed data
 #' @param timespan Set the years for the data in the base grid
 #' @param natural_class Set classes of natural cover
 #' @param pasture_class Set classes for pasture cover
@@ -17,37 +19,80 @@
 #'   uc_grid <- process_conservation_units("./inst/base_grid.fgb", 1985:2021)
 #' }
 #'
+#' @importFrom rlang .data
+#'
 #' @export
-process_external_data <- function() {}
+process_external_data <-
+  function(
+    f,
+    base_grid_path = "./data/base_grid.fgb",
+    external_data_path,
+    dest_dir,
+    timespan = 1985:2021
+  ) {
+
+    if (is.function(f)) {
+
+      grid_data <-
+        f(
+          base_grid_path = base_grid_path,
+          external_data_path = external_data_path,
+          dest_dir = dest_dir,
+          timespan = timespan
+        )
+
+    } else if (is.character(f)) {
+
+      grid_data <-
+        eval(
+          parse(
+            text = glue::glue(
+              "{f}(",
+              "base_grid_path = base_grid_path,",
+              "external_data_path = external_data_path,",
+              "dest_dir = dest_dir,",
+              "timespan = timespan",
+              ")"
+            )
+          )
+        )
+
+    }
+
+    return(grid_data)
+
+  }
 
 #' @export
 #' @rdname process_external_data
 process_conservation_units <-
   function(
-    base_grid_path = "./data/base_grid.fgb",
-    external_data_path = "./data/external/uc/uc.fgb",
-    timespan = 1985:2021
+    base_grid_path,
+    external_data_path,
+    dest_dir,
+    timespan
   ) {
 
     base_grid <-
       sf::read_sf(base_grid_path) |>
-      dplyr::arrange(cell_id) |>
-      dplyr::select(cell_id, geometry)
+      dplyr::arrange(.data$cell_id) |>
+      dplyr::select("cell_id", "geometry")
 
     cell_list <- base_grid |>
-      dplyr::pull(cell_id)
+      dplyr::pull("cell_id")
 
     conservation_units <-
       sf::read_sf(external_data_path) |>
-      dplyr::select( # Select variables
-        category, group, government_level,
-        creation_year, geometry
+      dplyr::select("creation_year", "geometry") |>
+      dplyr::mutate(
+        creation_year = as.integer(
+          stringr::str_sub(  # Fix dates
+            .data$creation_year,
+            start = -4
+          )
+        )
       ) |>
-      dplyr::mutate( # Fix dates
-        creation_year = stringr::str_sub(creation_year, start = -4),
-        creation_year = as.numeric(creation_year)
-      ) |>
-      dplyr::arrange(creation_year, desc(group))
+      dplyr::arrange(.data$creation_year)
 
     sf::st_agr(conservation_units) <- "constant"
 
@@ -60,7 +105,7 @@ process_conservation_units <-
 
           cat(
             "Progress: ",
-            round(.x / base::length(cell_list) * 100),
+            round(.x / length(cell_list) * 100),
             "%",
             "\r"
           )
@@ -88,15 +133,12 @@ process_conservation_units <-
               janitor::clean_names() |>
               dplyr::mutate(
                 cell_id = cell$cell_id,
-                dplyr::across(
-                  category:government_level,
-                  ~ NA_character_
-                ),
                 creation_year = NA_integer_,
                 uc_area = 0
               ) |>
-              dplyr::select(!geometry) |>
-              dplyr::bind_cols(total_years)
+              dplyr::select(!c(geometry, creation_year)) |>
+              dplyr::bind_cols(total_years) |>
+              dplyr::relocate(cell_id, uc_area, year)
 
           } else {
 
@@ -109,30 +151,44 @@ process_conservation_units <-
               dplyr::select(!geometry) |>
               dplyr::mutate(
                 creation_year = base::as.integer(creation_year),
-                year = creation_year
+                year = creation_year,
+                uc_area = uc_area * 0.0001 # Convert to ha
               ) |>
               dplyr::full_join(
                 total_years,
                 by = dplyr::join_by(year)
               ) |>
+              dplyr::summarise(
+                uc_area = sum(uc_area, na.rm = TRUE),
+                .by = c("year")
+              ) |>
               dplyr::arrange(year) |>
               dplyr::mutate(
                 cell_id = cell$cell_id,
                 uc_area = dplyr::if_else(
-                  base::is.na(uc_area),
+                  is.na(uc_area),
                   0,
                   uc_area
-                )
-              )
+                ),
+                uc_area = cumsum(uc_area)
+              ) |>
+              dplyr::filter(year %in% timespan) |>
+              dplyr::relocate(cell_id, uc_area, year)
 
           }
 
-          base::return(cell_units)
+          return(cell_units)
 
         }
       )
 
-    base::return(uc_grid)
+    arrow::write_parquet(
+      x = uc_grid,
+      sink = glue::glue("{dest_dir}/conservation_units.parquet"),
+      version = "latest"
+    )
+
+    return(uc_grid)
 
   }
 
@@ -141,37 +197,37 @@ process_conservation_units <-
 process_indigenous_lands <-
   function(
     base_grid_path = "./data/base_grid.fgb",
-    external_data_path = "./data/external/il/il.fgb",
+    external_data_path = "./data/external_raw/il/il.fgb",
     timespan = 1985:2021
   ) {
 
     base_grid <-
       sf::read_sf(base_grid_path) |>
-      dplyr::arrange(cell_id) |>
-      dplyr::select(cell_id, geometry)
+      dplyr::arrange(.data$cell_id) |>
+      dplyr::select("cell_id", "geometry")
 
     cell_list <- base_grid |>
-      dplyr::pull(cell_id)
+      dplyr::pull("cell_id")
 
     indigenous_lands <-
       sf::read_sf(external_data_path) |>
       dplyr::select( # Select variables
-        terrai_cod, fase_ti, modalidade, data_em_es, data_delim,
-        data_decla, data_homol, data_regul, geometry
+        "terrai_cod", "fase_ti", "modalidade", "data_em_es", "data_delim",
+        "data_decla", "data_homol", "data_regul", "geometry"
       ) |>
       tidyr::pivot_longer( # Set dates to one column
-        cols = tidyr::matches("data"),
+        cols = tidyselect::matches("data"),
         names_to = "year_type",
         values_to = "creation_year"
       ) |>
       dplyr::slice_max( # Get the latest date to represent the IL
-        order_by = creation_year,
+        order_by = .data$creation_year,
         by = "terrai_cod",
         with_ties = FALSE
       ) |>
-      dplyr::rename(type = modalidade) |>
-      dplyr::mutate(creation_year = lubridate::year(creation_year)) |>
-      dplyr::arrange(creation_year)
+      dplyr::rename(type = "modalidade") |>
+      dplyr::mutate(creation_year = lubridate::year(.data$creation_year)) |>
+      dplyr::arrange(.data$creation_year)
 
     sf::st_agr(indigenous_lands) <- "constant"
 
@@ -252,12 +308,12 @@ process_indigenous_lands <-
 
           }
 
-          base::return(cell_lands)
+          return(cell_lands)
 
         }
       )
 
-    base::return(il_grid)
+    return(il_grid)
 
   }
 
