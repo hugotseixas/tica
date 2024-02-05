@@ -4,15 +4,12 @@
 \alias{create_grid}
 \title{Create base grid for TICA}
 \usage{
-create_grid(
-  aoi_path = "./data/external/aoi/aoi.fgb",
-  resolution = 0.5,
-  full_cells = TRUE,
-  shape = "hex"
-)
+create_grid(aoi, crs, resolution, full_cells = TRUE, shape = "hex")
 }
 \arguments{
-\item{aoi_path}{Path to file of area of interest.}
+\item{aoi}{Path to file of area of interest.}
+
+\item{crs}{Coordinate reference system}
 
 \item{resolution}{Set the resolution of the grid in degrees.}
 
@@ -25,10 +22,4 @@ A tibble.
 }
 \description{
 Create base grid for TICA
-}
-\examples{
-\dontrun{
-base_grid <- create_grid(resolution = 0.2, full_cells = TRUE)
-}
-
 }

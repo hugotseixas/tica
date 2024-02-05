@@ -2,50 +2,35 @@
 % Please edit documentation in R/download_external_data.R
 \name{download_external_data}
 \alias{download_external_data}
-\alias{download_aoi}
-\alias{download_land_use}
-\alias{download_conservation_units}
-\alias{download_indigenous_lands}
-\alias{download_federal_roads}
 \title{Download external data}
 \usage{
 download_external_data(
-  f,
-  dest_dir = "./data/external_raw/",
-  timespan = 1985:2021,
-  crs = "EPSG:5880",
-  aoi_path = "./data/external_raw/aoi/aoi.fgb",
-  agg_fact = 5,
-  ...
+  data_name,
+  data_url,
+  data_source,
+  data_description,
+  source_url,
+  ...,
+  data_url_function = NA_character_,
+  file_pattern = NA_character_
 )
-
-download_aoi(dest_dir, crs, ...)
-
-download_land_use(dest_dir, aoi_path, timespan, crs, agg_fact, ...)
-
-download_conservation_units(dest_dir, crs, ...)
-
-download_indigenous_lands(dest_dir, crs, ...)
-
-download_federal_roads(dest_dir, crs, ...)
 }
 \arguments{
-\item{f}{Variable to download}
+\item{data_name}{Identification of the variable.}
 
-\item{dest_dir}{Destination directory for external files.}
+\item{data_url}{The url link of the download.}
 
-\item{timespan}{Set the years to download data.}
+\item{data_source}{Who are the authors of the data, or who they belong to (used for metadata).}
 
-\item{crs}{Set the Coordinate Reference System to be used}
+\item{data_description}{Brief description of the data (used for metadata).}
 
-\item{aoi_path}{Set path to data with area of interest limits.}
+\item{source_url}{The url link to the website where data can be found.}
 
-\item{agg_fact}{Set the factor to aggregate raster cells}
+\item{...}{Not used}
 
-\item{...}{Parameters passed to download functions}
-}
-\value{
-Downloaded files
+\item{data_url_function}{Function that returns a named list of more than one download url.}
+
+\item{file_pattern}{A keyword to identify the data file in case there are many inside the download (common with compressed files).}
 }
 \description{
 Download external data
