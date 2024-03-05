@@ -5,7 +5,7 @@ create_project <-
     base_dir <- here::here()
 
     purrr::walk(
-      .x = list("download_external_data", "preprocess_external_data"),
+      .x = list("download_external_data", "process_external_data"),
       .f = \(f) {
 
         args_table <-

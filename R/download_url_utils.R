@@ -71,14 +71,32 @@ municipality_url_function <-
 biomes_url_function <-
   function() {
 
-    url_list <-
-      glue::glue(
-        "https://geoftp.ibge.gov.br/informacoes_ambientais/estudos_ambientais/",
-        "biomas/vetores/Biomas_{c(5000, 250)}mil.zip"
+    ipea_metadata <-
+      readr::read_csv(
+        glue::glue(
+          "https://github.com/ipeaGIT/geobr/releases/",
+          "download/v1.7.0/metadata_1.7.0_gpkg.csv"
+        ),
+        show_col_types = FALSE
+      ) |>
+      dplyr::filter(
+        .data$geo == "biomes",
+        stringr::str_detect(
+          .data$download_path,
+          "simplified",
+          negate = TRUE
+        )
       )
 
+    url_list <- ipea_metadata$download_path
+
     url_list <-
-      setNames(as.list(url_list), glue::glue("biomes_{c(2004, 2019)}"))
+      setNames(
+        as.list(url_list),
+        glue::glue(
+          "biomes_{ipea_metadata$year}"
+        )
+      )
 
     return(url_list)
 

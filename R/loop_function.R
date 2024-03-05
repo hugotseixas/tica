@@ -18,20 +18,22 @@ loop_function <-
     )
 
     cli::cli_rule(
-      "{
-        as.character(substitute(function_name)) |> 
-          stringr::str_replace_all(pattern = '_', replacement = ' ') |>
-          stringr::str_to_title()
+      "{.strong
+        {
+          as.character(substitute(function_name)) |> 
+            stringr::str_replace_all(pattern = '_', replacement = ' ') |>
+            stringr::str_to_title()
+        }
       }",
       id = "main"
     )
 
     arguments_table <-
-      readr::read_csv(
-        file = glue::glue(
-          "{base_dir}/analysis/arguments_{substitute(function_name)}.csv"
+      readxl::read_xlsx(
+        path = glue::glue(
+          "{base_dir}/analysis/functions_arguments.xlsx"
         ),
-        show_col_types = FALSE,
+        sheet = function_name,
         na = c("", "NA")
       ) |>
       dplyr::filter(.data$id %in% arguments_subset) |>

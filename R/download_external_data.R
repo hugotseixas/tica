@@ -59,6 +59,8 @@ download_external_data <-
           "Downloading {.strong {url_name}} from: {.url {url}}"
         )
 
+        cat("\n")
+
         # Create temporary directory
         file_dir <- tempdir()
         fs::dir_create(glue::glue("{tempdir()}/{url_name}"))
@@ -131,8 +133,7 @@ download_external_data <-
         # Save data ----
         if (tools::file_ext(file_path[1]) %in% c("gpkg", "kml", "kmz", "shp", "fgb")) {
 
-          # Read downloaded data, clean names,
-          # make geometries valid
+          # Read downloaded data, clean names
           spatial_data <-
             sf::read_sf(file_path[1]) |>
             sf::st_set_geometry("geom") |> # Standardize geometry name

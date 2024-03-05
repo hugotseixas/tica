@@ -54,13 +54,16 @@ create_grid <-
       ) |>
       sf::st_as_sf() |>
       sf::st_filter(spatial_data) |>
+      sf::st_set_agr("constant") |>
       sf::st_join(
         y = spatial_data,
         left = FALSE,
+        largest = TRUE,
         # Choose filter function based on option above
-        join = if (full_cells) { sf::st_within } else { sf::st_intersects }
+        join = if (full_cells) sf::st_within else sf::st_intersects
       ) |>
       dplyr::mutate(cell_id = dplyr::row_number()) |>
+      dplyr::arrange(dplyr::pick("cell_id")) |>
       dplyr::relocate("cell_id") |>
       dplyr::select("cell_id", "geometry")
 
