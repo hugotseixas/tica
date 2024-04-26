@@ -17,18 +17,11 @@ create_grid <-
   function(
     aoi,
     crs,
-    resolution,
-    full_cells = TRUE,
-    shape = "hex"
+    resolution
   ) {
 
     # Set working directory
     base_dir <- here::here()
-
-    if (shape == "hex") { shape_option <- FALSE }
-    if (shape == "square") { shape_option <- TRUE }
-
-    base::stopifnot(base::exists("shape_option"))
 
     # Load biomes limit
     if (is.character(aoi)) {
@@ -50,18 +43,12 @@ create_grid <-
       sf::st_make_grid(
         x = spatial_data,
         cellsize = resolution, # Resolution of the grid cell
-        square = shape_option
+        square = FALSE
       ) |>
       sf::st_as_sf() |>
-      sf::st_filter(spatial_data) |>
-      sf::st_set_agr("constant") |>
-      sf::st_join(
-        y = spatial_data,
-        left = FALSE,
-        largest = TRUE,
-        # Choose filter function based on option above
-        join = if (full_cells) sf::st_within else sf::st_intersects
-      ) |>
+      sf::st_set_geometry("geometry") |>
+      sf::st_filter(spatial_data, .predicate = sf::st_intersects) |>
+      sf::st_filter(spatial_data, .predicate = sf::st_within) |>
       dplyr::mutate(cell_id = dplyr::row_number()) |>
       dplyr::arrange(dplyr::pick("cell_id")) |>
       dplyr::relocate("cell_id") |>

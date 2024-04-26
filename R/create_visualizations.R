@@ -4,16 +4,12 @@
 #'
 #' @param f Type of visualization
 #' @param data A tibble to provide data
-#' @param group_facet Toggle faceting by group
 #' @param group_variable Set variable to create facet label
 #' @param viz_title Visualization title
 #' @param x_title Horizontal axis title
 #' @param y_title Vertical axis title
 #' @param out_format The format of the visualization output
 #' @param out_filename Name of the file
-#' @param out_path Path of the file
-#' @param out_width Width in centimeters of the .png file
-#' @param out_height Height in centimeters of the .png file
 #' @param n_bins Number of bins of histogram
 #' @param x_lim Limit of x axis
 #' @param variable_label Set the labels of the table variables
@@ -28,27 +24,33 @@
 #'
 #' @export
 #' @rdname create_visualizations
-create_visualizations <-
+create_visualization <-
   function(
     f,
-    data,
-    group_facet = FALSE,
     group_variable = NULL,
     viz_title = NULL,
     x_title = NULL,
     y_title = NULL,
-    out_format = c("png", "rdata"),
     out_filename = NULL,
-    out_path = NULL,
-    out_width = 15,
-    out_height = 11,
     ...
   ) {
 
-    if (group_facet) {
+    # Set working directory
+    base_dir <- here::here()
+
+    data <-
+      sf::read_sf(
+        glue::glue("{base_dir}/data/merged/filled_data.fgb")
+      ) |>
+      tibble::as_tibble() |>
+      tidyr::drop_na()
+
+    if (!is.null(group_variable)) {
+
       group_list <- data |>
-        dplyr::distinct({{ group_variable }}) |>
-        dplyr::pull(dplyr::any_of({{ group_variable }}))
+        dplyr::distinct(.data[[group_variable]]) |>
+        dplyr::arrange(.data[[group_variable]]) |>
+        dplyr::pull(dplyr::any_of(.data[[group_variable]]))
 
     } else {
 
@@ -61,14 +63,20 @@ create_visualizations <-
         group_list,
         \(group) {
 
-          if (group_facet) {
+          viz_expr <-
+            rlang::eval_tidy(
+              rlang::parse_expr(glue::glue("tica::{f}"))
+            )
+
+          if (!is.null(group_variable)) {
 
             viz_data <- data |>
-              dplyr::filter({{group_variable}} == group)
+              dplyr::filter(.data[[group_variable]] == group)
 
-            viz <- f(data = viz_data, ...) +
+            viz <-
+              viz_expr(data = viz_data, ...) +
               ggplot2::facet_wrap(
-                facets = ggplot2::vars({{group_variable}}),
+                facets = ggplot2::vars(.data[[group_variable]]),
                 nrow = 1,
                 strip.position = "right"
               )
@@ -77,7 +85,7 @@ create_visualizations <-
 
             viz_data <- data
 
-            viz <- f(data = viz_data, ...)
+            viz <- viz_expr(data = viz_data, ...)
 
           }
 
@@ -88,7 +96,7 @@ create_visualizations <-
 
     custom_title <- cowplot::ggdraw() +
       cowplot::draw_label(
-        {{viz_title}},
+        {{ viz_title }},
         size = 15,
         fontface = "bold",
         x = 0,
@@ -107,47 +115,39 @@ create_visualizations <-
         rel_heights = c(0.1, rep(1, length(group_list)))
       ) +
       cowplot::draw_label(
-        {{x_title}},
+        {{ x_title }},
         x = 0.5, y = 0,
         vjust = -0.2,
         angle = 0,
         size = 13
       ) +
       cowplot::draw_label(
-        {{y_title}},
+        {{ y_title }},
         x = 0, y = 0.5,
         vjust = 1.5,
         angle = 90,
         size = 13
       )
 
-    if ("png" %in% out_format) {
+    ggplot2::ggsave(
+      filename = glue::glue("{out_filename}.png"),
+      path = "./figs/eda/",
+      plot = viz_grid,
+      device = ragg::agg_png,
+      width = 15,
+      height = 11,
+      units = "cm",
+      dpi = 300
+    )
 
-      ggplot2::ggsave(
-        filename = glue::glue("{out_filename}.png"),
-        path = out_path,
-        plot = viz_grid,
-        device = ragg::agg_png,
-        width = out_width,
-        height = out_height,
-        units = "cm",
-        dpi = 300
-      )
+    obj_name <- out_filename
 
-    }
+    assign(obj_name, viz_grid)
 
-    if ("rdata" %in% out_format) {
-
-      obj_name <- out_filename
-
-      assign(obj_name, viz_grid)
-
-      save(
-        list = obj_name,
-        file = glue::glue("{out_path}{out_filename}.rdata")
-      )
-
-    }
+    save(
+      list = obj_name,
+      file = glue::glue("./figs/eda/{out_filename}.rdata")
+    )
 
     return(viz_grid)
 
@@ -173,14 +173,18 @@ eda_histogram <-
 
       custom_breaks <- scales::breaks_pretty()
 
-    } else { stop("Invalid transform.") }
+    } else {
+
+      stop("Invalid transform.")
+
+    }
 
     viz <-
       ggplot2::ggplot(
         data = data,
         mapping = ggplot2::aes(
-          x = {{variable}},
-          y = ggplot2::after_stat(count / max(count))
+          x = {{ variable }},
+          y = ggplot2::after_stat(dplyr::count / max(dplyr::count))
         )
       ) +
       ggplot2::geom_histogram(
@@ -228,61 +232,87 @@ eda_cumulative_distribution <-
 
     # Calculate percentiles
     quantile_table <- data |>
-      dplyr::rename(viz_variable = {{variable}}) |>
+      dplyr::rename(viz_variable = {{ variable }}) |>
       dplyr::reframe(
-        quant = quantile(viz_variable, quantiles_list),
-        probs = quantiles_list
+        quant = quantile(.data$viz_variable, quantiles_list),
+        probs = quantiles_list,
+        .by = "name_biome"
       )
 
     # Get cumulative sum for each percentile
     cumsum_table <- data |>
-      dplyr::rename(viz_variable = {{variable}}) |>
-      dplyr::arrange(viz_variable) |>
-      dplyr::mutate(cumulative = cumsum(viz_variable/sum(viz_variable))) |>
+      dplyr::rename(viz_variable = {{ variable} }) |>
+      dplyr::select("viz_variable", "name_biome") |>
+      dplyr::arrange(.data$viz_variable) |>
+      dplyr::mutate(
+        cumulative = cumsum(.data$viz_variable / sum(.data$viz_variable))
+      ) |>
       dplyr::inner_join(
         quantile_table,
-        by = dplyr::join_by(closest(viz_variable >= quant))
+        by = dplyr::join_by(
+          dplyr::closest("viz_variable" >= "quant"),
+          "name_biome"
+        )
       ) |>
-      dplyr::mutate(dif = viz_variable - quant) |>
-      dplyr::slice_min(order_by = dif, by = c(probs)) |>
+      dplyr::mutate(dif = .data$viz_variable - .data$quant) |>
+      dplyr::slice_min(order_by = .data$dif, by = c("probs", "name_biome")) |>
       dplyr::mutate(
-        cumulative = round(cumulative, digits = 2),
-        viz_variable = round(viz_variable)
+        cumulative = round(.data$cumulative, digits = 2),
+        viz_variable = round(.data$viz_variable)
       ) |>
-      dplyr::distinct(cumulative, viz_variable, probs)
+      dplyr::distinct(
+        .data$cumulative, .data$viz_variable,
+        .data$probs, .data$name_biome
+      )
 
     viz_table <- data |>
-      dplyr::rename(viz_variable = {{variable}}) |>
-      dplyr::arrange(viz_variable) |>
-      dplyr::mutate(cumulative = cumsum(viz_variable/sum(viz_variable))) |>
+      dplyr::rename(viz_variable = {{ variable }}) |>
+      dplyr::arrange(.data$viz_variable) |>
+      dplyr::mutate(
+        cumulative = cumsum(.data$viz_variable / sum(.data$viz_variable))
+      ) |>
       dplyr::left_join(
         quantile_table,
-        by = dplyr::join_by(viz_variable <= quant),
+        by = dplyr::join_by("viz_variable" <= "quant", "name_biome"),
         multiple = "first"
+      ) |>
+      dplyr::filter(
+        dplyr::if_all(
+          "viz_variable",
+          ~.x >= quantile(.x, dplyr::first(quantiles_list)) &
+            .x <= quantile(.x, dplyr::last(quantiles_list))
+        ),
+        .by = "name_biome"
       )
 
     viz <-
       ggplot2::ggplot(
         data = viz_table,
-        ggplot2::aes(x = viz_variable, y = cumulative)
+        ggplot2::aes(x = .data$viz_variable, y = .data$cumulative)
+      ) +
+      ggplot2::facet_wrap(
+        facets = ggplot2::vars(.data$name_biome),
+        scales = "free_x",
+        nrow = 2
       ) +
       ggplot2::geom_ribbon(
         ggplot2::aes(
           ymin = 0,
-          ymax = cumulative,
-          fill = factor(probs)
+          ymax = .data$cumulative,
+          fill = factor(.data$probs)
         ),
         alpha = 0.7
       ) +
       ggplot2::geom_line(
         linewidth = 0.5
       ) +
-      ggplot2::annotate(
-        geom = "segment",
-        x = cumsum_table$viz_variable,
-        xend = cumsum_table$viz_variable,
-        y = 0,
-        yend = cumsum_table$cumulative,
+      ggplot2::geom_segment(
+        data = cumsum_table,
+        mapping = ggplot2::aes(
+          x = .data$viz_variable,
+          y = 0,
+          yend = .data$cumulative
+        ),
         linetype = 2
       ) +
       ggplot2::geom_label(
@@ -292,27 +322,27 @@ eda_cumulative_distribution <-
         size = 3
       ) +
       ggplot2::scale_x_continuous(
-        breaks = c(cumsum_table$viz_variable),
+        #breaks = ~ quantile(.x, c(0.005, 0.5, 1)),
         labels = scales::label_number(
           scale_cut = scales::cut_short_scale(),
           accuracy = 1
         ),
         guide = ggplot2::guide_axis(angle = 55),
-        trans = scale_transform
+        expand = c(0, 0),
+        transform = scale_transform
       ) +
       ggplot2::scale_y_continuous(
         labels = scales::label_percent(),
         breaks = c(cumsum_table$cumulative, 1),
         guide = ggplot2::guide_axis(check.overlap = TRUE)
       ) +
-      scico::scale_fill_scico_d(palette = "bilbao") +
+      scico::scale_fill_scico_d(palette = "bilbao", direction = -1) +
       ggplot2::guides(fill = "none") +
       ggplot2::coord_cartesian(clip = "off") +
       cowplot::theme_minimal_grid() +
       ggplot2::theme(
         text = ggplot2::element_text(size = 12),
         axis.title = ggplot2::element_blank(),
-        plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
         strip.text.y = ggplot2::element_text(size = 13, face = "bold")
       )
 
@@ -331,41 +361,30 @@ eda_spatial_distribution <-
     data,
     variable,
     variable_label,
-    base_map,
     ...
   ) {
 
     viz <- data |>
+      dplyr::summarise(
+        {{ variable }} := sum(.data[[variable]]),
+        .by = "geometry"
+      ) |>
+      sf::st_as_sf() |>
       ggplot2::ggplot()
-
-    if (!is.null(base_map)) {
-
-      viz <- viz +
-        ggplot2::geom_sf(
-          data = base_map,
-          fill = "transparent"
-        )
-
-    }
-
-    break_values <-
-      c(
-        min(dplyr::pull(data, {{variable}})),
-        max(dplyr::pull(data, {{variable}}))
-      )
 
     viz <- viz +
       ggplot2::geom_sf(
         mapping = ggplot2::aes(
           geometry = .data$geometry,
-          fill = {{variable}}
+          fill = .data[[variable]]
         )
       ) +
       scico::scale_fill_scico(
         palette = "bilbao",
         begin = 0.1,
         end = 0.9,
-        breaks = break_values,
+        direction = -1,
+        breaks = \(x) c(min(x), max(x)),
         labels = scales::label_number(scale_cut = scales::cut_short_scale())
       ) +
       ggplot2::labs(fill = variable_label) +
@@ -380,8 +399,8 @@ eda_spatial_distribution <-
       ggplot2::theme(
         text = ggplot2::element_text(size = 12),
         legend.position = "bottom",
-        legend.key.height = ggplot2::unit(2, 'mm'),
-        legend.key.width = ggplot2::unit(25, 'mm'),
+        legend.key.height = ggplot2::unit(2, "mm"),
+        legend.key.width = ggplot2::unit(25, "mm"),
         legend.justification = c(0.5, 0.5),
         plot.margin = ggplot2::margin(-0.8, -0.3, 0, -0.3, "cm")
       )
@@ -396,77 +415,44 @@ eda_spatial_distribution <-
 #'
 #' @export
 #' @rdname create_visualizations
-eda_time_series <-
+eda_timeseries <-
   function(
     data,
     variable,
-    ts_type = c("step", "bar", "line"),
     ...
   ) {
 
     viz <- data |>
       ggplot2::ggplot(
         mapping = ggplot2::aes(
-          x = date,
-          y = {{variable}}
-        )
-      )
-
-    if (ts_type == "step") {
-
-      viz <- viz +
-        ggplot2::geom_step(
-          mapping = ggplot2::aes(color = {{variable}}),
-          linewidth = 1.5
-        ) +
-        ggplot2::geom_point(
-          mapping = ggplot2::aes(color = {{variable}}),
-          size = 3
-        ) +
-        scico::scale_color_scico(
-          palette = "bilbao",
-          labels = scales::label_number(scale_cut = scales::cut_short_scale()),
-          begin = 0.2
-        )
-
-    } else if (ts_type == "bar") {
-
-      viz <- viz +
-        ggplot2::geom_col(
-          mapping = ggplot2::aes(fill = {{variable}}),
-          color = "#000000"
-        ) +
-        scico::scale_fill_scico(
-          palette = "bilbao",
-          labels = scales::label_number(scale_cut = scales::cut_short_scale()),
-          begin = 0.2
-        )
-
-    } else if (ts_type == "line") {
-
-      viz <- viz +
-        ggplot2::geom_line(
-          mapping = ggplot2::aes(color = {{variable}}),
-          linewidth = 1.5,
-        ) +
-        ggplot2::geom_point(
-          mapping = ggplot2::aes(color = {{variable}}),
-          size = 3
-        ) +
-        scico::scale_color_scico(
-          palette = "bilbao",
-          labels = scales::label_number(scale_cut = scales::cut_short_scale()),
-          begin = 0.2
-        )
-
-    }
-
-    viz <- viz +
+          x = lubridate::ymd(.data$year, truncated = 2),
+          y = .data[[variable]],
+          color = ggplot2::after_stat(.data$y)
+        ),
+      ) +
+      ggplot2::stat_summary(
+        geom = "line",
+        fun = sum,
+        linewidth = 1.5
+      ) +
+      ggplot2::stat_summary(
+        geom = "point",
+        fun = sum,
+        size = 3
+      ) +
+      ggplot2::scale_x_date(
+        date_labels = "%Y",
+        breaks = scales::date_breaks("2 years")
+      ) +
       ggplot2::scale_y_continuous(
         labels = scales::label_number(scale_cut = scales::cut_short_scale())
       ) +
-      ggplot2::scale_x_continuous(
-        labels = scales::label_date(format = "%Y")
+      scico::scale_color_scico(
+        palette = "bilbao",
+        labels = scales::label_number(scale_cut = scales::cut_short_scale()),
+        begin = 0,
+        end = 0.7,
+        direction = -1
       ) +
       ggplot2::guides(fill = "none", color = "none") +
       cowplot::theme_minimal_grid() +
@@ -474,7 +460,8 @@ eda_time_series <-
         text = ggplot2::element_text(size = 12),
         axis.title = ggplot2::element_blank(),
         plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
-        strip.text.y = ggplot2::element_text(size = 13, face = "bold")
+        strip.text.y = ggplot2::element_text(size = 13, face = "bold"),
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
       )
 
     return(viz)
@@ -500,7 +487,11 @@ eda_colsum <-
 
       custom_breaks <- scales::breaks_pretty()
 
-    } else { stop("Invalid transform.") }
+    } else {
+
+      stop("Invalid transform.")
+
+    }
 
     viz <- data |>
       ggplot2::ggplot(
@@ -617,5 +608,97 @@ eda_summary_table <-
     )
 
     return(viz)
+
+  }
+
+#' @export
+#' @rdname create_visualizations
+eda_observations <-
+  function(
+    data
+  ) {
+
+    viz <- data |>
+      tibble::as_tibble() |>
+      dplyr::group_by(.data$year) |>
+      dplyr::summarise(
+        dplyr::across(
+          -c("cell_id", "geometry", "lon", "lat"),
+          ~ forcats::as_factor(dplyr::if_else(sum(!is.na(.x)) > 0, 1, 0))
+        )
+      ) |>
+      tidyr::pivot_longer(!.data$year) |>
+      dplyr::mutate(year = lubridate::ymd(.data$year, truncated = 2)) |>
+      ggplot2::ggplot() +
+      ggplot2::geom_tile(
+        ggplot2::aes(x = .data$year, y = .data$name, fill = .data$value),
+        color = "#000000"
+      ) +
+      scico::scale_fill_scico_d(
+        palette = "bilbao",
+        labels = c("Observed", "Not Observed")
+      ) +
+      ggplot2::scale_x_date(
+        date_breaks = "5 years", date_labels = "%Y",
+        guide = ggplot2::guide_axis(n.dodge = 2)
+      ) +
+      ggplot2::labs(
+        title = "Observed Data Time Series",
+        fill = NULL,
+        x = "Year",
+        y = "Variables"
+      ) +
+      cowplot::theme_minimal_grid() +
+      ggplot2::theme(
+        text = ggplot2::element_text(size = 12),
+        plot.margin = ggplot2::margin(0, 0, 0, 0),
+        axis.title = ggplot2::element_text(size = 13, face = "bold"),
+        legend.position = "bottom",
+        legend.justification = c(0.5, 0.5),
+        plot.title.position = "plot",
+        plot.title = ggplot2::element_text(hjust = 0.02)
+      )
+
+    return(viz)
+
+  }
+
+timeseries <-
+  function(data, variable) {
+
+    data |>
+      ggplot2::ggplot(
+        mapping = ggplot2::aes(
+          x = lubridate::ymd(.data$year, truncated = 2),
+          y = .data[[variable]],
+          color = ggplot2::after_stat(.data$y)
+        ),
+      ) +
+      ggplot2::facet_grid(
+        rows = ggplot2::vars(.data$name_biome),
+        scales = "free"
+      ) +
+      ggplot2::stat_summary(
+        geom = "line",
+        fun = sum,
+        linewidth = 1.5
+      ) +
+      ggplot2::stat_summary(
+        geom = "point",
+        fun = sum,
+        size = 3
+      ) +
+      cowplot::theme_minimal_grid() +
+      ggplot2::scale_x_date(
+        date_labels = "%Y",
+        breaks = scales::date_breaks("2 years")
+      ) +
+      scico::scale_color_scico(
+        palette = "bilbao",
+        labels = scales::label_number(scale_cut = scales::cut_short_scale()),
+        begin = 0,
+        end = 0.7,
+        direction = -1
+      )
 
   }

@@ -125,7 +125,7 @@ process_municipality_priority <-
       dplyr::summarise(
         dplyr::across(
           c("priority", "monitored"),
-          \(x) sum(x, na.rm = TRUE)
+          \(x) sum(x, na.rm = TRUE) / 10000
         ),
         .by = c("year", "cell_id")
       )
@@ -195,10 +195,9 @@ process_conservation_units <-
         ) |>
         sf::st_drop_geometry() |>
         dplyr::summarise(
-          conservation_units = sum(.data$conservation_units, na.rm = TRUE),
+          conservation_units = sum(.data$conservation_units, na.rm = TRUE) / 10000,
           .by = c("year", "cell_id")
-        ) |>
-        dplyr::mutate(conservation_units = cumsum(.data$conservation_units))
+        )
 
       return(conservation_units)
 
@@ -297,10 +296,9 @@ process_indigenous_territory <-
       ) |>
       sf::st_drop_geometry() |>
       dplyr::summarise(
-        indigenous_territory = sum(.data$indigenous_territory, na.rm = TRUE),
+        indigenous_territory = sum(.data$indigenous_territory, na.rm = TRUE) / 10000,
         .by = c("year", "cell_id")
-      ) |>
-      dplyr::mutate(indigenous_territory = cumsum(.data$indigenous_territory))
+      )
 
     return(indigenous_territory)
 
@@ -380,9 +378,8 @@ process_quilombola_territory <-
       ) |>
       sf::st_drop_geometry() |>
       dplyr::summarise(
-        area = sum(.data$area, na.rm = TRUE), .by = c("cell_id", "year")
+        area = sum(.data$area, na.rm = TRUE) / 10000, .by = c("cell_id", "year")
       ) |>
-      dplyr::mutate(area = cumsum(.data$area)) |>
       dplyr::rename("quilombola_territory" = "area")
 
     return(quilombola_territory)
@@ -480,8 +477,8 @@ process_veg_suppression <-
         nYOff = raster_dim$y$from,
         nXSize = raster_dim$x$to - raster_dim$x$from,
         nYSize = raster_dim$y$to - raster_dim$y$from,
-        nBufXSize = (raster_dim$x$to - raster_dim$x$from) / 5,
-        nBufYSize = (raster_dim$y$to - raster_dim$y$from) / 5
+        nBufXSize = (raster_dim$x$to - raster_dim$x$from) / 2,
+        nBufYSize = (raster_dim$y$to - raster_dim$y$from) / 2
       )
 
     veg_suppression <-
@@ -531,11 +528,12 @@ process_veg_suppression <-
       ) |>
       sf::st_drop_geometry() |>
       dplyr::summarise(
-        area = sum(.data$area, na.rm = TRUE),
+        area = sum(.data$area, na.rm = TRUE) / 10000,
         .by = c("cell_id", "year")
       ) |>
       dplyr::rename("veg_suppression" = "area")
 
+    if (nrow(poly_veg_suppression) == 0) return(NULL)
 
     return(poly_veg_suppression)
 
@@ -640,7 +638,7 @@ process_lulc <-
       dplyr::mutate(area = as.numeric(sf::st_area(.data$geometry))) |>
       sf::st_drop_geometry() |>
       dplyr::summarise(
-        area = sum(.data$area, na.rm = TRUE),
+        area = sum(.data$area, na.rm = TRUE) / 10000,
         .by = c("cell_id", "year", "class")
       ) |>
       tidyr::pivot_wider(names_from = "class", values_from = "area")
@@ -835,9 +833,8 @@ process_highways <-
       ) |>
       sf::st_drop_geometry() |>
       dplyr::summarise(
-        length = sum(.data$length, na.rm = TRUE), .by = c("year", "cell_id")
+        length = sum(.data$length, na.rm = TRUE) / 1000, .by = c("year", "cell_id")
       ) |>
-      dplyr::mutate(length = cumsum(.data$length)) |>
       dplyr::rename("highways" = "length")
 
     return(highways)

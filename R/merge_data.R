@@ -1,7 +1,5 @@
 #' Merge Gridded data
 #'
-#' @param merged_data a
-#'
 #' @return A tibble
 #'
 #' @importFrom rlang :=
@@ -60,7 +58,7 @@ merge_data <-
         }
       )
 
-    merged_tables <-
+    merged_data <-
       purrr::reduce(
         .x = tables_list,
         .f = \(t, ct) dplyr::full_join(
@@ -68,9 +66,30 @@ merge_data <-
           by = dplyr::join_by("cell_id", "year")
         )
       ) |>
-      dplyr::arrange(.data$cell_id, .data$year)
+      dplyr::arrange(.data$cell_id, .data$year) |>
+      dplyr::left_join(
+        base_grid,
+        by = dplyr::join_by("cell_id")
+      ) |>
+      sf::st_as_sf() |>
+      sf::st_set_agr("constant")
 
-    return(merged_tables)
+    merged_data <-
+      merged_data |>
+      dplyr::mutate(
+        lon = sf::st_coordinates(sf::st_centroid(merged_data))[, 1],
+        lat = sf::st_coordinates(sf::st_centroid(merged_data))[, 2]
+      )
+
+    sf::write_sf(
+      obj = merged_data,
+      dsn = glue::glue("{base_dir}/data/merged/merged_data.fgb"),
+      driver = "FlatGeobuf",
+      delete_dsn = TRUE,
+      append = FALSE
+    )
+
+    return(merged_data)
 
   }
 
@@ -78,20 +97,40 @@ merge_data <-
 fill_data <-
   function(merged_data) {
 
+    # Set working directory
+    base_dir <- here::here()
+
     filled_data <- merged_data |>
+      dplyr::arrange(.data$cell_id, .data$year) |>
+      dplyr::group_by(.data$cell_id) |>
       tidyr::fill(
-        "name_biome",
+        dplyr::all_of("name_biome"),
         .direction = "downup"
       ) |>
-      tidyr::fill(
-        dplyr::all_of(
-          c(
-            "conservation_units", "indigenous_territory",
-            "highways", "quilombola_territory"
-          )
+      dplyr::mutate(
+        dplyr::across(
+          dplyr::all_of(c("monitored", "priority")),
+          ~ dplyr::if_else(is.na(.x), 0, .x)
         ),
-        .direction = "down"
-      )
+        dplyr::across(
+          dplyr::all_of(
+            c(
+              "conservation_units", "indigenous_territory",
+              "quilombola_territory", "highways"
+            )
+          ),
+          ~ cumsum(dplyr::coalesce(.x, 0)) + .x * 0
+        )
+      ) |>
+      dplyr::ungroup()
+
+    sf::write_sf(
+      obj = filled_data,
+      dsn = glue::glue("{base_dir}/data/merged/filled_data.fgb"),
+      driver = "FlatGeobuf",
+      delete_dsn = TRUE,
+      append = FALSE
+    )
 
     return(filled_data)
 

@@ -6,9 +6,6 @@
 \usage{
 merge_data()
 }
-\arguments{
-\item{merged_data}{a}
-}
 \value{
 A tibble
 }
