@@ -288,7 +288,7 @@ eda_histogram <-
         axis.title = ggplot2::element_blank(),
         axis.text.y = ggplot2::element_blank(),
         plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
-        strip.text.y = ggplot2::element_text(size = 13, face = "bold")
+        strip.text.y = ggplot2::element_text(size = 10, face = "bold")
       )
 
     return(viz)
@@ -424,7 +424,7 @@ eda_cumulative_distribution <-
       ggplot2::theme(
         text = ggplot2::element_text(size = 12),
         axis.title = ggplot2::element_blank(),
-        strip.text.y = ggplot2::element_text(size = 13, face = "bold")
+        strip.text.y = ggplot2::element_text(size = 10, face = "bold")
       )
 
     return(viz)
@@ -624,7 +624,7 @@ eda_colsum <-
         text = ggplot2::element_text(size = 12),
         axis.title = ggplot2::element_blank(),
         plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
-        strip.text.y = ggplot2::element_text(size = 13, face = "bold")
+        strip.text.y = ggplot2::element_text(size = 10, face = "bold")
       )
 
     return(viz)
@@ -736,7 +736,6 @@ eda_observations <-
         text = ggplot2::element_text(size = 9),
         axis.title = ggplot2::element_blank(),
         plot.margin = ggplot2::margin(-0.1, 0, 0.3, 0, "cm"),
-        strip.text.y = ggplot2::element_text(size = 11, face = "bold"),
         legend.position = "bottom",
         axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
       )
@@ -1081,7 +1080,7 @@ method_samples <-
         legend.justification = c(0.5, 0.5),
         legend.title = ggplot2::element_text(face = "bold"),
         plot.margin = ggplot2::margin(-3, -0.3, -3, -0.3, "cm"),
-        strip.text = ggplot2::element_text(size = 9, face = "bold")
+        strip.text = ggplot2::element_text(size = 10, face = "bold")
       )
 
     temporal_viz <- data |>
