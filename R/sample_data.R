@@ -9,16 +9,20 @@
 #'
 #' @export
 sample_data <-
-  function(filled_data, seed) {
+  function(filled_data, year_min, year_max, seed) {
+
+    filled_data <- filled_data |>
+      dplyr::filter(.data$year >= year_min, .data$year <= year_max)
 
     set.seed(seed)
 
     spatial_data_split <-
-      spatialsample::spatial_clustering_cv(
+      spatialsample::spatial_buffer_vfold_cv(
         sf::read_sf("./data/grid.fgb"),
         v = 20,
-        buffer = 700000,
-        radius = 70000
+        repeats = 5,
+        buffer = 50000,
+        radius = NULL
       )
 
     spatial_data_split <-
@@ -47,38 +51,44 @@ sample_data <-
 
     temporal_data_split <-
       purrr::map(
-        .x = c(seed:(seed + 59)),
+        .x = c(seed:length(spatial_data_split)),
         .f = \(s) {
 
-          sample_year <- filled_data |>
+          set.seed(s)
+
+          train_years <- filled_data |>
             tibble::as_tibble() |>
             dplyr::select("year") |>
             dplyr::distinct(.data$year) |>
-            dplyr::slice(-c(1:2)) |>
-            dplyr::slice(1:(dplyr::n() - 2)) |>
-            dplyr::slice_sample(n = 1) |>
-            dplyr::pull("year")
-
-          train_years <-
-            tibble::tibble(
-              year = c(
-                (sample_year - 2):sample_year,
-                sample_year:(sample_year + 2)
+            dplyr::arrange(.data$year) |>
+            dplyr::mutate(
+              triples = sort(
+                rep(
+                  1:(length(year_min:year_max) / 3),
+                  length.out = length(year_min:year_max)
+                )
               )
             ) |>
-            dplyr::mutate(split_temporal = "train")
+            dplyr::filter(
+              .data$triples %in% sample(unique(.data$triples), 6)
+            ) |>
+            dplyr::mutate(split_temporal = "train") |>
+            dplyr::select(!"triples")
+
+          set.seed(s)
 
           test_years <- filled_data |>
             tibble::as_tibble() |>
             dplyr::select("year") |>
             dplyr::distinct(.data$year) |>
+            dplyr::arrange(.data$year) |>
             dplyr::filter(
               !.data$year %in% c(
-                (sample_year - 4):sample_year,
-                sample_year:(sample_year + 4)
+                train_years$year,
+                train_years$year + 1,
+                train_years$year - 1
               )
             ) |>
-            dplyr::slice_sample(n = 2) |>
             dplyr::mutate(split_temporal = "test")
 
           train_years |>
@@ -88,11 +98,11 @@ sample_data <-
         }
       )
 
-    temporal_data_split <-
-      temporal_data_split[!duplicated(temporal_data_split)][1:40]
-
     split_list <-
-      tidyr::crossing(spatial_data_split, temporal_data_split) |>
+      tibble::tibble(
+        spatial_data_split = spatial_data_split,
+        temporal_data_split = temporal_data_split
+      ) |>
       dplyr::mutate(sample = dplyr::row_number())
 
     data_split <-
@@ -116,6 +126,12 @@ sample_data <-
         }
       ) |>
       purrr::list_rbind()
+
+    arrow::write_parquet(
+      x = data_split,
+      sink = "./data/sampled_data.parquet",
+      version = "2.6"
+    )
 
     return(data_split)
 

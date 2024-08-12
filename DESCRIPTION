@@ -9,8 +9,13 @@ Description: This is a package designed to run a model that will estimate land t
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
+Depends: 
+    bonsai,
+    parsnip,
+    future
 Imports:
+    sf,
     dplyr,
     janitor,
     purrr,
@@ -22,14 +27,11 @@ Imports:
     tidyr,
     curl,
     lubridate,
-    smoothr,
     rlang,
     forcats,
     tidyselect,
-    arrow
-Suggests:
-    sf,
-    terra,
+    arrow,
+    stars,
     ggplot2,
     scales,
     scico,

@@ -9,19 +9,30 @@
 \alias{eda_colsum}
 \alias{eda_summary_table}
 \alias{eda_observations}
+\alias{results_scatterplot}
+\alias{results_mae_distribution}
+\alias{results_mae_timeseries}
+\alias{results_timeseries}
+\alias{results_spatial}
+\alias{results_mae_spatial}
+\alias{method_samples}
+\alias{explain_summary}
+\alias{explain_dependence}
+\alias{method_grid}
+\alias{method_grid_area}
 \title{Title Create data visualizations}
 \usage{
 create_visualization(
   f,
-  group_variable = NULL,
-  viz_title = NULL,
-  x_title = NULL,
-  y_title = NULL,
-  out_filename = NULL,
+  group_variable = NA_character_,
+  viz_title = NA_character_,
+  x_title = NA_character_,
+  y_title = NA_character_,
+  out_filename = NA_character_,
   ...
 )
 
-eda_histogram(data, variable, n_bins, scale_transform, x_lim, ...)
+eda_histogram(data, variable, ...)
 
 eda_cumulative_distribution(
   data,
@@ -31,22 +42,37 @@ eda_cumulative_distribution(
   ...
 )
 
-eda_spatial_distribution(data, variable, variable_label, ...)
+eda_spatial_distribution(data, variable, variable_label, summary, ...)
 
 eda_timeseries(data, variable, ...)
 
 eda_colsum(data, variable, cat_variable, scale_transform, ...)
 
-eda_summary_table(
-  data,
-  variable,
-  rowname_variable,
-  viz_title,
-  out_filename = NULL,
-  out_path = NULL
-)
+eda_summary_table(data, table_title = parent.frame()$viz_title, ...)
 
-eda_observations(data)
+eda_observations(data, variable = NA_character_, ...)
+
+results_scatterplot(data, ...)
+
+results_mae_distribution(data, ...)
+
+results_mae_timeseries(data, ...)
+
+results_timeseries(data, ...)
+
+results_spatial(data, ...)
+
+results_mae_spatial(data, ...)
+
+method_samples(data, ...)
+
+explain_summary(data, variable, ...)
+
+explain_dependence(data, variable, ...)
+
+method_grid(data, ...)
+
+method_grid_area(data, ...)
 }
 \arguments{
 \item{f}{Type of visualization}
@@ -67,25 +93,21 @@ eda_observations(data)
 
 \item{variable}{The variable to be represented in the visualization}
 
-\item{n_bins}{Number of bins of histogram}
+\item{quantiles_list}{List of percentiles to be calculated}
 
 \item{scale_transform}{A transform for the horizontal axis}
-
-\item{x_lim}{Limit of x axis}
-
-\item{quantiles_list}{List of percentiles to be calculated}
 
 \item{variable_label}{Set the labels of the table variables}
 
 \item{cat_variable}{Set the catgorical variable}
 
-\item{rowname_variable}{Set the variable used as table row name}
-
 \item{out_format}{The format of the visualization output}
 
-\item{base_map}{An sf object to serve as base map}
+\item{n_bins}{Number of bins of histogram}
 
-\item{ts_type}{The type of the time series visualization}
+\item{x_lim}{Limit of x axis}
+
+\item{rowname_variable}{Set the variable used as table row name}
 }
 \value{
 A ggplot

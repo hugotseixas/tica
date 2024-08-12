@@ -4,7 +4,7 @@
 \alias{sample_data}
 \title{Sample Gridded data}
 \usage{
-sample_data(filled_data, seed)
+sample_data(filled_data, year_min, year_max, seed)
 }
 \arguments{
 \item{filled_data}{a}

@@ -4,7 +4,7 @@
 \alias{create_grid}
 \title{Create base grid for TICA}
 \usage{
-create_grid(aoi, crs, resolution, full_cells = TRUE, shape = "hex")
+create_grid(aoi, crs, resolution)
 }
 \arguments{
 \item{aoi}{Path to file of area of interest.}

@@ -13,7 +13,7 @@
 #'
 #' @importFrom rlang :=
 #' @importFrom rlang .data
-#' 
+#'
 #' @export
 download_external_data <-
   function(
@@ -36,7 +36,7 @@ download_external_data <-
     )
 
     if (!is.na(data_url_function)) {
-      
+
       data_url <-
         base::eval(
           rlang::parse_expr(
@@ -66,13 +66,13 @@ download_external_data <-
         fs::dir_create(glue::glue("{tempdir()}/{url_name}"))
         file_dir <- glue::glue("{tempdir()}/{url_name}")
 
-        url_ext <- tools::file_ext(sub('^(.*)\\?.*', '\\1', url))
+        url_ext <- tools::file_ext(sub("^(.*)\\?.*", "\\1", url))
 
         if (url_ext == "") {
-          
-          url_ext <- 
+
+          url_ext <-
             stringr::str_extract_all(
-              stringr::str_to_lower(url), 
+              stringr::str_to_lower(url),
               "zip|gpkg|csv|xlsx|xls"
             )[[1]] |>
             tail(n = 1)
@@ -80,11 +80,11 @@ download_external_data <-
         }
 
         # Crate path for downloaded data
-        file_path <- 
+        file_path <-
           glue::glue(
             "{file_dir}/{url_name}.{url_ext}"
           )
-        
+
         # Create path to the downloaded data to be saved
         dest_path <- glue::glue("{base_dir}/data/external_raw/{data_name}/{url_name}")
 
@@ -120,16 +120,16 @@ download_external_data <-
             )
 
           if (!is.na(file_pattern)) {
-            
+
             file_path <- file_path |>
-              dplyr::filter(stringr::str_detect(path, file_pattern))
+              dplyr::filter(stringr::str_detect(.data$path, file_pattern))
 
           }
 
           file_path <- file_path$path
 
         }
-          
+
         # Save data ----
         if (tools::file_ext(file_path[1]) %in% c("gpkg", "kml", "kmz", "shp", "fgb")) {
 
@@ -203,4 +203,4 @@ download_external_data <-
 
     return(invisible(data_url))
 
-}
+  }
