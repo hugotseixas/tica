@@ -208,16 +208,18 @@ create_visualization <-
       dpi = 300
     )
 
+    viz_grob <- ggplot2::ggplotGrob(viz_grid)
+
     obj_name <- out_filename
 
-    assign(obj_name, viz_grid)
+    assign(obj_name, viz_grob)
 
     save(
       list = obj_name,
       file = glue::glue("./figs/{save_folder}/{out_filename}.rdata")
     )
 
-    return(viz_grid)
+    return(NULL)
 
   }
 
